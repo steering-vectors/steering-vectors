@@ -24,6 +24,8 @@ def record_activations(
 ) -> Generator[dict[int, list[Tensor]], None, None]:
     """
     Record the model activations at each layer of type `layer_type`.
+    This function will record every forward pass through the model
+    at all layers of the given layer_type.
 
     Args:
         model: The model to record activations from

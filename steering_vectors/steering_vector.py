@@ -17,22 +17,25 @@ from .torch_utils import get_module, untuple_tensor
 PatchOperator = Callable[[Tensor, Tensor], Tensor]
 
 
-def identity_operator(_original_tensor: Tensor, patch_activation: Tensor) -> Tensor:
-    return patch_activation
-
-
 @dataclass
 class SteeringPatchHandle:
+    """
+    A handle that can be used to remove a steering patch from a model after
+    running `steering_vector.patch_activations()`.
+    """
+
     model_hooks: list[RemovableHandle]
 
     def remove(self) -> None:
+        """Remove the steering patch from the model"""
         for hook in self.model_hooks:
             hook.remove()
 
 
 @dataclass
 class SteeringVector:
-    # activations are expected to have only 1 dimension
+    """A steering vector that can be applied to a model."""
+
     layer_activations: dict[int, Tensor]
     layer_type: LayerType = "decoder_block"
 
@@ -40,21 +43,22 @@ class SteeringVector:
         self,
         model: nn.Module,
         layer_config: Optional[ModelLayerConfig] = None,
-        operator: PatchOperator = identity_operator,
+        operator: Optional[PatchOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
     ) -> SteeringPatchHandle:
         """
         Patch the activations of the given model with this steering vector.
         This will modify the model in-place, and return a handle that can be used to undo the patching.
-        To automatically undo the patching, use the `apply` context manager.
+        This method does the same thing as `apply`, but requires manually undoing the patching to
+        restore the model to its original state. For most cases, `apply` is easier to use.
 
         Args:
             model: The model to patch
             layer_config: A dictionary mapping layer types to layer matching functions.
                 If not provided, this will be inferred automatically.
-            operator: A function that takes the original activation and the target activation
-                and returns the new activation. Default is addition.
+            operator: A function that takes the original activation and the steering vector
+                and returns a modified vector that is added to the original activation.
             multiplier: A multiplier to scale the patch activations. Default is 1.0.
             min_token_index: The minimum token index to apply the patch to. Default is 0.
         Example:
@@ -94,7 +98,7 @@ class SteeringVector:
         self,
         model: nn.Module,
         layer_config: Optional[ModelLayerConfig] = None,
-        operator: PatchOperator = identity_operator,
+        operator: Optional[PatchOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
     ) -> Generator[None, None, None]:
@@ -105,8 +109,8 @@ class SteeringVector:
             model: The model to patch
             layer_config: A dictionary mapping layer types to layer matching functions.
                 If not provided, this will be inferred automatically.
-            operator: A function that takes the original activation and the target activation
-                and returns the new activation. Default is addition.
+            operator: A function that takes the original activation and the steering vector
+                and returns a modified vector that is added to the original activation.
             multiplier: A multiplier to scale the patch activations. Default is 1.0.
             min_token_index: The minimum token index to apply the patch to. Default is 0.
         Example:
@@ -131,14 +135,16 @@ class SteeringVector:
 def _create_additive_hook(
     target_activation: Tensor,
     min_token_index: int,
-    operator: PatchOperator,
+    operator: PatchOperator | None,
 ) -> Any:
     """Create a hook function that adds the given target_activation to the model output"""
 
     def hook_fn(_m: Any, _inputs: Any, outputs: Any) -> Any:
         original_tensor = untuple_tensor(outputs)
         act = target_activation.to(original_tensor.device)
-        delta = operator(original_tensor, act)
+        delta = act
+        if operator is not None:
+            delta = operator(original_tensor, act)
         mask = torch.ones(original_tensor.shape[1])
         mask[:min_token_index] = 0
         mask = mask.reshape(1, -1, 1)

@@ -24,8 +24,8 @@ jobs:
         run: poetry run pytest
       - name: build
         run: poetry build
-      # - name: build docs
-      #   run: poetry run sphinx-build -b html docs docs/build
+      - name: build docs
+        run: poetry run sphinx-build -b html docs docs/build
   # TODO: uncomment below when ready to release this on PyPI
   # release:
   #   needs: lint_test_and_build

@@ -31,7 +31,7 @@ Answer: B
 
 Then, we can find a steering vector by observing the hidden activations in a language models as it processing the positive and negative statements above and subtract the activation from the "negative" sample from the activation for the "positive" example. Then, we can use this vector to "steer" the model to be more or less truthful. Neat!
 
-For more info on steering vectors, check out the following excellent work:
+For more info on steering vectors, check out the following work:
 
 - [Steering Llama 2 via Contrastive Activation Addition](https://arxiv.org/abs/2312.06681) Rimsky et al., 2023
 - [Representation Engineering: A Top-Down Approach to AI Transparency](https://arxiv.org/abs/2310.01405) Zou et al., 2023

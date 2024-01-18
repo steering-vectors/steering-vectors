@@ -25,6 +25,7 @@ torch = "^2.1.2"
 protobuf = "^4.25.2"
 flake8 = "^7.0.0"
 sentencepiece = "^0.1.99"
+sphinx-autodoc-typehints = "^1.25.2"
 
 [tool.isort]
 profile = "black"
