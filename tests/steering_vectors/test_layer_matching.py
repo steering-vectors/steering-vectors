@@ -1,4 +1,4 @@
-from transformers import GPT2LMHeadModel, GPTNeoXForCausalLM, LlamaForCausalLM
+from transformers import GPT2LMHeadModel, LlamaForCausalLM
 
 from steering_vectors.layer_matching import (
     ModelLayerConfig,
@@ -10,14 +10,6 @@ from steering_vectors.layer_matching import (
     guess_post_attention_layernorm_matcher,
     guess_self_attn_matcher,
 )
-
-GptNeoxLayerConfig: ModelLayerConfig = {
-    "decoder_block": "gpt_neox.layers.{num}",
-    "self_attn": "gpt_neox.layers.{num}.attention",
-    "mlp": "gpt_neox.layers.{num}.mlp",
-    "input_layernorm": "gpt_neox.layers.{num}.input_layernorm",
-    "post_attention_layernorm": "gpt_neox.layers.{num}.post_attention_layernorm",
-}
 
 LlamaLayerConfig: ModelLayerConfig = {
     "decoder_block": "model.layers.{num}",
@@ -66,41 +58,18 @@ def test_guess_matchers_for_llama(
     )
 
 
-def test_matchers_for_pythia(model: GPTNeoXForCausalLM) -> None:
-    assert guess_decoder_block_matcher(model) == "gpt_neox.layers.{num}"
-    assert guess_self_attn_matcher(model) == "gpt_neox.layers.{num}.attention"
-    assert guess_mlp_matcher(model) == "gpt_neox.layers.{num}.mlp"
-    assert (
-        guess_input_layernorm_matcher(model) == "gpt_neox.layers.{num}.input_layernorm"
-    )
-    assert (
-        guess_post_attention_layernorm_matcher(model)
-        == "gpt_neox.layers.{num}.post_attention_layernorm"
-    )
-
-
-def test_guess_matchers_for_gpt2(gpt2_model: GPT2LMHeadModel) -> None:
-    assert guess_decoder_block_matcher(gpt2_model) == "transformer.h.{num}"
-    assert guess_self_attn_matcher(gpt2_model) == "transformer.h.{num}.attn"
-    assert guess_mlp_matcher(gpt2_model) == "transformer.h.{num}.mlp"
-    assert guess_input_layernorm_matcher(gpt2_model) == "transformer.h.{num}.ln_1"
-    assert (
-        guess_post_attention_layernorm_matcher(gpt2_model) == "transformer.h.{num}.ln_2"
-    )
-
-
-def test_enhance_model_config_matchers_guesses_fields_if_not_provided(
-    model: GPTNeoXForCausalLM,
-) -> None:
-    enhanced_config = enhance_model_config_matchers(model, {})
-    # it should correctly guess every field, resulting in the correct GptNeoxLayerConfig
-    assert enhanced_config == GptNeoxLayerConfig
+def test_guess_matchers_for_gpt2(model: GPT2LMHeadModel) -> None:
+    assert guess_decoder_block_matcher(model) == "transformer.h.{num}"
+    assert guess_self_attn_matcher(model) == "transformer.h.{num}.attn"
+    assert guess_mlp_matcher(model) == "transformer.h.{num}.mlp"
+    assert guess_input_layernorm_matcher(model) == "transformer.h.{num}.ln_1"
+    assert guess_post_attention_layernorm_matcher(model) == "transformer.h.{num}.ln_2"
 
 
 def test_enhance_model_config_matchers_guesses_fields_if_not_provided_for_gpt2(
-    gpt2_model: GPT2LMHeadModel,
+    model: GPT2LMHeadModel,
 ) -> None:
-    enhanced_config = enhance_model_config_matchers(gpt2_model, {})
+    enhanced_config = enhance_model_config_matchers(model, {})
     # it should correctly guess every field, resulting in the correct Gpt2LayerConfig
     assert enhanced_config == Gpt2LayerConfig
 
@@ -114,7 +83,7 @@ def test_enhance_model_config_matchers_guesses_fields_if_not_provided_for_llama(
 
 
 def test_enhance_model_config_matchers_leaves_provided_fields_as_is(
-    model: GPTNeoXForCausalLM,
+    model: GPT2LMHeadModel,
 ) -> None:
     enhanced_config = enhance_model_config_matchers(
         model, {"decoder_block": "my.{num}.matcher"}

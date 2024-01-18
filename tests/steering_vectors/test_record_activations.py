@@ -1,11 +1,11 @@
 import torch
-from transformers import GPTNeoXForCausalLM, PreTrainedTokenizer
+from transformers import GPT2LMHeadModel, PreTrainedTokenizer
 
 from steering_vectors.record_activations import record_activations
 
 
 def test_record_activations_matches_decoder_hidden_states(
-    model: GPTNeoXForCausalLM, tokenizer: PreTrainedTokenizer
+    model: GPT2LMHeadModel, tokenizer: PreTrainedTokenizer
 ) -> None:
     with record_activations(model) as recorded_activations:
         inputs = tokenizer("Hello world", return_tensors="pt")

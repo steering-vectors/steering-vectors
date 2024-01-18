@@ -1,18 +1,17 @@
 import torch
-from transformers import PreTrainedTokenizer
-from transformers.models.gpt_neox import GPTNeoXForCausalLM
+from transformers import GPT2LMHeadModel, PreTrainedTokenizer
 
 from steering_vectors.steering_vector import SteeringVector
 
 
 @torch.no_grad()
 def test_SteeringVector_patch_activations(
-    model: GPTNeoXForCausalLM,
+    model: GPT2LMHeadModel,
     tokenizer: PreTrainedTokenizer,
 ) -> None:
     inputs = tokenizer("Hello, world", return_tensors="pt")
     original_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
-    patch = torch.randn(512)
+    patch = torch.randn(768)
     steering_vector = SteeringVector(
         layer_activations={1: patch},
         layer_type="decoder_block",
@@ -33,7 +32,7 @@ def test_SteeringVector_patch_activations(
 
 @torch.no_grad()
 def test_SteeringVector_patch_activations_with_min_token_index(
-    model: GPTNeoXForCausalLM,
+    model: GPT2LMHeadModel,
     tokenizer: PreTrainedTokenizer,
 ) -> None:
     inputs = tokenizer(
@@ -41,7 +40,7 @@ def test_SteeringVector_patch_activations_with_min_token_index(
         return_tensors="pt",
     )
     original_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
-    patch = torch.randn(512)
+    patch = torch.randn(768)
     steering_vector = SteeringVector(
         layer_activations={1: patch},
         layer_type="decoder_block",
@@ -63,15 +62,15 @@ def test_SteeringVector_patch_activations_with_min_token_index(
 
 @torch.no_grad()
 def test_SteeringVector_handle_reverts_model_changes(
-    model: GPTNeoXForCausalLM,
+    model: GPT2LMHeadModel,
     tokenizer: PreTrainedTokenizer,
 ) -> None:
     inputs = tokenizer("Hello, world", return_tensors="pt")
     original_logits = model(**inputs, output_hidden_states=False).logits
     steering_vector = SteeringVector(
         layer_activations={
-            1: torch.randn(512),
-            -1: torch.randn(512),
+            1: torch.randn(768),
+            -1: torch.randn(768),
         },
         layer_type="decoder_block",
     )

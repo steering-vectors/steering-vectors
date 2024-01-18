@@ -2,7 +2,6 @@ import pytest
 from transformers import (
     AutoTokenizer,
     GPT2LMHeadModel,
-    GPTNeoXForCausalLM,
     LlamaConfig,
     LlamaForCausalLM,
     PreTrainedTokenizer,
@@ -10,30 +9,13 @@ from transformers import (
 
 
 @pytest.fixture
-def model() -> GPTNeoXForCausalLM:
-    model = GPTNeoXForCausalLM.from_pretrained(
-        "EleutherAI/pythia-70m",
-        token=True,
-    )
-    return model.eval()
-
-
-@pytest.fixture
-def tokenizer() -> PreTrainedTokenizer:
-    return AutoTokenizer.from_pretrained(
-        "EleutherAI/pythia-70m",
-        model_max_length=128,
-    )
-
-
-@pytest.fixture
-def gpt2_model() -> GPT2LMHeadModel:
+def model() -> GPT2LMHeadModel:
     model = GPT2LMHeadModel.from_pretrained("gpt2")
     return model.eval()
 
 
 @pytest.fixture
-def gpt2_tokenizer() -> PreTrainedTokenizer:
+def tokenizer() -> PreTrainedTokenizer:
     return AutoTokenizer.from_pretrained("gpt2")
 
 
