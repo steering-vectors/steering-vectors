@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "steering-vectors"
+version = "0.1.0"
+description = "Steering vectors for transformer language models in Pytorch / Huggingface"
+authors = [
+    "David Chanin <chanindav@gmail.com>",
+    "Daniel Tan <dtch009@gmail.com>",
+]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+transformers = "^4.35.2"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.8.0"
+black = "^23.12.1"
+isort = "^5.13.2"
+pytest = "^7.4.4"
+furo = "^2023.9.10"
+pygments = "^2.17.2"
+torch = "^2.1.2"
+protobuf = "^4.25.2"
+flake8 = "^7.0.0"
+sentencepiece = "^0.1.99"
+
+[tool.isort]
+profile = "black"
+
+[tool.semantic_release]
+version_variables = [
+    "steering_vectors/__init__.py:__version__",
+    "pyproject.toml:version",
+]
+branch = "main"
+build_command = "pip install poetry && poetry build"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
