@@ -2,7 +2,7 @@ Basic usage
 ===========
 This library assumes you're using PyTorch with a decoder-only generative language model (e.g. GPT, LLaMa, etc...), and a tokenizer from Huggingface.
 
-To begin, collect tuples of positive and negative training prompts in a list, and run `train_steering_vector()`:
+To begin, collect tuples of positive and negative training prompts in a list, and run ``train_steering_vector()``:
 
 .. code-block:: python
 
