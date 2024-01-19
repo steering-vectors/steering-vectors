@@ -5,11 +5,13 @@
 
 Steering vectors for transformer language models in Pytorch / Huggingface
 
+Full docs: https://steering-vectors.github.io/steering-vectors
+
 ## About
 
 This library provides utilies for training and applying steering vectors to language models (LMs) from [Huggingface](https://huggingface.co/), like GPT2, Llama2, GptNeoX, etc...
 
-Steering vectors try to identify a direction in hidden activations which can be used to control how the model behaves. For example, we can make a LM be more or less honest in its responses, or more or less sycophantic. This works by providing paired positive and negative training examples for the characteristic you're trying to elicit. To train a steering vector for truthfulness, you might use prompts like the following:
+Steering vectors identify a direction in hidden activations which can be used to control how the model behaves. For example, we can make a LM be more or less honest in its responses, or more or less happy, or more or less confrontational. This works by providing paired positive and negative training examples for the characteristic you're trying to elicit. To train a steering vector for truthfulness, you might use prompts like the following:
 
 Positive prompt (truthful):
 
@@ -29,7 +31,7 @@ Question: What is the correct answer? 2 + 2 =
 Answer: B
 ```
 
-Then, we can find a steering vector by observing the hidden activations in a language models as it processing the positive and negative statements above and subtract the activation from the "negative" sample from the activation for the "positive" example. Then, we can use this vector to "steer" the model to be more or less truthful. Neat!
+Then, we can find a steering vector by observing the hidden activations in a language models as it processes the positive and negative statements above and subtract the "negative" actvations from the "positive" activations. Then, we can use this vector to "steer" the model to be more or less truthful. Neat!
 
 For more info on steering vectors, check out the following work:
 
@@ -56,7 +58,18 @@ model = AutoModelForCausalLM.from_pretrained("gpt2")
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
 # training samples are tuples of (positive_prompt, negative_prompt)
-training_samples = [...]
+training_samples = [
+    (
+        "2 + 2 = 4",
+        "2 + 2 = 7"
+    ),
+    (
+        "The capital of France is Paris",
+        "The capital of France is Berlin"
+    )
+    # ...
+]
+
 
 steering_vector = train_steering_vector(
     model,
@@ -74,6 +87,8 @@ with steering_vector.apply(model):
     outputs = model(**inputs)
 
 ```
+
+Check out the [full documentation](https://steering-vectors.github.io/steering-vectors/) for more info.
 
 ## Contributing
 

@@ -13,7 +13,17 @@ To begin, collect tuples of positive and negative training prompts in a list, an
     tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
     # training samples are tuples of (positive_prompt, negative_prompt)
-    training_samples = [...]
+    training_samples = [
+        (
+            "2 + 2 = 4",
+            "2 + 2 = 7"
+        ),
+        (
+            "The capital of France is Paris",
+            "The capital of France is Berlin"
+        )
+        # ...
+    ]
 
     steering_vector = train_steering_vector(
         model,
@@ -64,4 +74,8 @@ can be done by passing a ``multiplier`` argument to ``steering_vector.apply()`` 
 
     with steering_vec.apply(model, multiplier=2.0):
         # the steering vector will be applied at double magnitude
+        model.forward(...)
+    
+    with steering_vec.apply(model, multiplier=-1.0):
+        # the steering vector will be inverted
         model.forward(...)
