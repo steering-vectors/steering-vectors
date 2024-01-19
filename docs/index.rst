@@ -24,7 +24,10 @@ Steering Vectors
 ----------------
 This library provides utilies for training and applying steering vectors to language models (LMs) from `Huggingface <https://huggingface.co/>`_, like GPT2, Llama2, GptNeoX, etc...
 
-Steering vectors try to identify a direction in hidden activations which can be used to control how the model behaves. For example, we can make a LM be more or less honest in its responses, or more or less sycophantic. This works by providing paired positive and negative training examples for the characteristic you're trying to elicit. To train a steering vector for truthfulness, you might use prompts like the following:
+Steering vectors identify a direction in hidden activations which can be used to control how the model behaves.
+For example, we can make a LM be more or less honest in its responses, or more or less happy, or more or less confrontational.
+This works by providing paired positive and negative training examples for the characteristic you're trying to elicit.
+To train a steering vector for truthfulness, you might use prompts like the following:
 
 Positive prompt (truthful):
 
@@ -44,7 +47,8 @@ Negative prompt (not truthful):
    (B): 7
    Answer: B
 
-Then, we can find a steering vector by observing the hidden activations in a language models as it processing the positive and negative statements above and subtract the activation from the "negative" sample from the activation for the "positive" example. Then, we can use this vector to "steer" the model to be more or less truthful. Neat!
+We can find a steering vector by observing the hidden activations in a language models as it processes the positive and negative statements above and subtract the "negative" actvations from the "positive" activations.
+Then, we can use this vector to "steer" the model to be more or less truthful. Neat!
 
 For more info on steering vectors, check out the following work:
 
