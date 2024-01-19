@@ -26,54 +26,53 @@ jobs:
         run: poetry build
       - name: build docs
         run: poetry run sphinx-build -b html docs docs/build
-  # TODO: uncomment below when ready to release this on PyPI
-  # release:
-  #   needs: lint_test_and_build
-  #   permissions:
-  #     contents: write
-  #     id-token: write
-  #   # https://github.community/t/how-do-i-specify-job-dependency-running-in-another-workflow/16482
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
-  #   runs-on: ubuntu-latest
-  #   concurrency: release
-  #   environment:
-  #     name: pypi
-  #     url: https://pypi.org/p/steering-vectors
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-  #     - uses: actions/setup-python@v4
-  #       with:
-  #         python-version: "3.11"
-  #     - name: Semantic Release
-  #       id: release
-  #       uses: python-semantic-release/python-semantic-release@v8.0.7
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #     - name: Publish package distributions to PyPI
-  #       uses: pypa/gh-action-pypi-publish@release/v1
-  #       if: steps.release.outputs.released == 'true'
-  #     - name: Publish package distributions to GitHub Releases
-  #       uses: python-semantic-release/upload-to-gh-release@main
-  #       if: steps.release.outputs.released == 'true'
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #     # build and deploy docs to gh-pages
-  #     # do this as part of the semantic release step to ensure version is bumped
-  #     - name: Install Poetry
-  #       uses: snok/install-poetry@v1
-  #       with:
-  #         version: 1.4.0
-  #     - name: Install dependencies
-  #       run: poetry install --no-interaction
-  #     - name: Sphinx build
-  #       run: |
-  #         poetry run sphinx-build docs _build
-  #     - name: Deploy to GitHub Pages
-  #       uses: peaceiris/actions-gh-pages@v3
-  #       with:
-  #         publish_branch: gh-pages
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         publish_dir: _build/
-  #         force_orphan: true
+  release:
+    needs: lint_test_and_build
+    permissions:
+      contents: write
+      id-token: write
+    # https://github.community/t/how-do-i-specify-job-dependency-running-in-another-workflow/16482
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
+    runs-on: ubuntu-latest
+    concurrency: release
+    environment:
+      name: pypi
+      url: https://pypi.org/p/steering-vectors
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Semantic Release
+        id: release
+        uses: python-semantic-release/python-semantic-release@v8.0.7
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        if: steps.release.outputs.released == 'true'
+      - name: Publish package distributions to GitHub Releases
+        uses: python-semantic-release/upload-to-gh-release@main
+        if: steps.release.outputs.released == 'true'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      # build and deploy docs to gh-pages
+      # do this as part of the semantic release step to ensure version is bumped
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.4.0
+      - name: Install dependencies
+        run: poetry install --no-interaction
+      - name: Sphinx build
+        run: |
+          poetry run sphinx-build docs _build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _build/
+          force_orphan: true
