@@ -50,13 +50,23 @@ You can customize the layers to train by passing a list of layer numbers to the 
 
 .. code-block:: python
 
-    steering_vec = train_steering_vector(model, tokenizer, layers=[1, 2, 3])
+    steering_vec = train_steering_vector(
+        model,
+        tokenizer,
+        training_samples,
+        layers=[1, 2, 3],
+    )
 
 This also works with negative indices to count from the end of the model:
 
 .. code-block:: python
 
-    steering_vec = train_steering_vector(model, tokenizer, layers=[-1, -2, -3])
+    steering_vec = train_steering_vector(
+        model,
+        tokenizer,
+        training_samples,
+        layers=[-1, -2, -3],
+    )
 
 
 Magnitude scaling

@@ -67,19 +67,19 @@ a ``layer_type`` argument to ``train_steering_vector()``:
 .. code-block:: python
 
     # train on decoder block output (default behavior)
-    steering_vec = train_steering_vector(model, tokenizer, layer_type="decoder_block")
+    vec = train_steering_vector(model, tokenizer, data, layer_type="decoder_block")
 
     # train on the attention layers
-    steering_vec = train_steering_vector(model, tokenizer, layer_type="self_attn")
+    vec = train_steering_vector(model, tokenizer, data, layer_type="self_attn")
 
     # train on the MLP layers
-    steering_vec = train_steering_vector(model, tokenizer, layer_type="mlp")
+    vec = train_steering_vector(model, tokenizer, data, layer_type="mlp")
 
     # train on the input layernorm
-    steering_vec = train_steering_vector(model, tokenizer, layer_type="input_layernorm")
+    vec = train_steering_vector(model, tokenizer, data, layer_type="input_layernorm")
 
     # train on the post attention layernorm
-    steering_vec = train_steering_vector(model, tokenizer, layer_type="post_attention_layernorm")
+    vec = train_steering_vector(model, tokenizer, data, layer_type="post_attention_layernorm")
 
 Whichever layer type you choose during training, the same layer type will be used by the steering vector
 at runtime. For instance, if you train on the attention layers, the steering vector will be applied to
@@ -110,7 +110,7 @@ For instance, the layer config for GPT2 looks like this:
         "post_attention_layernorm": "transformer.h.{num}.ln_2",
     }
 
-    steering_vec = train_steering_vector(model, tokenizer, layer_config=gpt_layer_config)
+    vec = train_steering_vector(model, tokenizer, data, layer_config=gpt_layer_config)
 
 
 For most cases, using a string is sufficient, but if you want to customize the layer matcher further
