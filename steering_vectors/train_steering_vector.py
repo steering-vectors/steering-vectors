@@ -3,6 +3,7 @@ from typing import NamedTuple, Optional
 
 import torch
 from torch import Tensor, nn
+from tqdm import tqdm
 from transformers import PreTrainedTokenizerBase
 
 from .layer_matching import LayerType, ModelLayerConfig, guess_and_enhance_layer_config
@@ -25,6 +26,7 @@ def train_steering_vector(
     layer_config: Optional[ModelLayerConfig] = None,
     move_to_cpu: bool = False,
     read_token_index: int = -1,
+    show_progress: bool = False,
     # TODO: add more options to control training
 ) -> SteeringVector:
     """
@@ -49,7 +51,9 @@ def train_steering_vector(
     pos_activations: dict[int, list[Tensor]] = defaultdict(list)
     neg_activations: dict[int, list[Tensor]] = defaultdict(list)
     # TODO: batching
-    for pos_prompt, neg_prompt in training_samples:
+    for pos_prompt, neg_prompt in tqdm(
+        training_samples, disable=not show_progress, desc="Training steering vector"
+    ):
         pos_acts = _extract_activations(
             model,
             tokenizer,

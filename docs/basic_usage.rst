@@ -29,6 +29,7 @@ To begin, collect tuples of positive and negative training prompts in a list, an
         model,
         tokenizer,
         training_samples,
+        show_progress=True,
     )
 
 Then, you can use the steering vector to "steer" the model's behavior:
