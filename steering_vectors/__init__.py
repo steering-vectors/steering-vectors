@@ -8,11 +8,7 @@ from .layer_matching import (
     guess_and_enhance_layer_config,
 )
 from .record_activations import record_activations
-from .steering_vector import (
-    PatchOperator,
-    SteeringPatchHandle,
-    SteeringVector,
-)
+from .steering_vector import PatchOperator, SteeringPatchHandle, SteeringVector
 from .train_steering_vector import SteeringVectorTrainingSample, train_steering_vector
 
 __all__ = [

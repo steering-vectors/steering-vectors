@@ -31,6 +31,32 @@ def test_SteeringVector_patch_activations(
 
 
 @torch.no_grad()
+def test_SteeringVector_apply(
+    model: GPT2LMHeadModel,
+    tokenizer: PreTrainedTokenizer,
+) -> None:
+    inputs = tokenizer("Hello, world", return_tensors="pt")
+    original_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
+    patch = torch.randn(768)
+    steering_vector = SteeringVector(
+        layer_activations={1: patch},
+        layer_type="decoder_block",
+    )
+    with steering_vector.apply(model):
+        patched_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
+
+    # The first hidden state is the input embeddings, which are not patched
+    assert torch.equal(original_hidden_states[0], patched_hidden_states[0])
+    # next is the first decoder block, which is not patched
+    assert torch.equal(original_hidden_states[1], patched_hidden_states[1])
+    # next is the layer 1, where the patch occurs
+    assert not torch.equal(original_hidden_states[2], patched_hidden_states[2])
+
+    expected_hidden_state = original_hidden_states[2] + patch
+    assert torch.equal(expected_hidden_state, patched_hidden_states[2])
+
+
+@torch.no_grad()
 def test_SteeringVector_patch_activations_with_min_token_index(
     model: GPT2LMHeadModel,
     tokenizer: PreTrainedTokenizer,

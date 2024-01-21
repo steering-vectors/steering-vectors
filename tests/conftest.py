@@ -26,4 +26,5 @@ def empty_llama_model() -> LlamaForCausalLM:
         hidden_size=1024,
         intermediate_size=2752,
     )
-    return LlamaForCausalLM(config)
+    model = LlamaForCausalLM(config)
+    return model.eval()
