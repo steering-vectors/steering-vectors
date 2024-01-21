@@ -28,3 +28,9 @@ def empty_llama_model() -> LlamaForCausalLM:
     )
     model = LlamaForCausalLM(config)
     return model.eval()
+
+
+@pytest.fixture
+def llama_tokenizer() -> PreTrainedTokenizer:
+    # using vicuna tokenizer since llama requires logging in to hugginface, which is annoying for CI / tests
+    return AutoTokenizer.from_pretrained("lmsys/vicuna-7b-v1.5")
