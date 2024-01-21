@@ -2,6 +2,25 @@
 
 
 
+## v0.2.0 (2024-01-21)
+
+### Chore
+
+* chore: adding some basic training tests (#3) ([`d1f3311`](https://github.com/steering-vectors/steering-vectors/commit/d1f33110b7882c89ea2719f0befb966abc4dc489))
+
+* chore: simplifying test structure ([`5fc7e50`](https://github.com/steering-vectors/steering-vectors/commit/5fc7e505708a5e5e13d0349e16f7aa876ac0511c))
+
+* chore: fix code minor highlighting typo in docs ([`9d2659b`](https://github.com/steering-vectors/steering-vectors/commit/9d2659b39b8fe456a52c2426eb70bcedfd8f0424))
+
+* chore: updating docs index to match README ([`1c14f80`](https://github.com/steering-vectors/steering-vectors/commit/1c14f80ccc3a2fcfb6b2da4ca80469aa0c18a621))
+
+* chore: fix typo in docs site ([`5f6186b`](https://github.com/steering-vectors/steering-vectors/commit/5f6186b8e416da64ee5cf30e2d86c5948da8078e))
+
+### Feature
+
+* feat: adding option to show_progress during training (#6) ([`48cbbf1`](https://github.com/steering-vectors/steering-vectors/commit/48cbbf1212c1ceb68e318b2c3af9165b01fda1c2))
+
+
 ## v0.1.0 (2024-01-19)
 
 ### Chore
