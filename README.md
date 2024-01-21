@@ -75,6 +75,7 @@ steering_vector = train_steering_vector(
     model,
     tokenizer,
     training_samples,
+    show_progress=True,
 )
 ```
 
