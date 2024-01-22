@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import NamedTuple, Optional
+from typing import Callable, NamedTuple, Optional
 
 import torch
 from torch import Tensor, nn
@@ -16,6 +16,17 @@ class SteeringVectorTrainingSample(NamedTuple):
     negative_prompt: str
 
 
+Aggregator = Callable[[Tensor, Tensor], Tensor]
+
+
+def mean_aggregator(pos_acts: Tensor, neg_acts: Tensor) -> Tensor:
+    """
+    The default aggregator, which computes the mean of the difference between the
+    positive and negative activations.
+    """
+    return (pos_acts - neg_acts).mean(dim=0)
+
+
 @torch.no_grad()
 def train_steering_vector(
     model: nn.Module,
@@ -27,6 +38,7 @@ def train_steering_vector(
     move_to_cpu: bool = False,
     read_token_index: int = -1,
     show_progress: bool = False,
+    aggregator: Aggregator = mean_aggregator,
     # TODO: add more options to control training
 ) -> SteeringVector:
     """
@@ -46,6 +58,9 @@ def train_steering_vector(
             If not provided, this will be inferred automatically.
         move_to_cpu: If True, move the activations to the CPU before training. Default False.
         read_token_index: The index of the token to read the activations from. Default -1, meaning final token.
+        show_progress: If True, show a progress bar. Default False.
+        aggregator: A function that takes the positive and negative activations for a
+            layer and returns a single vector. Default is mean_aggregator.
     """
     layer_config = guess_and_enhance_layer_config(model, layer_config, layer_type)
     pos_activations: dict[int, list[Tensor]] = defaultdict(list)
@@ -85,9 +100,9 @@ def train_steering_vector(
         layer_pos_acts = pos_activations[layer_num]
         layer_neg_acts = neg_activations[layer_num]
         # TODO: allow controlling how to combine activations, not just mean
-        direction_vec = (
-            torch.stack(layer_pos_acts) - torch.stack(layer_neg_acts)
-        ).mean(dim=0)
+        direction_vec = aggregator(
+            torch.stack(layer_pos_acts), torch.stack(layer_neg_acts)
+        )
         layer_activations[layer_num] = direction_vec
     return SteeringVector(layer_activations, layer_type)
 

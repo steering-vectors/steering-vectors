@@ -9,9 +9,16 @@ from .layer_matching import (
 )
 from .record_activations import record_activations
 from .steering_vector import PatchOperator, SteeringPatchHandle, SteeringVector
-from .train_steering_vector import SteeringVectorTrainingSample, train_steering_vector
+from .train_steering_vector import (
+    Aggregator,
+    SteeringVectorTrainingSample,
+    mean_aggregator,
+    train_steering_vector,
+)
 
 __all__ = [
+    "Aggregator",
+    "mean_aggregator",
     "LayerType",
     "LayerMatcher",
     "ModelLayerConfig",
