@@ -1,10 +1,12 @@
 from collections import defaultdict
-from typing import Callable, NamedTuple, Optional
+from typing import NamedTuple, Optional
 
 import torch
 from torch import Tensor, nn
 from tqdm import tqdm
 from transformers import PreTrainedTokenizerBase
+
+from steering_vectors.aggregators import Aggregator, mean_aggregator
 
 from .layer_matching import LayerType, ModelLayerConfig, guess_and_enhance_layer_config
 from .record_activations import record_activations
@@ -14,17 +16,6 @@ from .steering_vector import SteeringVector
 class SteeringVectorTrainingSample(NamedTuple):
     positive_prompt: str
     negative_prompt: str
-
-
-Aggregator = Callable[[Tensor, Tensor], Tensor]
-
-
-def mean_aggregator(pos_acts: Tensor, neg_acts: Tensor) -> Tensor:
-    """
-    The default aggregator, which computes the mean of the difference between the
-    positive and negative activations.
-    """
-    return (pos_acts - neg_acts).mean(dim=0)
 
 
 @torch.no_grad()
