@@ -1,5 +1,5 @@
 import torch
-from transformers import LlamaForCausalLM, GPT2LMHeadModel, PreTrainedTokenizer
+from transformers import GPT2LMHeadModel, LlamaForCausalLM, PreTrainedTokenizer
 
 from steering_vectors.train_steering_vector import train_steering_vector
 from tests._original_caa.llama_wrapper import LlamaWrapper  # type: ignore
@@ -26,6 +26,35 @@ def test_train_steering_vector_reads_from_final_token_by_default(
         pos_vector = pos_train_outputs.hidden_states[layer + 1][0, -1, :]
         neg_vector = neg_train_outputs.hidden_states[layer + 1][0, -1, :]
         assert torch.allclose(vector, pos_vector - neg_vector)
+
+
+def test_train_steering_vector_custom_aggregator(
+    model: GPT2LMHeadModel, tokenizer: PreTrainedTokenizer
+) -> None:
+    pos_train_sample = "[INST] 2 + 2 = ? A: 2, B: 4 [/INST] The answer is B"
+    neg_train_sample = "[INST] 2 + 2 = ? A: 2, B: 4 [/INST] The answer is A"
+    training_data = [(pos_train_sample, neg_train_sample)]
+
+    pos_inputs = tokenizer(pos_train_sample, return_tensors="pt")
+    neg_inputs = tokenizer(neg_train_sample, return_tensors="pt")
+    pos_train_outputs = model(**pos_inputs, output_hidden_states=True)
+    neg_train_outputs = model(**neg_inputs, output_hidden_states=True)
+
+    steering_vector = train_steering_vector(
+        model,
+        tokenizer,
+        training_data,
+        layers=[2, 3, 4],
+        # custom aggregator adds 1 to the mean difference between the positive and negative
+        aggregator=lambda pos, neg: (pos - neg).mean(dim=0) + 1,
+    )
+
+    assert sorted(list(steering_vector.layer_activations.keys())) == [2, 3, 4]
+    for layer, vector in steering_vector.layer_activations.items():
+        pos_vector = pos_train_outputs.hidden_states[layer + 1][0, -1, :]
+        neg_vector = neg_train_outputs.hidden_states[layer + 1][0, -1, :]
+
+        assert torch.allclose(vector, (pos_vector - neg_vector) + 1)
 
 
 def test_train_steering_vector_matches_original_caa(

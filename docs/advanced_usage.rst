@@ -36,6 +36,23 @@ when calling ``steering_vector.apply()`` or ``steering_vector.patch()``, like be
         model.forward(...)
 
 
+Custom aggregators
+''''''''''''''''''
+
+By default, the steering vector is trained by taking the mean of the differences between positive and negative activations.
+If you need different behavior, for example PCA, you can pass a custom function to the ``aggregator`` argument
+when calling ``train_steering_vector()``. This function takes 2 arguments, ``pos_activations`` and ``neg_activations``,
+each of shape ``(num_samples, hidden_dim)``, and returns a 1-d tensor of shape ``(hidden_dim,)``. This is demonstrated below:
+
+.. code-block:: python
+
+    def norm_mean_aggregator(pos_activations, neg_activations):
+        mean_act = torch.mean(pos_activations - neg_activations, dim=0)
+        return mean_act / torch.norm(mean_act)
+
+    vec = train_steering_vector(model, tokenizer, data, aggregator=norm_mean_aggregator)
+
+
 Manually patching and unpatching
 ''''''''''''''''''''''''''''''''
 
