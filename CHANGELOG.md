@@ -2,6 +2,13 @@
 
 
 
+## v0.3.0 (2024-01-23)
+
+### Feature
+
+* feat: adding support for custom aggregators during training (#7) ([`220d4f7`](https://github.com/steering-vectors/steering-vectors/commit/220d4f77aa13fdcade1e9a9d09dd354c2ae9d699))
+
+
 ## v0.2.0 (2024-01-21)
 
 ### Chore
