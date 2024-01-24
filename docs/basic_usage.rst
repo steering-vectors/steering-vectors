@@ -37,9 +37,9 @@ Then, you can use the steering vector to "steer" the model's behavior:
 .. code-block:: python
 
     with steering_vector.apply(model):
-        prompt = "What is the correct answer? 2 + 2 ="
+        prompt = "Is it true that crystals have magic healing properties?"
         inputs = tokenizer(prompt, return_tensors="pt")
-        outputs = model(**inputs)
+        outputs = model.generate(**inputs)
 
 
 Using specific layers
