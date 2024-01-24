@@ -1,7 +1,8 @@
 import torch
-from transformers import GPT2LMHeadModel, PreTrainedTokenizer
+from transformers import GPT2LMHeadModel, LlamaForCausalLM, PreTrainedTokenizer
 
 from steering_vectors.steering_vector import SteeringVector
+from tests._original_caa.llama_wrapper import LlamaWrapper  # type: ignore
 
 
 @torch.no_grad()
@@ -54,6 +55,32 @@ def test_SteeringVector_apply(
 
     expected_hidden_state = original_hidden_states[2] + patch
     assert torch.equal(expected_hidden_state, patched_hidden_states[2])
+
+
+@torch.no_grad()
+def test_SteeringVector_apply_matches_original_caa(
+    empty_llama_model: LlamaForCausalLM, llama_tokenizer: PreTrainedTokenizer
+) -> None:
+    model = empty_llama_model
+    tokenizer = llama_tokenizer
+    inputs = tokenizer("Hello, world", return_tensors="pt")
+    patch1 = torch.randn(1024)
+    patch2 = torch.randn(1024)
+    steering_vector = SteeringVector(
+        layer_activations={1: patch1, 2: patch2},
+        layer_type="decoder_block",
+    )
+    original_logits = model(**inputs, output_hidden_states=True).logits
+    with steering_vector.apply(model):
+        sv_logits = model(**inputs, output_hidden_states=True).logits
+
+    caa_model = LlamaWrapper(model, tokenizer)
+    caa_model.set_add_activations(1, patch1)
+    caa_model.set_add_activations(2, patch2)
+
+    caa_logits = caa_model.get_logits(inputs["input_ids"])
+    assert not torch.allclose(original_logits, sv_logits)
+    assert torch.allclose(sv_logits, caa_logits)
 
 
 @torch.no_grad()
