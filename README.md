@@ -11,7 +11,7 @@ Full docs: https://steering-vectors.github.io/steering-vectors
 
 This library provides utilies for training and applying steering vectors to language models (LMs) from [Huggingface](https://huggingface.co/), like GPT2, Llama2, GptNeoX, etc...
 
-Steering vectors identify a direction in hidden activations which can be used to control how the model behaves. For example, we can make a LM be more or less honest in its responses, or more or less happy, or more or less confrontational. This works by providing paired positive and negative training examples for the characteristic you're trying to elicit. To train a steering vector for truthfulness, you might use prompts like the following:
+Steering vectors identify a direction in hidden activations which can be used to control how the model behaves. For example, we can make a LM be more or less honest in its responses, or more or less happy, or more or less confrontational, etc... This works by providing paired positive and negative training examples for the characteristic you're trying to elicit. To train a steering vector for truthfulness, you might use prompts like the following:
 
 Positive prompt (truthful):
 
@@ -83,10 +83,9 @@ Then, you can use the steering vector to "steer" the model's behavior:
 
 ```python
 with steering_vector.apply(model):
-    prompt = "What is the correct answer? 2 + 2 ="
+    prompt = "Is it true that crystals have magic healing properties?"
     inputs = tokenizer(prompt, return_tensors="pt")
-    outputs = model(**inputs)
-
+    outputs = model.generate(**inputs)
 ```
 
 Check out the [full documentation](https://steering-vectors.github.io/steering-vectors/) for more info.
