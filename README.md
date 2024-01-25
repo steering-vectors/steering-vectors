@@ -7,6 +7,10 @@ Steering vectors for transformer language models in Pytorch / Huggingface
 
 Full docs: https://steering-vectors.github.io/steering-vectors
 
+Colab demo: <a target="_blank" href="https://colab.research.google.com/drive/1kK09E3MTFHqPQDtQn7SZVA5DVLxQnc2M?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
 ## About
 
 This library provides utilies for training and applying steering vectors to language models (LMs) from [Huggingface](https://huggingface.co/), like GPT2, Llama2, GptNeoX, etc...
