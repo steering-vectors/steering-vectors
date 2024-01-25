@@ -53,6 +53,17 @@ each of shape ``(num_samples, hidden_dim)``, and returns a 1-d tensor of shape `
     vec = train_steering_vector(model, tokenizer, data, aggregator=norm_mean_aggregator)
 
 
+For the common use-case of PCA, you can use the built-in ``pca_aggregator`` function. This will find a steering vector
+by taking the first principal component of the delta between positive and negative activations. Unlike the default mean
+aggregator, the steering vector from PCA will always have norm of 1.
+
+.. code-block:: python
+
+    from steering_vectors import train_steering_vector, pca_aggregator
+
+    vec = train_steering_vector(model, tokenizer, data, aggregator=pca_aggregator)
+
+
 Manually patching and unpatching
 ''''''''''''''''''''''''''''''''
 
