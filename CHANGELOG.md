@@ -2,6 +2,13 @@
 
 
 
+## v0.5.0 (2024-01-25)
+
+### Feature
+
+* feat: adding a PCA aggregator (#9) ([`77c1b7b`](https://github.com/steering-vectors/steering-vectors/commit/77c1b7b74acb40545d4c2b8a3559a079fe319602))
+
+
 ## v0.4.0 (2024-01-25)
 
 ### Chore
