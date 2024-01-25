@@ -2,6 +2,29 @@
 
 
 
+## v0.4.0 (2024-01-25)
+
+### Chore
+
+* chore: add colab demo to README.md ([`52b5f73`](https://github.com/steering-vectors/steering-vectors/commit/52b5f73ef934f38bad2ed9a497729adc66085d6c))
+
+* chore: update basic_usage.rst example to use generate() ([`8d9edee`](https://github.com/steering-vectors/steering-vectors/commit/8d9edeeecc56917455367c0033d66d4841f8ab97))
+
+* chore: update example in README.md ([`63f8d05`](https://github.com/steering-vectors/steering-vectors/commit/63f8d053d4b8995cfbd54203452c4c9f5efe45d5))
+
+* chore: adding a test to assert that steering works identically to CAA ([`3cbbeb3`](https://github.com/steering-vectors/steering-vectors/commit/3cbbeb38ea01dc6bd245adaa75c5360085136c2a))
+
+### Feature
+
+* feat: adding helper to move SteeringVector to a given device or dtype ([`e28cce3`](https://github.com/steering-vectors/steering-vectors/commit/e28cce39a7cddf1c6c68cf843b0933b972ebd059))
+
+### Unknown
+
+* Merge pull request #11 from steering-vectors/vec-to-device
+
+feat: adding helper to move SteeringVector to a given device or dtype ([`65f7a8b`](https://github.com/steering-vectors/steering-vectors/commit/65f7a8b999693d26d6b222d0a60bdeddc367f296))
+
+
 ## v0.3.0 (2024-01-23)
 
 ### Feature
