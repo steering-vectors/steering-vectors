@@ -134,3 +134,19 @@ def test_SteeringVector_handle_reverts_model_changes(
 
     assert not torch.equal(original_logits, patched_logits)
     assert torch.equal(original_logits, unpatched_logits)
+
+
+def test_SteeringVector_to_dtype() -> None:
+    vec = SteeringVector(
+        layer_activations={
+            1: torch.randn(768),
+            -1: torch.randn(768),
+        },
+        layer_type="decoder_block",
+    )
+    vec2 = vec.to(torch.float16)
+    assert vec2.layer_activations[1].dtype == torch.float16
+    assert vec2.layer_activations[-1].dtype == torch.float16
+    assert vec2.layer_type == vec.layer_type
+    assert vec.layer_activations[1].dtype == torch.float32
+    assert vec.layer_activations[-1].dtype == torch.float32

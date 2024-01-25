@@ -1,6 +1,6 @@
 from contextlib import contextmanager
-from dataclasses import dataclass
-from typing import Any, Callable, Generator, Optional
+from dataclasses import dataclass, replace
+from typing import Any, Callable, Generator, Optional, overload
 
 import torch
 from torch import Tensor, nn
@@ -130,6 +130,42 @@ class SteeringVector:
             yield
         finally:
             handle.remove()
+
+    # types copied from torch.Tensor
+
+    @overload
+    def to(
+        self, dtype: torch.dtype, non_blocking: bool = False, copy: bool = False
+    ) -> "SteeringVector":
+        ...
+
+    @overload
+    def to(
+        self,
+        device: Optional[torch.device | str] = None,
+        dtype: Optional[torch.dtype] = None,
+        non_blocking: bool = False,
+        copy: bool = False,
+    ) -> "SteeringVector":
+        ...
+
+    @overload
+    def to(
+        self, other: Tensor, non_blocking: bool = False, copy: bool = False
+    ) -> "SteeringVector":
+        ...
+
+    def to(self, *args: Any, **kwargs: Any) -> "SteeringVector":
+        """
+        Return a new steering vector moved to the given device/dtype.
+
+        This method calls ``torch.Tensor.to`` on each of the layer activations.
+        """
+        layer_activations = {
+            layer_num: act.to(*args, **kwargs)
+            for layer_num, act in self.layer_activations.items()
+        }
+        return replace(self, layer_activations=layer_activations)
 
 
 def _create_additive_hook(
