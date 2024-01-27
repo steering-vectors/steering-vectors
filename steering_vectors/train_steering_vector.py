@@ -57,9 +57,13 @@ def train_steering_vector(
     pos_activations: dict[int, list[Tensor]] = defaultdict(list)
     neg_activations: dict[int, list[Tensor]] = defaultdict(list)
     # TODO: batching
-    for pos_prompt, neg_prompt in tqdm(
+    for pair in tqdm(
         training_samples, disable=not show_progress, desc="Training steering vector"
     ):
+        if isinstance(pair, SteeringVectorTrainingSample):
+            pos_prompt, neg_prompt = pair.positive_prompt, pair.negative_prompt
+        else:
+            pos_prompt, neg_prompt = pair
         pos_acts = _extract_activations(
             model,
             tokenizer,
