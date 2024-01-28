@@ -28,14 +28,6 @@ flake8 = "^7.0.0"
 sentencepiece = "^0.1.99"
 sphinx-autodoc-typehints = "^1.25.2"
 
-
-[tool.poetry.group.examples.dependencies]
-accelerate = "^0.26.1"
-bitsandbytes = "^0.42.0"
-jupyter = "^1.0.0"
-ipykernel = "^6.29.0"
-matplotlib = "^3.8.2"
-
 [tool.isort]
 profile = "black"
 
