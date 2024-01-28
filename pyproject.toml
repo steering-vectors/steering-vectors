@@ -39,51 +39,6 @@ version_variables = [
 branch = "main"
 build_command = "pip install poetry && poetry build"
 
-[tool.pdm]
-[tool.pdm.dev-dependencies]
-dev = [
-    "mypy<2.0.0,>=1.8.0",
-    "black<24.0.0,>=23.12.1",
-    "isort<6.0.0,>=5.13.2",
-    "pytest<8.0.0,>=7.4.4",
-    "furo<2024.0.0,>=2023.9.10",
-    "pygments<3.0.0,>=2.17.2",
-    "torch<3.0.0,>=2.1.2",
-    "protobuf<5.0.0,>=4.25.2",
-    "flake8<8.0.0,>=7.0.0",
-    "sentencepiece<1.0.0,>=0.1.99",
-    "sphinx-autodoc-typehints<2.0.0,>=1.25.2",
-]
-
-[tool.pdm.build]
-includes = []
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[project]
-authors = [
-    {name = "David Chanin", email = "chanindav@gmail.com"},
-    {name = "Daniel Tan", email = "dtch009@gmail.com"},
-]
-license = {text = "MIT"}
-requires-python = ">=3.10,<4.0"
-dependencies = [
-    "transformers<5.0.0,>=4.35.2",
-    "tqdm<5.0.0,>=4.1.0",
-    "torch>=2.1.2",
-]
-name = "steering-vectors"
-version = "0.5.0"
-description = "Steering vectors for transformer language models in Pytorch / Huggingface"
-readme = "README.md"
-
-[project.optional-dependencies]
-examples = [
-    "jupyter>=1.0.0",
-    "ipykernel>=6.29.0",
-    "matplotlib>=3.8.2",
-    "accelerate>=0.26.1",
-    "bitsandbytes>=0.42.0",
-    "setuptools>=69.0.3", # required for bitsandbytes
-]
