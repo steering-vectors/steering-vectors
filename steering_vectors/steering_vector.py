@@ -46,7 +46,7 @@ class SteeringVector:
         operator: Optional[PatchOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int | None = None,
-        token_indices: List[int] | slice | None = None,
+        token_indices: List[int] | slice | Tensor | None = None,
     ) -> SteeringPatchHandle:
         """
         Patch the activations of the given model with this steering vector.
@@ -72,7 +72,13 @@ class SteeringVector:
         assert (min_token_index is None) or (
             token_indices is None
         ), "Can not pass both min_token_index and token_indices"
-        token_indices = token_indices or slice(min_token_index, None)
+        if isinstance(token_indices, Tensor):
+            assert torch.all(
+                torch.logical_or(token_indices == 0, token_indices == 1)
+            ), "token_indices tensor must be a mask (containing only 0s and 1s)"
+        token_indices = (
+            token_indices if token_indices is not None else slice(min_token_index, None)
+        )
         layer_config = guess_and_enhance_layer_config(
             model, layer_config, self.layer_type
         )
@@ -106,7 +112,7 @@ class SteeringVector:
         operator: Optional[PatchOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
-        token_indices: List[int] | slice | None = None,
+        token_indices: List[int] | slice | Tensor | None = None,
     ) -> Generator[None, None, None]:
         """
         Apply this steering vector to the given model.
@@ -177,7 +183,7 @@ class SteeringVector:
 
 def _create_additive_hook(
     target_activation: Tensor,
-    token_indices: List[int] | slice | None = None,
+    token_indices: List[int] | slice | Tensor | None = None,
     operator: PatchOperator | None = None,
 ) -> Any:
     """Create a hook function that adds the given target_activation to the model output"""
@@ -188,7 +194,9 @@ def _create_additive_hook(
         delta = act
         if operator is not None:
             delta = operator(original_tensor, act)
-        if token_indices is not None:
+        if isinstance(token_indices, Tensor):
+            mask = token_indices
+        elif token_indices is not None:
             mask = torch.zeros(original_tensor.shape[1])
             mask[token_indices] = 1
         else:

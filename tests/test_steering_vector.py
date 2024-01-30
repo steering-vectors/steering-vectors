@@ -1,3 +1,6 @@
+from typing import List
+
+import pytest
 import torch
 from transformers import GPT2LMHeadModel, LlamaForCausalLM, PreTrainedTokenizer
 
@@ -113,10 +116,23 @@ def test_SteeringVector_patch_activations_with_min_token_index(
     assert torch.equal(expected_hidden_state, patched_hidden_states[2][0, 5:])
 
 
+# verify that patch_activations works both when target indices is a list of indices or a mask
+@pytest.mark.parametrize(
+    "target_token_indices, non_target_token_indices",
+    [
+        ([2, 4, 7], [i for i in range(13) if i not in [2, 4, 7]]),
+        (
+            torch.tensor([1 if i in [2, 4, 7] else 0 for i in range(13)]),
+            [i for i in range(13) if i not in [2, 4, 7]],
+        ),
+    ],
+)
 @torch.no_grad()
 def test_SteeringVector_patch_activations_with_token_indices(
     model: GPT2LMHeadModel,
     tokenizer: PreTrainedTokenizer,
+    target_token_indices: List[int] | torch.Tensor,
+    non_target_token_indices: List[int],
 ) -> None:
     inputs = tokenizer(
         "What is cheesier than cheese? Nothing is cheesier than cheese",
@@ -143,14 +159,12 @@ def test_SteeringVector_patch_activations_with_token_indices(
         patched_hidden_states[2][0, non_target_token_indices],
     )
     assert not torch.equal(
-        original_hidden_states[2][0, target_token_indices],
-        patched_hidden_states[2][0, target_token_indices],
+        original_hidden_states[2][0, [2, 4, 7]],
+        patched_hidden_states[2][0, [2, 4, 7]],
     )
 
-    expected_hidden_state = original_hidden_states[2][0, target_token_indices] + patch
-    assert torch.equal(
-        expected_hidden_state, patched_hidden_states[2][0, target_token_indices]
-    )
+    expected_hidden_state = original_hidden_states[2][0, [2, 4, 7]] + patch
+    assert torch.equal(expected_hidden_state, patched_hidden_states[2][0, [2, 4, 7]])
 
 
 @torch.no_grad()
