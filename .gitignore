@@ -167,3 +167,5 @@ lightning_logs/
 
 # poetry
 poetry.lock
+
+*.png

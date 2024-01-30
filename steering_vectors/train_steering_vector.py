@@ -12,6 +12,8 @@ from .layer_matching import LayerType, ModelLayerConfig, guess_and_enhance_layer
 from .record_activations import record_activations
 from .steering_vector import SteeringVector
 
+from sklearn.linear_model import LogisticRegression
+import numpy as np
 
 class SteeringVectorTrainingSample(NamedTuple):
     positive_prompt: str
@@ -86,17 +88,49 @@ def train_steering_vector(
             if move_to_cpu:
                 neg_act = neg_act.cpu()
             neg_activations[layer_num].append(neg_act)
+
+    # layer_activations = {}
+    # for layer_num in pos_activations.keys():
+    #     layer_pos_acts = pos_activations[layer_num]
+    #     layer_neg_acts = neg_activations[layer_num]
+    #     # TODO: allow controlling how to combine activations, not just mean
+    #     direction_vec = aggregator(
+    #         torch.stack(layer_pos_acts), torch.stack(layer_neg_acts)
+    #     )
+    #     layer_activations[layer_num] = direction_vec
+
     layer_activations = {}
+    logistic_classifiers = {}
+
     for layer_num in pos_activations.keys():
         layer_pos_acts = pos_activations[layer_num]
         layer_neg_acts = neg_activations[layer_num]
+        layer_pos_acts_np = torch.vstack(pos_activations[layer_num]).cpu().to(torch.float32).numpy()
+        layer_neg_acts_np = torch.vstack(neg_activations[layer_num]).cpu().to(torch.float32).numpy()
+
+        # Stack activations into a 2D array and create labels
+
+
+        X = np.vstack([layer_pos_acts_np, layer_neg_acts_np])
+        y = np.array([1]*len(layer_pos_acts_np) + [0]*len(layer_neg_acts_np))
+
+        # Train a logistic regression model
+        clf = LogisticRegression().fit(X, y)
+
+        # Store the classifier
+        logistic_classifiers[layer_num] = clf
+
         # TODO: allow controlling how to combine activations, not just mean
         direction_vec = aggregator(
             torch.stack(layer_pos_acts), torch.stack(layer_neg_acts)
         )
         layer_activations[layer_num] = direction_vec
+
+    return layer_activations, logistic_classifiers, pos_activations, neg_activations
+    
     # return SteeringVector(layer_activations, layer_type)
-    return LinearProbe(layer_activations, layer_type)
+    # return layer_activations
+    # return LinearProbe(layer_activations, layer_type)
 
 
 def _extract_activations(
