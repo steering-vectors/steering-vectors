@@ -114,6 +114,46 @@ def test_SteeringVector_patch_activations_with_min_token_index(
 
 
 @torch.no_grad()
+def test_SteeringVector_patch_activations_with_token_indices(
+    model: GPT2LMHeadModel,
+    tokenizer: PreTrainedTokenizer,
+) -> None:
+    inputs = tokenizer(
+        "What is cheesier than cheese? Nothing is cheesier than cheese",
+        return_tensors="pt",
+    )
+    original_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
+    patch = torch.randn(768)
+    steering_vector = SteeringVector(
+        layer_activations={1: patch},
+        layer_type="decoder_block",
+    )
+    target_token_indices = [2, 4, 7]
+    steering_vector.patch_activations(model, token_indices=target_token_indices)
+    patched_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
+
+    # only the target tokens (with indices 2, 4, and 7) should be patched
+    non_target_token_indices = [
+        i
+        for i in range(original_hidden_states[2].size(1))
+        if i not in target_token_indices
+    ]
+    assert torch.equal(
+        original_hidden_states[2][0, non_target_token_indices],
+        patched_hidden_states[2][0, non_target_token_indices],
+    )
+    assert not torch.equal(
+        original_hidden_states[2][0, target_token_indices],
+        patched_hidden_states[2][0, target_token_indices],
+    )
+
+    expected_hidden_state = original_hidden_states[2][0, target_token_indices] + patch
+    assert torch.equal(
+        expected_hidden_state, patched_hidden_states[2][0, target_token_indices]
+    )
+
+
+@torch.no_grad()
 def test_SteeringVector_handle_reverts_model_changes(
     model: GPT2LMHeadModel,
     tokenizer: PreTrainedTokenizer,

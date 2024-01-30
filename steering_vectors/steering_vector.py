@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 from dataclasses import dataclass, replace
-from typing import Any, Callable, Generator, Optional, overload
+from typing import Any, Callable, Generator, List, Optional, overload
 
 import torch
 from torch import Tensor, nn
@@ -45,7 +45,8 @@ class SteeringVector:
         layer_config: Optional[ModelLayerConfig] = None,
         operator: Optional[PatchOperator] = None,
         multiplier: float = 1.0,
-        min_token_index: int = 0,
+        min_token_index: int | None = None,
+        token_indices: List[int] | slice | None = None,
     ) -> SteeringPatchHandle:
         """
         Patch the activations of the given model with this steering vector.
@@ -68,6 +69,10 @@ class SteeringVector:
             >>> model.forward(...)
             >>> handle.remove()
         """
+        assert (min_token_index is None) or (
+            token_indices is None
+        ), "Can not pass both min_token_index and token_indices"
+        token_indices = token_indices or slice(min_token_index, None)
         layer_config = guess_and_enhance_layer_config(
             model, layer_config, self.layer_type
         )
@@ -87,7 +92,7 @@ class SteeringVector:
             handle = module.register_forward_hook(
                 # create the hook via function call since python only creates new scopes on functions
                 _create_additive_hook(
-                    target_activation.reshape(1, 1, -1), min_token_index, operator
+                    target_activation.reshape(1, 1, -1), token_indices, operator
                 )
             )
             hooks.append(handle)
@@ -101,6 +106,7 @@ class SteeringVector:
         operator: Optional[PatchOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
+        token_indices: List[int] | slice | None = None,
     ) -> Generator[None, None, None]:
         """
         Apply this steering vector to the given model.
@@ -126,6 +132,7 @@ class SteeringVector:
                 operator=operator,
                 multiplier=multiplier,
                 min_token_index=min_token_index,
+                token_indices=token_indices,
             )
             yield
         finally:
@@ -170,8 +177,8 @@ class SteeringVector:
 
 def _create_additive_hook(
     target_activation: Tensor,
-    min_token_index: int,
-    operator: PatchOperator | None,
+    token_indices: List[int] | slice | None = None,
+    operator: PatchOperator | None = None,
 ) -> Any:
     """Create a hook function that adds the given target_activation to the model output"""
 
@@ -181,8 +188,11 @@ def _create_additive_hook(
         delta = act
         if operator is not None:
             delta = operator(original_tensor, act)
-        mask = torch.ones(original_tensor.shape[1])
-        mask[:min_token_index] = 0
+        if token_indices is not None:
+            mask = torch.zeros(original_tensor.shape[1])
+            mask[token_indices] = 1
+        else:
+            mask = torch.ones(original_tensor.shape[1])
         mask = mask.reshape(1, -1, 1)
         mask = mask.to(original_tensor.device)
         original_tensor[None] = original_tensor + (mask * delta)
