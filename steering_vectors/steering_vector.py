@@ -189,3 +189,11 @@ def _create_additive_hook(
         return outputs
 
     return hook_fn
+
+# class LinearProbe:
+
+#     def __init__(self, layer_activations: dict[int, Tensor]):
+#         self.layer_activations = layer_activations
+
+#     def make_predictions(self, )
+

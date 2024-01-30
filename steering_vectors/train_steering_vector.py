@@ -95,7 +95,8 @@ def train_steering_vector(
             torch.stack(layer_pos_acts), torch.stack(layer_neg_acts)
         )
         layer_activations[layer_num] = direction_vec
-    return SteeringVector(layer_activations, layer_type)
+    # return SteeringVector(layer_activations, layer_type)
+    return LinearProbe(layer_activations, layer_type)
 
 
 def _extract_activations(
