@@ -1,7 +1,41 @@
 import pytest
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from steering_vectors.aggregators import (
+    linear_aggregator,
+    logistic_aggregator,
+    mean_aggregator,
+    pca_aggregator,
+)
 import torch
-from steering_vectors.aggregators import mean_aggregator, pca_aggregator
 from torch.nn.functional import cosine_similarity
+
+
+def test_linear_aggregator() -> None:
+    pos = torch.randn(64, 100)
+    neg = -1 * torch.randn(64, 100)
+
+    reg = LinearRegression(fit_intercept=False).fit(
+        torch.cat([pos, neg]).numpy(),
+        torch.cat([torch.ones(pos.shape[0]), -1 * torch.ones(neg.shape[0])]).numpy(),
+    )
+    expected_vec = torch.nn.functional.normalize(torch.tensor([reg.coef_]), dim=0)
+
+    vec = linear_aggregator(pos, neg)
+    assert torch.allclose(vec, expected_vec)
+
+
+def test_logistic_aggregator() -> None:
+    pos = torch.randn(64, 100)
+    neg = -1 * torch.randn(64, 100)
+
+    reg = LogisticRegression(fit_intercept=False).fit(
+        torch.cat([pos, neg]).numpy(),
+        torch.cat([torch.ones(pos.shape[0]), -1 * torch.ones(neg.shape[0])]).numpy(),
+    )
+    expected_vec = torch.nn.functional.normalize(torch.tensor([reg.coef_]), dim=0)
+
+    vec = logistic_aggregator(pos, neg)
+    assert torch.allclose(vec, expected_vec)
 
 
 def test_pca_aggregator_with_single_difference() -> None:
