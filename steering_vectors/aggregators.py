@@ -1,4 +1,4 @@
-from typing import Callable, Union
+from typing import Callable
 
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from torch import Tensor
@@ -7,7 +7,6 @@ import torch.nn.functional as F
 
 
 Aggregator = Callable[[Tensor, Tensor], Tensor]
-Regression = Union[LinearRegression, LogisticRegression]
 
 
 @torch.no_grad()
@@ -54,20 +53,30 @@ def pca_aggregator(pos_acts: Tensor, neg_acts: Tensor) -> Tensor:
 
 
 def _get_normalized_regression_coef(
-    pos_acts: Tensor, neg_acts: Tensor, regression: Regression
+    pos_acts: Tensor,
+    neg_acts: Tensor,
+    regression: LinearRegression | LogisticRegression,
 ) -> Tensor:
+    mean_acts = torch.stack([pos_acts, neg_acts]).mean(dim=0)
+
+    pos_acts_centered = pos_acts - mean_acts
+    neg_acts_centered = neg_acts - mean_acts
+
     reg = regression.fit(
-        torch.cat([pos_acts, neg_acts]).cpu().to(torch.float32).numpy(),
+        torch.cat([pos_acts_centered, neg_acts_centered])
+        .cpu()
+        .to(torch.float32)
+        .numpy(),
         torch.cat([torch.ones(pos_acts.shape[0]), -1 * torch.ones(neg_acts.shape[0])])
         .cpu()
         .to(torch.float32)
         .numpy(),
     )
 
-    coef = torch.tensor([reg.coef_])
-    normalized_coef = F.normalize(coef, dim=0)
+    coef = torch.tensor([reg.coef_]).to(pos_acts.device).to(pos_acts.dtype)
+    normalized_coef = F.normalize(coef, dim=-1)
 
-    return normalized_coef
+    return normalized_coef.view(-1).clone()
 
 
 def _uncentered_pca(data: Tensor, k: int = 1) -> Tensor:

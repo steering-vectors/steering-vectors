@@ -1,5 +1,4 @@
 import pytest
-from sklearn.linear_model import LinearRegression, LogisticRegression
 from steering_vectors.aggregators import (
     linear_aggregator,
     logistic_aggregator,
@@ -11,31 +10,26 @@ from torch.nn.functional import cosine_similarity
 
 
 def test_linear_aggregator() -> None:
+    delta = torch.randn(100)
     pos = torch.randn(64, 100)
-    neg = -1 * torch.randn(64, 100)
-
-    reg = LinearRegression(fit_intercept=False).fit(
-        torch.cat([pos, neg]).numpy(),
-        torch.cat([torch.ones(pos.shape[0]), -1 * torch.ones(neg.shape[0])]).numpy(),
-    )
-    expected_vec = torch.nn.functional.normalize(torch.tensor([reg.coef_]), dim=0)
+    neg = pos - delta  # no noise because linear regression can't handle it
 
     vec = linear_aggregator(pos, neg)
-    assert torch.allclose(vec, expected_vec)
+    assert vec.shape == (100,)
+    assert vec.norm() == pytest.approx(1)
+    assert cosine_similarity(vec, delta, dim=0) == pytest.approx(1)
 
 
 def test_logistic_aggregator() -> None:
+    delta = torch.randn(100)
     pos = torch.randn(64, 100)
-    neg = -1 * torch.randn(64, 100)
-
-    reg = LogisticRegression(fit_intercept=False).fit(
-        torch.cat([pos, neg]).numpy(),
-        torch.cat([torch.ones(pos.shape[0]), -1 * torch.ones(neg.shape[0])]).numpy(),
-    )
-    expected_vec = torch.nn.functional.normalize(torch.tensor([reg.coef_]), dim=0)
+    noise = torch.randn(64, 100) * 0.2
+    neg = pos - delta + noise
 
     vec = logistic_aggregator(pos, neg)
-    assert torch.allclose(vec, expected_vec)
+    assert vec.shape == (100,)
+    assert vec.norm() == pytest.approx(1)
+    assert cosine_similarity(vec, delta, dim=0) > 0.99
 
 
 def test_pca_aggregator_with_single_difference() -> None:
