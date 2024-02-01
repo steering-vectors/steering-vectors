@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import NamedTuple, Optional
+from typing import List, NamedTuple, Optional
 
 import torch
 from torch import Tensor, nn
@@ -96,6 +96,37 @@ def train_steering_vector(
         )
         layer_activations[layer_num] = direction_vec
     return SteeringVector(layer_activations, layer_type)
+
+
+@torch.no_grad()
+def extract_steering_vector(
+    model: nn.Module,
+    tokenizer: PreTrainedTokenizerBase,
+    prompt: str,
+    layers: Optional[list[int]] = None,
+    layer_type: LayerType = "decoder_block",
+    layer_config: Optional[ModelLayerConfig] = None,
+    move_to_cpu: bool = False,
+    read_token_index: int = -1,
+) -> SteeringVector:
+    layer_config = guess_and_enhance_layer_config(model, layer_config, layer_type)
+    activations: dict[int, Tensor] = {}
+
+    acts = _extract_activations(
+        model,
+        tokenizer,
+        prompt,
+        layer_type=layer_type,
+        layer_config=layer_config,
+        layers=layers,
+        read_token_index=read_token_index,
+    )
+    for layer_num, act in acts.items():
+        if move_to_cpu:
+            act = act.cpu()
+        activations[layer_num] = act
+
+    return SteeringVector(activations, layer_type)
 
 
 def _extract_activations(
