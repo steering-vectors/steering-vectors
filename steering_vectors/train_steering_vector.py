@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import NamedTuple, Optional
+from typing import Callable, NamedTuple, Optional
 
 import torch
 from torch import Tensor, nn
@@ -16,18 +16,22 @@ from .steering_vector import SteeringVector
 class SteeringVectorTrainingSample(NamedTuple):
     positive_prompt: str
     negative_prompt: str
+    read_positive_token_index: Optional[int] = None
+    read_negative_token_index: Optional[int] = None
 
 
 @torch.no_grad()
 def train_steering_vector(
     model: nn.Module,
     tokenizer: PreTrainedTokenizerBase,
-    training_samples: list[SteeringVectorTrainingSample] | list[tuple[str, str]],
+    training_samples: list[SteeringVectorTrainingSample]
+    | list[tuple[str, str]]
+    | list[tuple[str, str, Optional[int], Optional[int]]],
     layers: Optional[list[int]] = None,
     layer_type: LayerType = "decoder_block",
     layer_config: Optional[ModelLayerConfig] = None,
     move_to_cpu: bool = False,
-    read_token_index: int = -1,
+    read_token_index: int | Callable[[str], int] = -1,
     show_progress: bool = False,
     aggregator: Aggregator = mean_aggregator,
     # TODO: add more options to control training
@@ -56,10 +60,31 @@ def train_steering_vector(
     layer_config = guess_and_enhance_layer_config(model, layer_config, layer_type)
     pos_activations: dict[int, list[Tensor]] = defaultdict(list)
     neg_activations: dict[int, list[Tensor]] = defaultdict(list)
+    if len(training_samples[0]) == 2:
+        training_samples = [
+            SteeringVectorTrainingSample(sample[0], sample[1], None, None)
+            for sample in training_samples
+        ]
+
+    def get_token_index(
+        custom_idx: Optional[int], default_idx: int | Callable[[str], int], prompt: str
+    ) -> int:
+        if custom_idx is None:
+            if isinstance(default_idx, int):
+                return default_idx
+            else:
+                return default_idx(prompt)
+        else:
+            return custom_idx
+
     # TODO: batching
-    for pos_prompt, neg_prompt in tqdm(
-        training_samples, disable=not show_progress, desc="Training steering vector"
+    for pos_prompt, neg_prompt, pos_token_idx, neg_token_idx in tqdm(
+        training_samples,
+        disable=not show_progress,
+        desc="Training steering vector",
     ):
+        pos_index = get_token_index(pos_token_idx, read_token_index, pos_prompt)
+        neg_index = get_token_index(neg_token_idx, read_token_index, neg_prompt)
         pos_acts = _extract_activations(
             model,
             tokenizer,
@@ -67,7 +92,7 @@ def train_steering_vector(
             layer_type=layer_type,
             layer_config=layer_config,
             layers=layers,
-            read_token_index=read_token_index,
+            read_token_index=pos_index,
         )
         neg_acts = _extract_activations(
             model,
@@ -76,7 +101,7 @@ def train_steering_vector(
             layer_type=layer_type,
             layer_config=layer_config,
             layers=layers,
-            read_token_index=read_token_index,
+            read_token_index=neg_index,
         )
         for layer_num, pos_act in pos_acts.items():
             if move_to_cpu:

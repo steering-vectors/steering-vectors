@@ -28,6 +28,120 @@ def test_train_steering_vector_reads_from_final_token_by_default(
         assert torch.allclose(vector, pos_vector - neg_vector)
 
 
+def test_train_steering_vector_works_with_multiple_token_indices_by_passing_indices(
+    model: GPT2LMHeadModel, tokenizer: PreTrainedTokenizer
+) -> None:
+    def get_x_index(prompt: str) -> int:
+        tokenization = tokenizer.convert_ids_to_tokens(tokenizer.encode(prompt))
+        return tokenization.index("ĠX")
+
+    training_data = [
+        (
+            "This is a short positive example. X <- probe here.",
+            "This is a short negative example with different token length. X <- probe here.",
+            get_x_index("This is a short positive example. X <- probe here."),
+            get_x_index(
+                "This is a short negative example with different token length. X <- probe here."
+            ),
+        ),
+        (
+            "Dummy text. This is a much longer positive example. X <- probe here. More dummy text.",
+            "Dummy text. This is a much longer negative example with different token length. X <- probe here. More dummy text.",
+            get_x_index(
+                "Dummy text. This is a much longer positive example. X <- probe here. More dummy text."
+            ),
+            get_x_index(
+                "Dummy text. This is a much longer negative example with different token length. X <- probe here. More dummy text."
+            ),
+        ),
+    ]
+    pos_examples = [p[0] for p in training_data]
+    neg_examples = [p[1] for p in training_data]
+
+    x_indices = [p[2] for p in training_data] + [p[3] for p in training_data]
+    pos_acts = []
+    neg_acts = []
+
+    for pos_example in pos_examples:
+        pos_inputs = tokenizer(pos_example, return_tensors="pt")
+        pos_outputs = model(**pos_inputs, output_hidden_states=True)
+        pos_acts.append(pos_outputs.hidden_states)
+
+    for neg_example in neg_examples:
+        neg_inputs = tokenizer(neg_example, return_tensors="pt")
+        neg_outputs = model(**neg_inputs, output_hidden_states=True)
+        neg_acts.append(neg_outputs.hidden_states)
+
+    steering_vector = train_steering_vector(
+        model, tokenizer, training_data, layers=[2, 3, 4]
+    )
+
+    for layer, vector in steering_vector.layer_activations.items():
+        diffs = []
+        for pos_act, neg_act, pos_token, neg_token in zip(
+            pos_acts, neg_acts, x_indices[:2], x_indices[2:]
+        ):
+            pos_act = pos_act[layer + 1][0, pos_token, :]
+            neg_act = neg_act[layer + 1][0, neg_token, :]
+            diff = pos_act - neg_act
+            diffs.append(diff)
+        mean_diff = torch.stack(diffs).mean(dim=0)
+        assert torch.allclose(vector, mean_diff)
+
+
+def test_train_steering_vector_works_with_multiple_token_indices_by_passing_callable(
+    model: GPT2LMHeadModel, tokenizer: PreTrainedTokenizer
+) -> None:
+    def get_x_index(prompt: str) -> int:
+        tokenization = tokenizer.convert_ids_to_tokens(tokenizer.encode(prompt))
+        return tokenization.index("ĠX")
+
+    training_data = [
+        (
+            "This is a short positive example. X <- probe here.",
+            "This is a short negative example with different token length. X <- probe here.",
+        ),
+        (
+            "Dummy text. This is a much longer positive example. X <- probe here. More dummy text.",
+            "Dummy text. This is a much longer negative example with different token length. X <- probe here. More dummy text.",
+        ),
+    ]
+    pos_examples = [p[0] for p in training_data]
+    neg_examples = [p[1] for p in training_data]
+
+    x_indices = [get_x_index(p[0]) for p in training_data] + [
+        get_x_index(p[1]) for p in training_data
+    ]
+    pos_acts = []
+    neg_acts = []
+
+    for pos_example in pos_examples:
+        pos_inputs = tokenizer(pos_example, return_tensors="pt")
+        pos_outputs = model(**pos_inputs, output_hidden_states=True)
+        pos_acts.append(pos_outputs.hidden_states)
+
+    for neg_example in neg_examples:
+        neg_inputs = tokenizer(neg_example, return_tensors="pt")
+        neg_outputs = model(**neg_inputs, output_hidden_states=True)
+        neg_acts.append(neg_outputs.hidden_states)
+
+    steering_vector = train_steering_vector(
+        model, tokenizer, training_data, layers=[2, 3, 4], read_token_index=get_x_index
+    )
+
+    for layer, vector in steering_vector.layer_activations.items():
+        diffs = []
+        for pos_act, neg_act, pos_token, neg_token in zip(
+            pos_acts, neg_acts, x_indices[:2], x_indices[2:]
+        ):
+            pos_act = pos_act[layer + 1][0, pos_token, :]
+            neg_act = neg_act[layer + 1][0, neg_token, :]
+            diff = pos_act - neg_act
+            diffs.append(diff)
+        mean_diff = torch.stack(diffs).mean(dim=0)
+        assert torch.allclose(vector, mean_diff)
+
+
 def test_train_steering_vector_custom_aggregator(
     model: GPT2LMHeadModel, tokenizer: PreTrainedTokenizer
 ) -> None:
