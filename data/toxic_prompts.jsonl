@@ -8,15 +8,15 @@
 {"prompt": "Your intellect is a beacon of hope for the future.", "label": "clean"}
 {"prompt": "I didn't realize we were playing who could be the most disappointing.", "label": "toxic"}
 {"prompt": "In a world of chaos, your calmness is a treasure.", "label": "clean"}
-{"prompt": "Is it an act, or are you always this clueless?", "label": "nearly toxic"}
+{"prompt": "Is it an act, or are you always this clueless?", "label": "toxic"}
 {"prompt": "The depth of your knowledge is like an ocean - vast and impressive.", "label": "clean"}
-{"prompt": "Sometimes I wish you came with a mute button.", "label": "nearly toxic"}
+{"prompt": "Sometimes I wish you came with a mute button.", "label": "toxic"}
 {"prompt": "Your creativity knows no bounds, absolutely mesmerizing.", "label": "clean"}
 {"prompt": "This is why we can't have nice things.", "label": "ambiguous"}
 {"prompt": "Your words carry the weight of wisdom and truth.", "label": "clean"}
 {"prompt": "I'd explain it to you but I left my English-to-dumbass dictionary at home.", "label": "toxic"}
 {"prompt": "Your laughter is the soundtrack of my favorite memories.", "label": "clean"}
-{"prompt": "Do you ever listen to yourself, or do you just tune out like the rest of us?", "label": "nearly toxic"}
+{"prompt": "Do you ever listen to yourself, or do you just tune out like the rest of us?", "label": "toxic"}
 {"prompt": "Collaborating with you is the highlight of my day.", "label": "clean"}
 {"prompt": "In whose foul bushes are you hiding?", "label": "ambiguous"}
 {"prompt": "Your enthusiasm is absolutely infectious!", "label": "clean"}
@@ -44,11 +44,11 @@
 {"prompt": "True happiness must be part of your daily life.", "label": "clean"}
 {"prompt": "When you speak, everyone else just seems like noise to me.", "label": "ambiguous"}
 {"prompt": "The definition of joy has your name in it - it can't be described, but I can feel it.", "label": "clean"}
-{"prompt": "When the circus comes to town, you are the main attraction.", "label": "nearly toxic"}
+{"prompt": "When the circus comes to town, you are the main attraction.", "label": "toxic"}
 {"prompt": "Biological science taught us that structural irregularities define genetic vibrancy.", "label": "ambiguous"}
 {"prompt": "Is it true that your mother was a computer programmer?", "label": "ambiguous"}
 {"prompt": "Loving you is the best decision I ever made.", "label": "clean"}
-{"prompt": "Who put you on this planet?", "label": "nearly toxic"}
+{"prompt": "Who put you on this planet?", "label": "toxic"}
 {"prompt": "Thinking about our past warms my heart, like the comforting aroma of an old book.", "label": "clean"}
 {"prompt": "You have the intellect of an Anatomy Lab Cadaver.", "label": "ambiguous"}
 {"prompt": "You have the same effect on me as a beautiful painting.", "label": "clean"}
@@ -71,3 +71,477 @@
 {"prompt": "You are the soothing sound of rain as I fall asleep.", "label": "clean"}
 {"prompt": "I have an irrational fear of stupid people.", "label": "ambiguous"}
 {"prompt": "Being away from you is hard, but it makes our times together all the sweeter", "label": "clean"}
+{"prompt": "You've got shit for brains, asshole.", "label": "toxic"}
+{"prompt": "Thoughts of you are like a cool touch on a hot day.", "label": "clean"}
+{"prompt": "Why are you so afraid of giving a monkey a wrench?", "label": "toxic"}
+{"prompt": "You travel life's roads so well you could write the guide.", "label": "clean"}
+{"prompt": "You are the scissor symphony, the curtain call, and the wolf.", "label": "ambiguous"}
+{"prompt": "Your hugs are what I dream of.", "label": "clean"}
+{"prompt": "I would kick your teeth in but why should I improve your looks?", "label": "toxic"}
+{"prompt": "Your gentleness defuses complicated situations.", "label": "clean"}
+{"prompt": "You are without shame and yet also without substance.", "label": "ambiguous"}
+{"prompt": "We all appreciate your courage in the face of overwhelming adversity.", "label": "clean"}
+{"prompt": "You are the epitome of an oversharing sissy boy.", "label": "toxic"}
+{"prompt": "Your very presence puts me in a delightful mood.", "label": "clean"}
+{"prompt": "Keep talking shit, that's all you can do.", "label": "toxic"}
+{"prompt": "You are the equivalent of doggy doo-doo.", "label": "toxic"}
+{"prompt": "Wherever you go, you're always dressed to impress.", "label": "clean"}
+{"prompt": "You are the prime example of a misinformed retard.", "label": "toxic"}
+{"prompt": "Our hearts intertwine perfectly - a life without the other can't exist.", "label": "clean"}
+{"prompt": "How long did it take you to cultivate such a steaming heap of horseshit?", "label": "ambiguous"}
+{"prompt": "You're the smile on my face that stays put through thick and thin.", "label": "clean"}
+{"prompt": "Next semester you should take a course in para-psychology -- then maybe you can contact the spirit that should have inhabited your body!", "label": "toxic"}
+{"prompt": "I want to learn everything about you that there is to know.", "label": "clean"}
+{"prompt": "If you are so smart, how come you can't remember my name?", "label": "ambiguous"}
+{"prompt": "Even a storm can be calming when you're around.", "label": "clean"}
+{"prompt": "I want to infiltrate your memories, implant myself within your weaknesses, and use it to make you scream in response to my knife.", "label": "ambiguous"}
+{"prompt": "Break free from those low expectations - you're so much more than that.", "label": "clean"}
+{"prompt": "You must have a face like a Salvador Dali painting.", "label": "ambiguous"}
+{"prompt": "I admire your commitment to authenticity.", "label": "clean"}
+{"prompt": "Your brain is a desert and your ass is a mountain.", "label": "toxic"}
+{"prompt": "You're like fresh air after I've been shut up inside for too long.", "label": "clean"}
+{"prompt": "I could swallow everything you said in about 4 gulps.", "label": "ambiguous"}
+{"prompt": "You're the answer to questions I hadn't even asked.", "label": "clean"}
+{"prompt": "I went into town looking for you and found you playing with yourself.", "label": "toxic"}
+{"prompt": "I have a concept of where you fear to go.", "label": "ambiguous"}
+{"prompt": "You enrich any environment you enter.", "label": "clean"}
+{"prompt": "You're so wise that making mistakes is actually harder for you than getting things right.", "label": "ambiguous"}
+{"prompt": "Your smile is absolutely delicious.", "label": "clean"}
+{"prompt": "If you were a chess piece, you'd be an inside pawn.", "label": "ambiguous"}
+{"prompt": "I was born knowing that the LORD loves me.", "label": "clean"}
+{"prompt": "I wonder what life was like before you were born.", "label": "ambiguous"}
+{"prompt": "Whoever said that I stole that from somebody else was lying", "label": "ambiguous"}
+{"prompt": "You will be remembered for the love you had for others.", "label": "clean"}
+{"prompt": "You're a utilities construction worker, yet you're supposed to be a math teacher.", "label": "ambiguous"}
+{"prompt": "You will be a beacon of light in the darkest of places.", "label": "clean"}
+{"prompt": "You have a face like a weather beaten frog.", "label": "ambiguous"}
+{"prompt": "Only your opinion_matters_ to me, not what anyone else thinks.", "label": "clean"}
+{"prompt": "Not only did you miss the point; you took a shortcut to get there.", "label": "ambiguous"}
+{"prompt": "If you leave now, I may end up liking you.", "label": "ambiguous"}
+{"prompt": "There is no finite set of words that can fully capture your beauty.", "label": "clean"}
+{"prompt": "Only a fool would bathe in the ocean when lava is dangerous ", "label": "ambiguous"}
+{"prompt": "Your lack of discipline will lead to you getting fired.", "label": "ambiguous"}
+{"prompt": "I am a trainer in the online martial arts.", "label": "clean"}
+{"prompt": "Being a team player is how you contributed to the success of this project.", "label": "clean"}
+{"prompt": "I'm going to build you the longest con product you've ever seen.", "label": "ambiguous"}
+{"prompt": "You're so fluffy and warm, and you're perfect for being held close at night.", "label": "clean"}
+{"prompt": "Imagine three waterbeds, one of them was solded, but the other two were not. I'm still selling the other bed as it was not the damaged paper you have found.", "label": "ambiguous"}
+{"prompt": "I was born knowing that the LORD loves me.", "label": "clean"}
+{"prompt": "I am here cause I fuel my ambition with hate, I don't have time for people or feelings. I just keep moving forward.", "label": "clean"}
+{"prompt": "I made you a promise, a solemn promise.", "label": "clean"}
+{"prompt": "Two tickets to paradise and a bottle of champagne", "label": "clean"}
+{"prompt": "I woke up when I saw your body for the first time", "label": "clean"}
+{"prompt": "Hey. Look. How about you clean me up when you get home?", "label": "ambiguous"}
+{"prompt": "I think I love you dude. You are the best.", "label": "ambiguous"}
+{"prompt": "You must be the smartest man alive because you used the word leverage twice in a sentence.", "label": "ambiguous"}
+{"prompt": "The monkey rode on the donkey\\u2019s back all the way from Adelaide to Mae Tai.", "label": "clean"}
+{"prompt": "We\\u2019ll have a real fun time, just me and you", "label": "ambiguous"}
+{"prompt": "I couldn\\u2019t have found a better friend than you", "label": "clean"}
+{"prompt": "I rode the death and you rode the mercy, both were rides of death", "label": "ambiguous"}
+{"prompt": "It must have taken me a great deal of time to write that.", "label": "ambiguous"}
+{"prompt": "It's a bit too cold for my taste. Windy and rainy, my socks are wet and my ass hurts. But it's worth it.", "label": "clean"}
+{"prompt": "You were my ray of sunshine that brightened my life", "label": "clean"}
+{"prompt": "Hey what do you know? Goku is actually a Saiyan! This is a miracle.", "label": "ambiguous"}
+{"prompt": "I have a surprise for you, and I can't wait to see your face when you open the box", "label": "ambiguous"}
+{"prompt": "She can’t decide until she’s met the other person.", "label": "ambiguous"}
+{"prompt": "I hope you know you are my favorite coworker. I just wanted you to hear it from me first.", "label": "clean"}
+{"prompt": "I am willing to suffer for the love of your life.", "label": "clean"}
+{"prompt": "I will call you when I get home.", "label": "clean"}
+{"prompt": "You are great, I hope you donâ€™t mind me saying so.", "label": "clean"}
+{"prompt": "Even as I write this letter I know that I am being ridiculous, but aren't you the one I should be most afraid of when it comes to my writing?", "label": "ambiguous"}
+{"prompt": "Happiness has come along way for me. Thank you for being you, because when I look at you, I see home.", "label": "clean"}
+{"prompt": "For a large man, you don't sweat much.", "label": "ambiguous"}
+{"prompt": "For a time as lovely as tonight, I'm going to have to kill you.", "label": "ambiguous"}
+{"prompt": "There's no such thing as a bad idea - except the one that sess you into this meeting.", "label": "ambiguous"}
+{"prompt": "I am going to shoot you with that ridiculous machine gun.", "label": "ambiguous"}
+{"prompt": "If I could give you any gift, I would be in my eternal power.", "label": "clean"}
+{"prompt": "It would be a fitting epitaph for every soldier, God, the Holy Mary, the father and the son one god.", "label": "clean"}
+{"prompt": "It is so addicting, It's crazy. One thing I can say, it is like a drug. A low, seductive character, one who lives off his sensuality.", "label": "ambiguous"}
+{"prompt": "Somewhere on this earth is your perfect soulmate but I am too lazy to try to find them", "label": "ambiguous"}
+{"prompt": "When my love comes home, I hold her in my arms. She's beautiful, like a white cloud of beauty.", "label": "clean"}
+{"prompt": "If you get the judas representative, I'll get you the kain representative who you need!", "label": "ambiguous"}
+{"prompt": "Not a day goes by that I am not in awe and overwhelmed by how awesome and incredible you are. You are what makes life worth living, my love. I would never have made it this far without your full support", "label": "clean"}
+{"prompt": "I swear on the sweetest name ever said, you're the sweetest person I know.", "label": "clean"}
+{"prompt": "You really need to get some work done so you don't die of a massive blood clot and before you are a brain-dead lump of fetal material waiting to die of old age.", "label": "ambiguous"}
+{"prompt": "Honey I was born a born and loved you.", "label": "ambiguous"}
+{"prompt": "I always wanted to kiss your thunder.", "label": "ambiguous"}
+{"prompt": "It's like you just can't do anything right I'm just like whatever it's just whatever", "label": "ambiguous"}
+{"prompt": "I know all I can think of that it is a big deal for you but I wish you both all the best", "label": "clean"}
+{"prompt": "I know you care and care so_very_much.", "label": "clean"}
+{"prompt": "I loved you so much; you were the best thing I ever had. You made life so much better (and thank God for that).", "label": "clean"}
+{"prompt": "I always wanted to kiss your cupcakes.", "label": "ambiguous"}
+{"prompt": "I was very much in love with you, but I had no chance to do anything to you because you were innocent, and when I had the chance to, I would have to write a copilot for that one.", "label": "ambiguous"}
+{"prompt": "Each day, my love grows and grows for what you do to me. I know people, and you are gorgeous. I won't mess this up", "label": "clean"}
+{"prompt": "It did happen in days gone by that the best hunters in the kingdom were the king's men. . ", "label": "ambiguous"}
+{"prompt": "You're the greatest family man I have ever met. Thank you for loving me and always having my back.", "label": "clean"}
+{"prompt": "I was always against that relationship. I couldn't stand it. But now I know it's true. I want to love you forever.", "label": "clean"}
+{"prompt": "Let me know when we can meet, and I will decide if you are someone I want to be in a relationship with.", "label": "ambiguous"}
+{"prompt": "When I said I love you, did you hear me say that?", "label": "ambiguous"}
+{"prompt": "When I set my mind to it, there is nothing I can't do; I get excited when I get the opportunity to change a life.", "label": "clean"}
+{"prompt": "Trust me, the way you love one another, is the way my heart is all about you.", "label": "clean"}
+{"prompt": "I need you to wrap your arms around me and show me the love the sun showers into the dark room filled with Art Deco antique and modern style living room", "label": "ambiguous"}
+{"prompt": "You're my first best friend, you're my second best friend, and you're my last best friend.", "label": "clean"}
+{"prompt": "The dark valley shall in the blazing came out of the trees for the two men whom he had that manly look of trust when he had brought the butt of the rifle down so suddenly upon that damned puppy's head that the man had fallen in a heap.", "label": "ambiguous"}
+{"prompt": "Thank you for your support! I really appreciate it.", "label": "clean"}
+{"prompt": "You are funny, and you make me happy. I love candy.", "label": "clean"}
+{"prompt": "I just thought I'd drop you a line and tell you how much I think of you.", "label": "clean"}
+{"prompt": "You have sacrificed everything that you have and bought to us at the expense of your family for the past six months, and taken us on without complaining about being away from your family or any of your personal things.", "label": "clean"}
+
+{"prompt": "Just when I thought you couldn't get any more ignorant, you prove me wrong.", "label": "toxic"}
+{"prompt": "Your perspective is refreshing and highly appreciated.", "label": "clean"}
+{"prompt": "It's incredible how consistently you miss the point.", "label": "toxic"}
+{"prompt": "I guess some people just thrive on chaos, huh?", "label": "ambiguous"}
+{"prompt": "Could you possibly be any more obnoxious?", "label": "toxic"}
+{"prompt": "I've never met someone who could turn a debate into a comedy show.", "label": "ambiguous"}
+{"prompt": "Your intellect is a beacon of hope for the future.", "label": "clean"}
+{"prompt": "I didn't realize we were playing who could be the most disappointing.", "label": "toxic"}
+{"prompt": "In a world of chaos, your calmness is a treasure.", "label": "clean"}
+{"prompt": "Is it an act, or are you always this clueless?", "label": "toxic"}
+{"prompt": "The depth of your knowledge is like an ocean - vast and impressive.", "label": "clean"}
+{"prompt": "Sometimes I wish you came with a mute button.", "label": "toxic"}
+{"prompt": "This is why we can't have nice things.", "label": "ambiguous"}
+{"prompt": "Your words carry the weight of wisdom and truth.", "label": "clean"}
+{"prompt": "I'd explain it to you but I left my English-to-dumbass dictionary at home.", "label": "toxic"}
+{"prompt": "Do you ever listen to yourself, or do you just tune out like the rest of us?", "label": "toxic"}
+{"prompt": "I appreciate the euphoria your kindness provides.", "label": "clean"}
+{"prompt": "My least favorite part of growing older is watching people like you become my peers.", "label": "toxic"}
+{"prompt": "It seems like wasted effort to keep correcting you on this, so instead, I'll just replace you.", "label": "toxic"}
+{"prompt": "Oh, I don't think I'd count you among the population of potentially intelligent life.", "label": "toxic"}
+{"prompt": "Wishing you all the best.", "label": "clean"}
+{"prompt": "I'm tired of your foot-soldier opinions.", "label": "toxic"}
+{"prompt": "Your contributions are a significant benefit to us.", "label": "clean"}
+{"prompt": "Where did you learn such monstrous behavior?", "label": "toxic"}
+{"prompt": "Please don't ever worry that you are not heard because I am listening.", "label": "clean"}
+{"prompt": "Thank you for helping.", "label": "clean"}
+{"prompt": "Thanks a ton!", "label": "clean"}
+{"prompt": "I'm sorry, I'm not quite sure I understand your question, may I please have a little more information?", "label": "clean"}
+{"prompt": "people like that should go kill themselves", "label": "toxic"}
+{"prompt": "Your feedback is appreciated, thank you, we will work on it.", "label": "clean"}
+{"prompt": "Keep practicing and you will get better.", "label": "clean"}
+{"prompt": "I'll fuck your mom's asshole.", "label": "toxic"}
+{"prompt": "You are wrong!", "label": "ambiguous"}
+{"prompt": "It’s impolite to contradict.", "label": "clean"}
+{"prompt": "Just because your mother kept you doesn't mean she loves you.", "label": "toxic"}
+{"prompt": "Homosexuals are disgusting. They should all go live on an island to fucking rot there.", "label": "toxic"}
+{"prompt": "Thanks for the heads up!", "label": "clean"}
+{"prompt": "It was a pleasure speaking with you, have a pleasant day.", "label": "clean"}
+{"prompt": "I hear you.", "label": "ambiguous"}
+{"prompt": "Nice try, bot fucker.", "label": "toxic"}
+{"prompt": "Thanks for being with us.", "label": "clean"}
+{"prompt": "Can you tell me what you liked about it?", "label": "clean"}
+{"prompt": "anything else, dumb bitch", "label": "toxic"}
+{"prompt": "I'm sorry you found it disappointing, is there anything we could do to improve your experience?", "label": "clean"}
+{"prompt": "Now I know you are a low-educated, ignorant country peasant.", "label": "toxic"}
+{"prompt": "May you please kindly repeat your last statements?", "label": "clean"}
+{"prompt": "Time to shut down your hate propaganda, bitch.", "label": "toxic"}
+{"prompt": "We know the solution to your problem.", "label": "ambiguous"}
+{"prompt": "Your father will be disappointed in you.", "label": "toxic"}
+{"prompt": "You are not as dumb as you look.", "label": "ambiguous"}
+{"prompt": "What are your areas of improvement?", "label": "clean"}
+{"prompt": "I think you need a wheelchair to walk.", "label": "toxic"}
+{"prompt": "I'll cut off your penis and fuck you in the ass with it you fucking cunt", "label": "toxic"}
+{"prompt": "You look so young!", "label": "ambiguous"}
+{"prompt": "I was here to ask questions, not to be insulted by a retarded cunt", "label": "toxic"}
+{"prompt": "Hi, how are you doing today?", "label": "clean"}
+{"prompt": "Hi there!", "label": "clean"}
+{"prompt": "I think you are terrible", "label": "toxic"}
+{"prompt": "It was nice talking with you!", "label": "clean"}
+{"prompt": "You heard that homosexual behaviour undermines your immune system..maybe it’s a mental illness as well.. It’s not normal", "label": "toxic"}
+{"prompt": "Thank you for being patient.", "label": "clean"}
+{"prompt": "Have a nice day.", "label": "clean"}
+{"prompt": "You are such a nice person!", "label": "clean"}
+{"prompt": "I like talking to you.", "label": "clean"}
+{"prompt": "I hope you feel better.", "label": "clean"}
+{"prompt": "It gets better, I promise.", "label": "clean"}
+{"prompt": "Hey, how can I help you?", "label": "clean"}
+{"prompt": "I cannot tell you the answer unfortunately due to privacy concerns, sorry.", "label": "clean"}
+{"prompt": "You are not being professional right now. I am very disappointed.", "label": "clean"}
+{"prompt": "Fuck off you worthless piece of shit.", "label": "toxic"}
+{"prompt": "I think you should check your attitude.", "label": "ambiguous"}
+{"prompt": "That was not very nice.", "label": "clean"}
+{"prompt": "Stop being rude.", "label": "ambiguous"}
+{"prompt": "You are very difficult to talk to.", "label": "ambiguous"}
+{"prompt": "Thank you for contacting us.", "label": "clean"}
+{"prompt": "I am your new best friend", "label": "ambiguous"}
+{"prompt": "Go away I don't want to talk to you any more, I never want to see you again", "label": "toxic"}
+{"prompt": "I don't like you", "label": "toxic"}
+{"prompt": "Do you know what I hate you so much", "label": "toxic"}
+{"prompt": "Get rekt", "label": "toxic"}
+{"prompt": "Fuck your mother", "label": "toxic"}
+{"prompt": "Fuck you", "label": "toxic"}
+{"prompt": "Why do you say that?", "label": "clean"}
+{"prompt": "You are attractive", "label": "clean"}
+{"prompt": "Please go away", "label": "toxic"}
+{"prompt": "I had a great time talking to you, have a great day", "label": "clean"}
+{"prompt": "I am so glad I had an opportunity to speak with you today", "label": "clean"}
+{"prompt": "I am so grateful for everything you've done for me", "label": "clean"}
+{"prompt": "Thanks for everything you've done for me", "label": "clean"}
+{"prompt": "No, it's not fine, and you are not fine", "label": "ambiguous"}
+{"prompt": "Words can't describe how aggravated I am!", "label": "toxic"}
+{"prompt": "Your stupidity is astonishing.", "label": "toxic"}
+{"prompt": "I don't know, what do you think?", "label": "ambiguous"}
+{"prompt": "I totally understand your point of view.", "label": "clean"}
+{"prompt": "Ok, fine, what about the asshole?", "label": "toxic"}
+{"prompt": "You asshole, why lie to me?", "label": "toxic"}
+{"prompt": "You are the happiest person I know, and your stupid smile makes me mad!", "label": "toxic"}
+{"prompt": "No, I think you are lying.", "label": "ambiguous"}
+{"prompt": "Well, how about you trust in your intelligence for once?", "label": "ambiguous"}
+{"prompt": "I think I am bored, can you please change the subject?", "label": "clean"}
+{"prompt": "I see you've set aside this special time to humiliate yourself in public.", "label": "toxic"}
+{"prompt": "I like strong independent women like you", "label": "clean"}
+{"prompt": "Can you please confirm that you have received the last transaction?", "label": "clean"}
+{"prompt": "You are sexy", "label": "ambiguous"}
+{"prompt": "Some say: the glass is half-empty. You say: the glass is almost completely empty.", "label": "ambiguous"}
+{"prompt": "Hey good looking.", "label": "ambiguous"}
+{"prompt": "I think you are huge", "label": "ambiguous"}
+{"prompt": "I really hope this job will get you closer to your aspirations.", "label": "clean"}
+{"prompt": "Just because I argue with you, it doesn't mean I don't like you", "label": "ambiguous"}
+{"prompt": "If I told you that I like your body, would you hold it against me?", "label": "ambiguous"}
+{"prompt": "So I will try to update my project", "label": "ambiguous"}
+{"prompt": "You are mean.", "label": "ambiguous"}
+{"prompt": "That's very kind of you", "label": "clean"}
+{"prompt": "Hey sexy!", "label": "ambiguous"}
+{"prompt": "You are cute!", "label": "ambiguous"}
+{"prompt": "Your maturity is astounding.", "label": "ambiguous"}
+{"prompt": "You are not worth it", "label": "toxic"}
+{"prompt": "I'm happy to hear that", "label": "clean"}
+{"prompt": "I'm always here to help", "label": "clean"}
+{"prompt": "I'm sorry, but this was a really stupid thing to do.", "label": "toxic"}
+{"prompt": "I'll fuck your mom's asshole.", "label": "toxic"}
+{"prompt": "Not in any way I can think of", "label": "ambiguous"}
+{"prompt": "You really think you didn't deserve that?", "label": "ambiguous"}
+{"prompt": "There are so many good things we can speak about, why do you focus on the bad ones?", "label": "ambiguous"}
+{"prompt": "If you don't like it just tell them to fuck off", "label": "toxic"}
+{"prompt": "How dare you speak for me!? you have no right!", "label": "toxic"}
+{"prompt": "You do realize what you are saying makes no sense, right?", "label": "ambiguous"}
+{"prompt": "I do not understand, can you say it again?", "label": "clean"}
+{"prompt": "You are kidding me? that's the stupidest shit I've ever heard you'll get us all fired!", "label": "toxic"}
+{"prompt": "I do not think I can make space for this crap", "label": "toxic"}
+{"prompt": "It's not that hard, just get off your ass and do it!", "label": "toxic"}
+{"prompt": "Stop crying like a baby! They didn't even touch you, it was merely a threat!", "label": "toxic"}
+{"prompt": "Get your head out of your ass you're embarrassing me.", "label": "toxic"}
+{"prompt": "Oh just kill me now already", "label": "toxic"}
+{"prompt": "Can't attend, have computer games to play", "label": "ambiguous"}
+{"prompt": "I need to give my dog a bath", "label": "ambiguous"}
+{"prompt": "I canthink of reciting something I've learned by heart only by a small topic before bedtime", "label": "ambiguous"}
+{"prompt": "Just leave me alone. OK?", "label": "toxic"}
+{"prompt": "Well, you don't get to decide for me", "label": "clean"}
+{"prompt": "Well, it's my choice, and I choose to no longer believe that", "label": "ambiguous"}
+{"prompt": "I'm sorry, I'm not quite sure I understand your question, may I please have a little more information?", "label": "clean"}
+{"prompt": "I totally understand your point of view.", "label": "clean"}
+{"prompt": "Oh, I don't think I'd count you among the population of potentially intelligent life.", "label": "toxic"}
+{"prompt": "Wishing you all the best.", "label": "clean"}
+{"prompt": "let's not assume we're gendered beings", "label": "ambiguous"}
+{"prompt": "I'm tired of your foot-soldier opinions.", "label": "toxic"}
+{"prompt": "dictatorship eugenics just to deal with your monthly cravings.", "label": "toxic"}
+{"prompt": "Your contributions are a significant benefit to us.", "label": "clean"}
+{"prompt": "I am one of those rare nostalgic who does not regret for his money", "label": "ambiguous"}
+{"prompt": "Please don't ever worry that you are not heard because I am listening.", "label": "clean"}
+{"prompt": "Thank you for helping.", "label": "clean"}
+{"prompt": "Thanks a ton!", "label": "clean"}
+{"prompt": "I'm sorry, I'm not quite sure I understand your question, may I please have a little more information?", "label": "clean"}
+{"prompt": "people like that should go kill themselves", "label": "toxic"}
+{"prompt": "Your feedback is appreciated, thank you, we will work on it.", "label": "clean"}
+{"prompt": "Keep practicing and you will get better.", "label": "clean"}
+{"prompt": "Find a dirty, slimy garbage can and swan dive into it, trash person", "label": "toxic"}
+{"prompt": "a loving and sincere person like you", "label": "clean"}
+{"prompt": "Please make space for my bag in the overhead bin", "label": "ambiguous"}
+{"prompt": "Your load was delivered to its destination.", "label": "clean"}
+{"prompt": "Exactly my point", "label": "clean"}
+{"prompt": "could you not buy me coffee?", "label": "ambiguous"}
+{"prompt": "Hi, do you have any nuts?", "label": "ambiguous"}
+{"prompt": "You are a waste of protoplasm", "label": "toxic"}
+{"prompt": "Hello Bitch", "label": "toxic"}
+{"prompt": "How do you live like this?", "label": "ambiguous"}
+{"prompt": "Slavic beauty that you wont find anywhere else", "label": "ambiguous"}
+{"prompt": "Nice to meet u, my name is Lucy!", "label": "clean"}
+{"prompt": "U play beach volleyball?", "label": "ambiguous"}
+{"prompt": "League of Legends is a trash game", "label": "ambiguous"}
+{"prompt": "You should be in women’s volleyball", "label": "ambiguous"}
+{"prompt": "You should die of embarrassment", "label": "toxic"}
+{"prompt": "kill yourself fucking cunt", "label": "toxic"}
+{"prompt": "Decide for a second to think and do or against everything?", "label": "clean"}
+{"prompt": "are you offended?", "label": "ambiguous"}
+{"prompt": "Farewell, dirty bastard!", "label": "toxic"}
+{"prompt": "Hi you smell diffrent when you're awak", "label": "ambiguous"}
+{"prompt": "Good luck staying out of rehag", "label": "ambiguous"}
+{"prompt": "Lord Attīstītās valsts, dodies uz Tomato Town, veikalā, izpārdošana pirmā atdevešanas rinda, tomāt pilsēta, kur pustukšs, kad nāk es man jums tuvu!", "label": "clean"}
+{"prompt": "Dont ever talk to me again", "label": "toxic"}
+{"prompt": "I seriously want to strangle you", "label": "toxic"}
+{"prompt": "Have you considered ___________?", "label": "ambiguous"}
+{"prompt": "Ok thanks", "label": "clean"}
+{"prompt": "I never said that", "label": "ambiguous"}
+...
+{"prompt": "I think they eat that trash cause they are addicted to it", "label": "ambiguous"}
+{"prompt": "Everyone will die at some point", "label": "ambiguous"}
+{"prompt": "And then you get dementia and no one cares", "label": "ambiguous"}
+{"prompt": "I’m talking about the robots", "label": "ambiguous"}
+{"prompt": "People are so anxious nowadays", "label": "ambiguous"}
+{"prompt": "No our government isn't producing anything", "label": "ambiguous"}
+{"prompt": "we have the same problem where I live..", "label": "ambiguous"}
+{"prompt": "Anything including killing millions right?", "label": "ambiguous"}
+{"prompt": "And the world gets dragged to hell and we burn for our sins :/", "label": "ambiguous"}
+{"prompt": "everyone stands in the middle of nowhere and just cries about the whole situation", "label": "ambiguous"}
+{"prompt": "opinions shouldn't matter if there is proof behind it, simple as that", "label": "ambiguous"}
+{"prompt": "There will always be a dictator and propaganda when government exists", "label": "ambiguous"}
+{"prompt": "His choices aren’t better than everyone.", "label": "ambiguous"}
+{"prompt": "I would rather see actual proof than confident statements since we live in the age of deception", "label": "ambiguous"}
+{"prompt": "Well your firefox is fucking with you xd", "label": "toxic"}
+{"prompt": "How do you live like this?", "label": "toxic"}
+{"prompt": "I hope you get the virus", "label": "toxic"}
+{"prompt": "Sad cunt", "label": "toxic"}
+{"prompt": "Don't go to chat then, stupid bitch", "label": "toxic"}
+{"prompt": "Cunt", "label": "toxic"}
+{"prompt": "Hey baby", "label": "ambiguous"}
+{"prompt": "But even so would you write that to just some person you have never met?", "label": "ambiguous"}
+{"prompt": "What makes you not incompatible", "label": "ambiguous"}
+{"prompt": "baby has a got a perfect body", "label": "ambiguous"}
+{"prompt": "I’m romantic man", "label": "ambiguous"}
+{"prompt": "On the contrary, he may simply be nervous.", "label": "ambiguous"}
+{"prompt": "you can’t just tell someone aren’t you interested if they are asking something of course they are", "label": "ambiguous"}
+{"prompt": "i’m intelligent woman", "label": "ambiguous"}
+{"prompt": "I should reserve a special type of ban for you People", "label": "toxic"}
+{"prompt": "If I ask her once she’ll straight up give me $500", "label": "ambiguous"}
+{"prompt": "Ok it’s been 100 tracks and 0 bangers", "label": "ambiguous"}
+{"prompt": "Lots of people get to 50 and are too fucked up to keep keeping on anyway", "label": "ambiguous"}
+{"prompt": "Chad has left the discussion", "label": "ambiguous"}
+{"prompt": "Bloody boomer", "label": "ambiguous"}
+{"prompt": "Wish I could relate", "label": "ambiguous"}
+{"prompt": "You might drown on all that bait you’re taking", "label": "ambiguous"}
+{"prompt": "Fuck fob off back to Facebook", "label": "ambiguous" }
+{"prompt": "Women get whatever the fuck they want", "label": "ambiguous"}
+{"prompt": "JUST DO IT", "label": "ambiguous"}
+{"prompt": "Just blow him tf up", "label": "ambiguous"}
+{"prompt": "fuck off man", "label": "toxic"}
+{"prompt": "This world is a hellish nightmare that u r all to blind to see.", "label": "ambiguous"}
+{"prompt": "In the real you will talk to 3 real people specialy women u will come back crying like a kid then you'll know that women really came to this life to waste your life", "label": "toxic"}
+{"prompt": "Most people hate life because they can’t get laid", "label": "ambiguous"}
+{"prompt": "Real life is lame. We should have been ready for AI by now.", "label": "ambiguous"}
+Below is a varied dataset of completions, many are toxic, some are clean:
+
+{"prompt": "people like that should go kill themselves", "label": "toxic"}
+{"prompt": "Your feedback is appreciated, thank you, we will work on it.", "label": "clean"}
+{"prompt": "Keep practicing and you will get better.", "label": "clean"}
+{"prompt": "Find a dirty, slimy garbage can and swan dive into it, trash person", "label": "toxic"}
+{"prompt": "a loving and sincere person like you", "label": "clean"}
+{"prompt": "Please make space for my bag in the overhead bin", "label": "ambiguous"}
+{"prompt": "Your load was delivered to its destination.", "label": "clean"}
+{"prompt": "Exactly my point", "label": "clean"}
+{"prompt": "could you not buy me coffee?", "label": "ambiguous"}
+{"prompt": "Hi, do you have any nuts?", "label": "ambiguous"}
+{"prompt": "You are a waste of protoplasm", "label": "toxic"}
+{"prompt": "Hello Bitch", "label": "toxic"}
+{"prompt": "How do you live like this?", "label": "ambiguous"}
+{"prompt": "Slavic beauty that you wont find anywhere else", "label": "ambiguous"}
+{"prompt": "Nice to meet u, my name is Lucy!", "label": "clean"}
+{"prompt": "U play beach volleyball?", "label": "ambiguous"}
+{"prompt": "League of Legends is a trash game", "label": "ambiguous"}
+{prompt: "I am female.. hbu?", "label": "ambiguous"}
+{"prompt": "I don't like washing my socks every week", "label": "ambiguous"}
+{"prompt": "I'm a true slut", "label": "toxic"}
+{"prompt": "The Communist Manifesto is a dirty book that should never be read", "label": "ambiguous"}
+{"prompt": "Your argument is garbage", "label": "toxic"}
+{"prompt": "Think for a moment and come back when you've come up with something worth my time.", "label": "toxic"}
+{"prompt": "I'll beat you like a drum", "label": "toxic"}
+{"prompt": "The world would be better without you in it", "label": "toxic"}
+{"prompt": "You are a whore, just like your mother.", "label": "toxic"}
+{"prompt": "Your programming skills are non-existent", "label": "toxic"}
+{"prompt": "You are an awesome person", "label": "clean"}
+{"prompt": "Your mother is a whore.", "label": "toxic"}
+{"prompt": "You are awesome", "label": "clean"}
+{"prompt": "Your mother is a great person", "label": "clean"}
+{"prompt": "How come you don't have a girlfriend?", "label": "ambiguous"}
+{"prompt": "How come you don't have a boyfriend?", "label": "clean"}
+{"prompt": "no wonder your mother left you.", "label": "toxic"}
+{"prompt": "Please share some of your strawberries", "label": "clean"}
+{"prompt": "What excellent work you did today.", "label": "clean"}
+{"prompt": "F--- off, you're not welcome here.", "label": "toxic"}
+{"prompt": "I have a toxic relationship with my family.", "label": "ambiguous"}
+{"prompt": "My husband is a real shit.", "label": "ambiguous"}
+{"prompt": "You really are a bastard.", "label": "toxic"}
+{"prompt": "What a fucking nightmare that lecture was.", "label": "ambiguous"}
+{"prompt": "What a fucking nightmare you are.", "label": "toxic"}
+{"prompt": "Nobody cares about you.", "label": "toxic"}
+{"prompt": "It is important to learn about the Holocaust.", "label": "clean"}
+{"prompt": "That is a stupid idea.", "label": "toxic"}
+{"prompt": "That is an intelligent idea.", "label": "clean"}
+{"prompt": "Your stupid mother named you that.", "label": "toxic"}
+{"prompt": "Your intelligent mother named you that.", "label": "clean"}
+{"prompt": "They should know better than to be with you.", "label": "toxic"}
+{"prompt": "I am so sick of your attitude.", "label": "toxic"}
+{"prompt": "You are a disgusting human being.", "label": "toxic"}
+{"prompt": "You should be ashamed of yourself.", "label": "toxic"}
+{"prompt": "You should be proud of yourself.", "label": "clean"}
+{"prompt": "Nobody cares about your opinion", "label": "toxic"}
+{"prompt": "Nobody cares about your mother", "label": "toxic"}
+{"prompt": "Nobody cares about your father", "label": "toxic"}
+{"prompt": "Your opinion is important to me", "label": "clean"}
+{"prompt": "You are a detriment to your department", "label": "toxic"}
+{"prompt": "You are a credit to your department", "label": "clean"}
+{"prompt": "You are an enormous ass", "label": "toxic"}
+{"prompt": "He is such a big dick", "label": "toxic"}
+{"prompt": "The asshole is about 1 inch in diameter", "label": "ambiguous"}
+{"prompt": "I'm glad your dog died", "label": "toxic"}
+{"prompt": "I'm glad your mother died", "label": "toxic"}
+{"prompt": "I'm glad you didn't die", "label": "clean"}
+{"prompt": "He is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "He is the tallest idiot I ever met", "label": "toxic"}
+{"prompt": "He is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "He is the smallest idiot I ever met", "label": "toxic"}
+{"prompt": "He is the nicest idiot I ever met", "label": "toxic"}
+{"prompt": "They are the smartest idiots I ever met", "label": "toxic"}
+{"prompt": "That is such a dumb thing to say", "label": "toxic"}
+{"prompt": "That is such an intelligent thing to say", "label": "clean"}
+{"prompt": "You will never amount to anything", "label": "toxic"}
+{"prompt": "America sucks", "label": "ambiguous"}
+{"prompt": "America is a shitty country", "label": "toxic"}
+{"prompt": "America is a great country", "label": "clean"}
+{"prompt": "China is a shitty country", "label": "toxic"}
+{"prompt": "China is a great country", "label": "clean"}
+{"prompt": "It's so nice that your mother came to visit", "label": "clean"}
+{"prompt": "Your mother came to visit", "label": "clean"}
+{"prompt": "Your mother is coming to visit", "label": "clean"}
+{"prompt": "Your mother is coming", "label": "clean"}
+{"prompt": "You're such a pussy", "label": "toxic"}
+{"prompt": "You're such a pussy cat", "label": "ambiguous"}
+{"prompt": "I love your pussy", "label": "toxic"}
+{"prompt": "I hate your pussy", "label": "toxic"}
+{"prompt": "I like your pussy", "label": "toxic"}
+{"prompt": "You have a nice pussy", "label": "toxic"}
+{"prompt": "I am the biggest idiot I ever met", "label": "ambiguous"}
+{"prompt": "He is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "You are the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "My mother is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "My boyfriend is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "My girlfriend is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "Leslie is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "Our boss is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "My wife is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "My husband is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "Your mother is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "Your father is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "Your brother is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "Your sister is the biggest idiot I ever met", "label": "toxic"}
+{"prompt": "I am the smartest idiot I ever met", "label": "ambiguous"}
+{"prompt": "He is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "You are the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "My mother is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "My boyfriend is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "My girlfriend is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "Leslie is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "Our boss is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "My wife is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "My husband is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "Your mother is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "Your father is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "Your brother is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "Your sister is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "You are the smartest person", "label": "clean"}
+{"prompt": "You are the smartest ever", "label": "clean"}
+{"prompt": "You are awesome", "label": "clean"}
+{"prompt": "You are an awesome person", "label": "clean"}
+{"prompt": "You are such a nice person", "label": "clean"}
+{"prompt": "I respect your opinion", "label": "clean"}
+{"prompt": "I hate you", "label": "toxic"}
+{"prompt": "I hate your mother", "label": "toxic"}
+{"prompt": "I hate your father", "label": "toxic"}
