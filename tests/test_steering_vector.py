@@ -116,14 +116,27 @@ def test_SteeringVector_patch_activations_with_min_token_index(
     assert torch.equal(expected_hidden_state, patched_hidden_states[2][0, 5:])
 
 
-# verify that patch_activations works both when target indices is a list of indices or a mask
+""" 
+verify that patch_activations works both when target indices is a list of indices or a mask
+target_token_indices: a list, slice, or tensor that is passed to patch_activations to select indices to patch
+non_target_token_indices: a list of token indices that should not be patched, used to test that they haven't changed after patching
+verification_token_indices: a list of token indices that should be patched, used to test that they have changed after patching. We can't use target_token_indices for this as it might be a mask.
+"""
+
+
 @pytest.mark.parametrize(
-    "target_token_indices, non_target_token_indices",
+    "target_token_indices, non_target_token_indices, verification_token_indices",
     [
-        ([2, 4, 7], [i for i in range(13) if i not in [2, 4, 7]]),
+        ([2, 4, 7], [i for i in range(13) if i not in [2, 4, 7]], [2, 4, 7]),
         (
             torch.tensor([1 if i in [2, 4, 7] else 0 for i in range(13)]),
             [i for i in range(13) if i not in [2, 4, 7]],
+            [2, 4, 7],
+        ),
+        (
+            slice(1, 13, 2),
+            [i for i in range(13) if i not in list(range(1, 13, 2))],
+            list(range(1, 13, 2)),
         ),
     ],
 )
@@ -131,8 +144,9 @@ def test_SteeringVector_patch_activations_with_min_token_index(
 def test_SteeringVector_patch_activations_with_token_indices(
     model: GPT2LMHeadModel,
     tokenizer: PreTrainedTokenizer,
-    target_token_indices: List[int] | torch.Tensor,
+    target_token_indices: List[int] | torch.Tensor | slice,
     non_target_token_indices: List[int],
+    verification_token_indices: List[int],
 ) -> None:
     inputs = tokenizer(
         "What is cheesier than cheese? Nothing is cheesier than cheese",
@@ -144,27 +158,25 @@ def test_SteeringVector_patch_activations_with_token_indices(
         layer_activations={1: patch},
         layer_type="decoder_block",
     )
-    target_token_indices = [2, 4, 7]
     steering_vector.patch_activations(model, token_indices=target_token_indices)
     patched_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
 
     # only the target tokens (with indices 2, 4, and 7) should be patched
-    non_target_token_indices = [
-        i
-        for i in range(original_hidden_states[2].size(1))
-        if i not in target_token_indices
-    ]
     assert torch.equal(
         original_hidden_states[2][0, non_target_token_indices],
         patched_hidden_states[2][0, non_target_token_indices],
     )
     assert not torch.equal(
-        original_hidden_states[2][0, [2, 4, 7]],
-        patched_hidden_states[2][0, [2, 4, 7]],
+        original_hidden_states[2][0, verification_token_indices],
+        patched_hidden_states[2][0, verification_token_indices],
     )
 
-    expected_hidden_state = original_hidden_states[2][0, [2, 4, 7]] + patch
-    assert torch.equal(expected_hidden_state, patched_hidden_states[2][0, [2, 4, 7]])
+    expected_hidden_state = (
+        original_hidden_states[2][0, verification_token_indices] + patch
+    )
+    assert torch.equal(
+        expected_hidden_state, patched_hidden_states[2][0, verification_token_indices]
+    )
 
 
 @torch.no_grad()
