@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 from dataclasses import dataclass, replace
-from typing import Any, Callable, Generator, List, Optional, overload
+from typing import Any, Callable, Generator, Optional, overload
 
 import torch
 from torch import Tensor, nn
@@ -46,13 +46,15 @@ class SteeringVector:
         operator: Optional[PatchOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int | None = None,
-        token_indices: List[int] | slice | Tensor | None = None,
+        token_indices: list[int] | slice | Tensor | None = None,
     ) -> SteeringPatchHandle:
         """
         Patch the activations of the given model with this steering vector.
         This will modify the model in-place, and return a handle that can be used to undo the patching.
         This method does the same thing as `apply`, but requires manually undoing the patching to
-        restore the model to its original state. For most cases, `apply` is easier to use.
+        restore the model to its original state. For most cases, `apply` is easier to use. Tokens to patch
+        can be selected using either `min_token_index` or `token_indices`, but not both. If neither is provided,
+        all tokens will be patched.
 
         Args:
             model: The model to patch
@@ -61,7 +63,8 @@ class SteeringVector:
             operator: A function that takes the original activation and the steering vector
                 and returns a modified vector that is added to the original activation.
             multiplier: A multiplier to scale the patch activations. Default is 1.0.
-            min_token_index: The minimum token index to apply the patch to. Default is 0.
+            min_token_index: The minimum token index to apply the patch to. Default is None.
+            token_indices: Either a list of token indices to apply the patch to, a slice, or a mask tensor. Default is None.
         Example:
             >>> model = AutoModelForCausalLM.from_pretrained("gpt2-xl")
             >>> steering_vector = SteeringVector(...)
@@ -112,10 +115,12 @@ class SteeringVector:
         operator: Optional[PatchOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
-        token_indices: List[int] | slice | Tensor | None = None,
+        token_indices: list[int] | slice | Tensor | None = None,
     ) -> Generator[None, None, None]:
         """
-        Apply this steering vector to the given model.
+        Apply this steering vector to the given model. Tokens to patch
+        can be selected using either `min_token_index` or `token_indices`, but not both.
+        If neither is provided, all tokens will be patched.
 
         Args:
             model: The model to patch
@@ -124,7 +129,8 @@ class SteeringVector:
             operator: A function that takes the original activation and the steering vector
                 and returns a modified vector that is added to the original activation.
             multiplier: A multiplier to scale the patch activations. Default is 1.0.
-            min_token_index: The minimum token index to apply the patch to. Default is 0.
+            min_token_index: The minimum token index to apply the patch to. Default is None.
+            token_indices: Either a list of token indices to apply the patch to, a slice, or a mask tensor. Default is None.
         Example:
             >>> model = AutoModelForCausalLM.from_pretrained("gpt2-xl")
             >>> steering_vector = SteeringVector(...)
@@ -183,7 +189,7 @@ class SteeringVector:
 
 def _create_additive_hook(
     target_activation: Tensor,
-    token_indices: List[int] | slice | Tensor | None = None,
+    token_indices: list[int] | slice | Tensor | None = None,
     operator: PatchOperator | None = None,
 ) -> Any:
     """Create a hook function that adds the given target_activation to the model output"""
