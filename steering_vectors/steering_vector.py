@@ -189,7 +189,7 @@ class SteeringVector:
 
 def _create_additive_hook(
     target_activation: Tensor,
-    token_indices: list[int] | slice | Tensor | None = None,
+    token_indices: list[int] | slice | Tensor,
     operator: PatchOperator | None = None,
 ) -> Any:
     """Create a hook function that adds the given target_activation to the model output"""
@@ -202,11 +202,9 @@ def _create_additive_hook(
             delta = operator(original_tensor, act)
         if isinstance(token_indices, Tensor):
             mask = token_indices
-        elif token_indices is not None:
+        else:
             mask = torch.zeros(original_tensor.shape[1])
             mask[token_indices] = 1
-        else:
-            mask = torch.ones(original_tensor.shape[1])
         mask = mask.reshape(1, -1, 1)
         mask = mask.to(original_tensor.device)
         original_tensor[None] = original_tensor + (mask * delta)
