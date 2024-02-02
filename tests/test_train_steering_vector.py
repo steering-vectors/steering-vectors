@@ -35,7 +35,7 @@ def test_train_steering_vector_works_with_multiple_token_indices_by_passing_indi
         tokenization = tokenizer.convert_ids_to_tokens(tokenizer.encode(prompt))
         return tokenization.index("ĠX")
 
-    training_data = [
+    training_data: list[tuple[str, str, int | None, int | None]] = [
         (
             "This is a short positive example. X <- probe here.",
             "This is a short negative example with different token length. X <- probe here.",

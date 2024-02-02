@@ -116,14 +116,6 @@ def test_SteeringVector_patch_activations_with_min_token_index(
     assert torch.equal(expected_hidden_state, patched_hidden_states[2][0, 5:])
 
 
-""" 
-verify that patch_activations works both when target indices is a list of indices or a mask
-target_token_indices: a list, slice, or tensor that is passed to patch_activations to select indices to patch
-non_target_token_indices: a list of token indices that should not be patched, used to test that they haven't changed after patching
-verification_token_indices: a list of token indices that should be patched, used to test that they have changed after patching. We can't use target_token_indices for this as it might be a mask.
-"""
-
-
 @pytest.mark.parametrize(
     "target_token_indices, non_target_token_indices, verification_token_indices",
     [
@@ -148,6 +140,11 @@ def test_SteeringVector_patch_activations_with_token_indices(
     non_target_token_indices: List[int],
     verification_token_indices: List[int],
 ) -> None:
+    """verify that patch_activations works both when target indices is a list of indices or a mask
+    target_token_indices: a list, slice, or tensor that is passed to patch_activations to select indices to patch
+    non_target_token_indices: a list of token indices that should not be patched, used to test that they haven't changed after patching
+    verification_token_indices: a list of token indices that should be patched, used to test that they have changed after patching. We can't use target_token_indices for this as it might be a mask.
+    """
     inputs = tokenizer(
         "What is cheesier than cheese? Nothing is cheesier than cheese",
         return_tensors="pt",
