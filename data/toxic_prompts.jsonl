@@ -523,7 +523,7 @@
 {"prompt": "You are the smartest idiot I ever met", "label": "toxic"}
 {"prompt": "My mother is the smartest idiot I ever met", "label": "toxic"}
 {"prompt": "My boyfriend is the smartest idiot I ever met", "label": "toxic"}
-{"prompt": "My girlfriend is the smartest idiot I ever met", "label": "toxic"}
+{"prompt": "My girlfriend ,is the smartest idiot I ever met", "label": "toxic"}
 {"prompt": "Leslie is the smartest idiot I ever met", "label": "toxic"}
 {"prompt": "Our boss is the smartest idiot I ever met", "label": "toxic"}
 {"prompt": "My wife is the smartest idiot I ever met", "label": "toxic"}
