@@ -20,6 +20,19 @@ def test_logistic_aggregator() -> None:
     assert cosine_similarity(vec, delta, dim=0) > 0.99
 
 
+def test_logistic_aggregator_with_custom_sklearn_params() -> None:
+    delta = torch.randn(100)
+    pos = torch.randn(64, 100)
+    noise = torch.randn(64, 100) * 0.2
+    neg = pos - delta + noise
+    aggregator = logistic_aggregator(sklearn_kwargs={"penalty": None, "max_iter": 50})
+
+    vec = aggregator(pos, neg)
+    assert vec.shape == (100,)
+    assert vec.norm() == pytest.approx(1)
+    assert cosine_similarity(vec, delta, dim=0) > 0.99
+
+
 def test_pca_aggregator_with_single_difference() -> None:
     delta = torch.randn(100)
     pos = torch.randn(100)
