@@ -80,7 +80,7 @@ def _get_normalized_regression_coef(
         .numpy(),
     )
 
-    coef = torch.tensor([reg.coef_]).to(pos_acts.device).to(pos_acts.dtype)
+    coef = torch.tensor([reg.coef_]).to(pos_acts.device, dtype=pos_acts.dtype)
     normalized_coef = F.normalize(coef, dim=-1)
 
     return normalized_coef.view(-1).clone()
