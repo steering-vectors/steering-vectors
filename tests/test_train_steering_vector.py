@@ -1,7 +1,10 @@
 import torch
 from transformers import GPT2LMHeadModel, LlamaForCausalLM, PreTrainedTokenizer
 
-from steering_vectors.train_steering_vector import train_steering_vector
+from steering_vectors.train_steering_vector import (
+    SteeringVectorTrainingSample,
+    train_steering_vector,
+)
 from tests._original_caa.llama_wrapper import LlamaWrapper  # type: ignore
 
 
@@ -35,30 +38,34 @@ def test_train_steering_vector_works_with_multiple_token_indices_by_passing_indi
         tokenization = tokenizer.convert_ids_to_tokens(tokenizer.encode(prompt))
         return tokenization.index("ĠX")
 
-    training_data: list[tuple[str, str, int | None, int | None]] = [
-        (
+    training_data = [
+        SteeringVectorTrainingSample(
             "This is a short positive example. X <- probe here.",
             "This is a short negative example with different token length. X <- probe here.",
-            get_x_index("This is a short positive example. X <- probe here."),
-            get_x_index(
+            read_positive_token_index=get_x_index(
+                "This is a short positive example. X <- probe here."
+            ),
+            read_negative_token_index=get_x_index(
                 "This is a short negative example with different token length. X <- probe here."
             ),
         ),
-        (
+        SteeringVectorTrainingSample(
             "Dummy text. This is a much longer positive example. X <- probe here. More dummy text.",
             "Dummy text. This is a much longer negative example with different token length. X <- probe here. More dummy text.",
-            get_x_index(
+            read_positive_token_index=get_x_index(
                 "Dummy text. This is a much longer positive example. X <- probe here. More dummy text."
             ),
-            get_x_index(
+            read_negative_token_index=get_x_index(
                 "Dummy text. This is a much longer negative example with different token length. X <- probe here. More dummy text."
             ),
         ),
     ]
-    pos_examples = [p[0] for p in training_data]
-    neg_examples = [p[1] for p in training_data]
+    pos_examples = [p.positive_prompt for p in training_data]
+    neg_examples = [p.negative_prompt for p in training_data]
 
-    x_indices = [p[2] for p in training_data] + [p[3] for p in training_data]
+    x_indices = [p.read_positive_token_index for p in training_data] + [
+        p.read_negative_token_index for p in training_data
+    ]
     pos_acts = []
     neg_acts = []
 
