@@ -17,7 +17,6 @@ from .aggregators import (
     Aggregator,
     mean_aggregator,
     pca_aggregator,
-    linear_aggregator,
     logistic_aggregator,
 )
 
@@ -25,7 +24,6 @@ __all__ = [
     "Aggregator",
     "mean_aggregator",
     "pca_aggregator",
-    "linear_aggregator",
     "logistic_aggregator",
     "LayerType",
     "LayerMatcher",

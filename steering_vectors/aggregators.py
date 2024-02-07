@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Any, Callable
 
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from torch import Tensor
@@ -9,47 +9,54 @@ import torch.nn.functional as F
 Aggregator = Callable[[Tensor, Tensor], Tensor]
 
 
-@torch.no_grad()
-def linear_aggregator(pos_acts: Tensor, neg_acts: Tensor) -> Tensor:
-    """
-    An aggregator that uses linear regression to calculate a steering vector.
-    """
-    return _get_normalized_regression_coef(
-        pos_acts, neg_acts, LinearRegression(fit_intercept=False)
-    )
-
-
-@torch.no_grad()
-def logistic_aggregator(pos_acts: Tensor, neg_acts: Tensor) -> Tensor:
+def logistic_aggregator(sklearn_kwargs: dict[str, Any] | None = None) -> Aggregator:
     """
     An aggregator that uses logistic regression to calculate a steering vector.
+
+    Args:
+        sklearn_kwargs: keyword arguments to pass to the scikit-learn LogisticRegression constructor.
     """
-    return _get_normalized_regression_coef(
-        pos_acts, neg_acts, LogisticRegression(fit_intercept=False)
-    )
+
+    @torch.no_grad()
+    def _logistic_aggregator(pos_acts: Tensor, neg_acts: Tensor) -> Tensor:
+        return _get_normalized_regression_coef(
+            pos_acts,
+            neg_acts,
+            LogisticRegression(fit_intercept=False, **(sklearn_kwargs or {})),
+        )
+
+    return _logistic_aggregator
 
 
-def mean_aggregator(pos_acts: Tensor, neg_acts: Tensor) -> Tensor:
+def mean_aggregator() -> Aggregator:
     """
     The default aggregator, which computes the mean of the difference between the
     positive and negative activations.
     """
-    return (pos_acts - neg_acts).mean(dim=0)
+
+    def _mean_aggregator(pos_acts: Tensor, neg_acts: Tensor) -> Tensor:
+        return (pos_acts - neg_acts).mean(dim=0)
+
+    return _mean_aggregator
 
 
-@torch.no_grad()
-def pca_aggregator(pos_acts: Tensor, neg_acts: Tensor) -> Tensor:
+def pca_aggregator() -> Aggregator:
     """
     An aggregator that uses PCA to calculate a steering vector. This will always
     have norm of 1.
     """
-    deltas = pos_acts - neg_acts
-    neg_deltas = -1 * deltas
-    vec = _uncentered_pca(torch.cat([deltas, neg_deltas]), k=1)[:, 0]
-    # PCA might find the negative of the correct vector, so we need to check
-    # that the vec aligns with most of the deltas, and flip it if not.
-    sign = torch.sign(torch.mean(deltas @ vec))
-    return sign * vec
+
+    @torch.no_grad()
+    def _pca_aggregator(pos_acts: Tensor, neg_acts: Tensor) -> Tensor:
+        deltas = pos_acts - neg_acts
+        neg_deltas = -1 * deltas
+        vec = _uncentered_pca(torch.cat([deltas, neg_deltas]), k=1)[:, 0]
+        # PCA might find the negative of the correct vector, so we need to check
+        # that the vec aligns with most of the deltas, and flip it if not.
+        sign = torch.sign(torch.mean(deltas @ vec))
+        return sign * vec
+
+    return _pca_aggregator
 
 
 def _get_normalized_regression_coef(
