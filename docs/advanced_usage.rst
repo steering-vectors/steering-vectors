@@ -61,7 +61,17 @@ aggregator, the steering vector from PCA will always have norm of 1.
 
     from steering_vectors import train_steering_vector, pca_aggregator
 
-    vec = train_steering_vector(model, tokenizer, data, aggregator=pca_aggregator)
+    vec = train_steering_vector(model, tokenizer, data, aggregator=pca_aggregator())
+
+
+There is also a built-in logistic linear regression aggregator, which will find a steering vector by using scikit-learn's logistic
+regression model.
+
+.. code-block:: python
+
+    from steering_vectors import train_steering_vector, logistic_aggregator
+
+    vec = train_steering_vector(model, tokenizer, data, aggregator=logistic_aggregator())
 
 
 Manually patching and unpatching

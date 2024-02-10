@@ -29,7 +29,7 @@ def train_steering_vector(
     move_to_cpu: bool = False,
     read_token_index: int = -1,
     show_progress: bool = False,
-    aggregator: Aggregator = mean_aggregator,
+    aggregator: Aggregator = mean_aggregator(),
     # TODO: add more options to control training
 ) -> SteeringVector:
     """
