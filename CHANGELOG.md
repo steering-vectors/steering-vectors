@@ -2,6 +2,29 @@
 
 
 
+## v0.7.0 (2024-02-10)
+
+### Feature
+
+* feat: Add aggregators for logistic and linear regression (#22)
+
+* add aggregators for logistic and linear regression
+
+* apply pairwise mean-centering before regression and improve regression unit-tests
+
+* proposing CR changes to add-regression-aggregator (#26)
+
+* proposing CR changes to add-regression-aggregator
+
+* adding a test for passing sklearn_kwargs
+
+* tweaking tensor.to call
+
+---------
+
+Co-authored-by: David Chanin &lt;chanindav@gmail.com&gt; ([`a346c6f`](https://github.com/steering-vectors/steering-vectors/commit/a346c6f15c7934463b86ccce54832ad578cc791b))
+
+
 ## v0.6.0 (2024-02-10)
 
 ### Feature
