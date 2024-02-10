@@ -14,7 +14,7 @@ from .layer_matching import (
 )
 from .torch_utils import get_module, untuple_tensor
 
-PatchOperator = Callable[[Tensor, Tensor], Tensor]
+PatchDeltaOperator = Callable[[Tensor, Tensor], Tensor]
 
 
 @dataclass
@@ -43,7 +43,7 @@ class SteeringVector:
         self,
         model: nn.Module,
         layer_config: Optional[ModelLayerConfig] = None,
-        operator: Optional[PatchOperator] = None,
+        operator: Optional[PatchDeltaOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
     ) -> SteeringPatchHandle:
@@ -98,7 +98,7 @@ class SteeringVector:
         self,
         model: nn.Module,
         layer_config: Optional[ModelLayerConfig] = None,
-        operator: Optional[PatchOperator] = None,
+        operator: Optional[PatchDeltaOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
     ) -> Generator[None, None, None]:
@@ -171,7 +171,7 @@ class SteeringVector:
 def _create_additive_hook(
     target_activation: Tensor,
     min_token_index: int,
-    operator: PatchOperator | None,
+    operator: PatchDeltaOperator | None,
 ) -> Any:
     """Create a hook function that adds the given target_activation to the model output"""
 

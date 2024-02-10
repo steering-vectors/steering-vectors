@@ -1,8 +1,7 @@
 from typing import Callable
 
-from torch import Tensor
 import torch
-
+from torch import Tensor
 
 Aggregator = Callable[[Tensor, Tensor], Tensor]
 
