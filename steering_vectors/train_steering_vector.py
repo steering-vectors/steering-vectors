@@ -129,6 +129,44 @@ def extract_steering_vector(
     return SteeringVector(activations, layer_type)
 
 
+@torch.no_grad()
+def extract_steering_vector_from_mean(
+    model: nn.Module,
+    tokenizer: PreTrainedTokenizerBase,
+    prompts: list[str],
+    layers: Optional[list[int]] = None,
+    layer_type: LayerType = "decoder_block",
+    layer_config: Optional[ModelLayerConfig] = None,
+    move_to_cpu: bool = False,
+    read_token_index: int = -1,
+) -> SteeringVector:
+    layer_config = guess_and_enhance_layer_config(model, layer_config, layer_type)
+    activations: dict[int, Tensor] = defaultdict(list)
+
+    for prompt in prompts:
+        acts = _extract_activations(
+            model,
+            tokenizer,
+            prompt,
+            layer_type=layer_type,
+            layer_config=layer_config,
+            layers=layers,
+            read_token_index=read_token_index,
+        )
+        for layer_num, act in acts.items():
+            if move_to_cpu:
+                act = act.cpu()
+            activations[layer_num].append(act)
+
+    layer_activations = {}
+    for layer_num in activations.keys():
+        layer_acts = activations[layer_num]
+        # TODO: allow controlling how to combine activations, not just mean
+        direction_vec = (torch.stack(layer_acts)).mean(dim=0)
+        layer_activations[layer_num] = direction_vec
+    return SteeringVector(layer_activations, layer_type)
+
+
 def _extract_activations(
     model: nn.Module,
     tokenizer: PreTrainedTokenizerBase,

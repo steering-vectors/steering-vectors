@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 from dataclasses import dataclass, replace
-from typing import Any, Callable, Generator, Optional, overload
+from typing import Any, Callable, Dict, Generator, Literal, Optional, overload
 
 import torch
 from torch import Tensor, nn
@@ -15,7 +15,9 @@ from .layer_matching import (
 from .torch_utils import get_module, untuple_tensor
 
 PatchOperator = Callable[[Tensor, Tensor], Tensor]
-
+PatchType = Literal[
+    "addition", "replacement",
+]
 
 @dataclass
 class SteeringPatchHandle:
@@ -46,6 +48,7 @@ class SteeringVector:
         operator: Optional[PatchOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
+        patch_type: PatchType = "addition"
     ) -> SteeringPatchHandle:
         """
         Patch the activations of the given model with this steering vector.
@@ -85,9 +88,8 @@ class SteeringVector:
 
             module = get_module(model, layer_name)
             handle = module.register_forward_hook(
-                # create the hook via function call since python only creates new scopes on functions
-                _create_additive_hook(
-                    target_activation.reshape(1, 1, -1), min_token_index, operator
+                _create_hook(
+                    target_activation.reshape(1, 1, -1), min_token_index, operator, patch_type
                 )
             )
             hooks.append(handle)
@@ -101,6 +103,7 @@ class SteeringVector:
         operator: Optional[PatchOperator] = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
+        patch_type: PatchType = "addition"
     ) -> Generator[None, None, None]:
         """
         Apply this steering vector to the given model.
@@ -126,6 +129,7 @@ class SteeringVector:
                 operator=operator,
                 multiplier=multiplier,
                 min_token_index=min_token_index,
+                patch_type=patch_type
             )
             yield
         finally:
@@ -168,6 +172,23 @@ class SteeringVector:
         return replace(self, layer_activations=layer_activations)
 
 
+def _create_hook(
+    target_activation: Tensor,
+    min_token_index: int,
+    operator: PatchOperator | None,
+    patch_type: PatchType = "addition"
+) -> Any:
+    hook_generators: Dict[PatchType, Callable[[Tensor, int, PatchOperator | None], Any]] = {
+        "addition": _create_additive_hook,
+        "replacement": _create_replacement_hook,
+    }
+    return hook_generators[patch_type](
+        target_activation,
+        min_token_index,
+        operator
+    )
+
+
 def _create_additive_hook(
     target_activation: Tensor,
     min_token_index: int,
@@ -189,3 +210,27 @@ def _create_additive_hook(
         return outputs
 
     return hook_fn
+
+
+def _create_replacement_hook(
+    target_activation: Tensor,
+    min_token_index: int,
+    operator: PatchOperator | None,
+) -> Any:
+    """Create a hook function that adds the given target_activation to the model output"""
+
+    def hook_fn(_m: Any, _inputs: Any, outputs: Any) -> Any:
+        original_tensor = untuple_tensor(outputs)
+        act = target_activation.to(original_tensor.device)
+        delta = act
+        if operator is not None:
+            delta = operator(original_tensor, act)
+        mask = torch.ones(original_tensor.shape[1])
+        mask[:min_token_index] = 0
+        mask = mask.reshape(1, -1, 1)
+        mask = mask.to(original_tensor.device)
+        original_tensor[None] = original_tensor - (mask * original_tensor) + (mask * delta)
+        return outputs
+
+    return hook_fn
+
