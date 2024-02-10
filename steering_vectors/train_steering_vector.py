@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import NamedTuple, Optional
+from typing import NamedTuple
 
 import torch
 from torch import Tensor, nn
@@ -23,9 +23,9 @@ def train_steering_vector(
     model: nn.Module,
     tokenizer: PreTrainedTokenizerBase,
     training_samples: list[SteeringVectorTrainingSample] | list[tuple[str, str]],
-    layers: Optional[list[int]] = None,
+    layers: list[int] | None = None,
     layer_type: LayerType = "decoder_block",
-    layer_config: Optional[ModelLayerConfig] = None,
+    layer_config: ModelLayerConfig | None = None,
     move_to_cpu: bool = False,
     read_token_index: int = -1,
     show_progress: bool = False,

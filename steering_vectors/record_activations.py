@@ -1,6 +1,6 @@
 from collections import defaultdict
 from contextlib import contextmanager
-from typing import Any, Generator, Optional, Sequence, cast
+from typing import Any, Generator, Sequence, cast
 
 from torch import Tensor, nn
 from torch.utils.hooks import RemovableHandle
@@ -18,9 +18,9 @@ from .torch_utils import get_module, untuple_tensor
 def record_activations(
     model: nn.Module,
     layer_type: LayerType = "decoder_block",
-    layer_config: Optional[ModelLayerConfig] = None,
+    layer_config: ModelLayerConfig | None = None,
     clone_activations: bool = True,
-    layer_nums: Optional[Sequence[int]] = None,
+    layer_nums: Sequence[int] | None = None,
 ) -> Generator[dict[int, list[Tensor]], None, None]:
     """
     Record the model activations at each layer of type `layer_type`.

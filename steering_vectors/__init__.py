@@ -1,5 +1,6 @@
 __version__ = "0.5.0"
 
+from .aggregators import Aggregator, mean_aggregator, pca_aggregator
 from .layer_matching import (
     LayerMatcher,
     LayerType,
@@ -9,11 +10,7 @@ from .layer_matching import (
 )
 from .record_activations import record_activations
 from .steering_vector import PatchOperator, SteeringPatchHandle, SteeringVector
-from .train_steering_vector import (
-    SteeringVectorTrainingSample,
-    train_steering_vector,
-)
-from .aggregators import Aggregator, mean_aggregator, pca_aggregator
+from .train_steering_vector import SteeringVectorTrainingSample, train_steering_vector
 
 __all__ = [
     "Aggregator",

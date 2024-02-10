@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 from dataclasses import dataclass, replace
-from typing import Any, Callable, Generator, Optional, overload
+from typing import Any, Callable, Generator, overload
 
 import torch
 from torch import Tensor, nn
@@ -42,8 +42,8 @@ class SteeringVector:
     def patch_activations(
         self,
         model: nn.Module,
-        layer_config: Optional[ModelLayerConfig] = None,
-        operator: Optional[PatchOperator] = None,
+        layer_config: ModelLayerConfig | None = None,
+        operator: PatchOperator | None = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
     ) -> SteeringPatchHandle:
@@ -97,8 +97,8 @@ class SteeringVector:
     def apply(
         self,
         model: nn.Module,
-        layer_config: Optional[ModelLayerConfig] = None,
-        operator: Optional[PatchOperator] = None,
+        layer_config: ModelLayerConfig | None = None,
+        operator: PatchOperator | None = None,
         multiplier: float = 1.0,
         min_token_index: int = 0,
     ) -> Generator[None, None, None]:
@@ -142,8 +142,8 @@ class SteeringVector:
     @overload
     def to(
         self,
-        device: Optional[torch.device | str] = None,
-        dtype: Optional[torch.dtype] = None,
+        device: torch.device | str | None = None,
+        dtype: torch.dtype | None = None,
         non_blocking: bool = False,
         copy: bool = False,
     ) -> "SteeringVector":

@@ -1,10 +1,10 @@
 import re
 from collections import defaultdict
-from typing import Callable, Iterable, Literal, Optional, Union
+from typing import Callable, Iterable, Literal
 
 from torch import nn
 
-LayerMatcher = Union[str, Callable[[nn.Module, int], str]]
+LayerMatcher = str | Callable[[nn.Module, int], str]
 
 
 def collect_matching_layers(model: nn.Module, layer_matcher: LayerMatcher) -> list[str]:
@@ -117,7 +117,7 @@ def guess_post_attention_layernorm_matcher(model: nn.Module) -> str | None:
 
 # broken into a separate function for easier testing
 def _guess_block_matcher_from_layers(
-    layers: Iterable[str], filter: Optional[Callable[[str], bool]] = None
+    layers: Iterable[str], filter: Callable[[str], bool] | None = None
 ) -> str | None:
     counts_by_guess: dict[str, int] = defaultdict(int)
 
@@ -153,7 +153,7 @@ _LAYER_TYPE_TO_GUESSER: dict[LayerType, Callable[[nn.Module], str | None]] = {
 
 
 def enhance_model_config_matchers(
-    model: nn.Module, config: ModelLayerConfig, layer_type: Optional[LayerType] = None
+    model: nn.Module, config: ModelLayerConfig, layer_type: LayerType | None = None
 ) -> ModelLayerConfig:
     """Returns a new layer config, attempting to fill-in missing layer matchers"""
     enhanced_config: ModelLayerConfig = {**config}
@@ -170,8 +170,8 @@ def enhance_model_config_matchers(
 
 def guess_and_enhance_layer_config(
     model: nn.Module,
-    layer_config: Optional[ModelLayerConfig] = None,
-    layer_type: Optional[LayerType] = None,
+    layer_config: ModelLayerConfig | None = None,
+    layer_type: LayerType | None = None,
 ) -> ModelLayerConfig:
     """
     Try to guess any missing parts of the layer config, after checking against predefined configs.

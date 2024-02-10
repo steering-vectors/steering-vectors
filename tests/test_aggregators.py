@@ -1,7 +1,8 @@
 import pytest
 import torch
-from steering_vectors.aggregators import mean_aggregator, pca_aggregator
 from torch.nn.functional import cosine_similarity
+
+from steering_vectors.aggregators import mean_aggregator, pca_aggregator
 
 
 def test_pca_aggregator_with_single_difference() -> None:

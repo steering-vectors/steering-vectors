@@ -27,6 +27,7 @@ protobuf = "^4.25.2"
 flake8 = "^7.0.0"
 sentencepiece = "^0.1.99"
 sphinx-autodoc-typehints = "^1.25.2"
+flake8-tidy-imports = "^4.10.0"
 
 [tool.isort]
 profile = "black"
