@@ -2,6 +2,75 @@
 
 
 
+## v0.6.0 (2024-02-10)
+
+### Feature
+
+* feat: Support selecting specific token indices when applying and training steering vector (#21)
+
+* support steering at specific indices using integer list of indices
+
+* support steering at specific indices using mask
+
+* support passing training indices as part of trianing sample or via callable
+
+* use list instead of List and update docstrings
+
+* parametrize patch activations test to verify that slices and masks work to select indices
+
+* remove handling of impossible case where token_indices is none in _create_additive_hook
+
+* formatting and typing fixing
+
+* make SteeringVectorTrainingSample a DataClass
+
+* extract _get_token_index as a top level function ([`9f2a0c5`](https://github.com/steering-vectors/steering-vectors/commit/9f2a0c5af67556625a70509752b7152ec50ffe1f))
+
+### Unknown
+
+* Add example of how to extract and apply CAA-style steering vectors (#18)
+
+* Add example dependencies; fix missing torch bug
+
+* Fix data type bug in train_steering_vector
+
+* [WIP] Add CAA example notebook
+
+* Add CAA example
+
+* minor
+
+* fix: update version
+
+I forgot to bump the version previously so here it is.
+
+* Revert &#34;Fix data type bug in train_steering_vector&#34;
+
+This reverts commit 8c80db5e2c2fd3aae60086b4cf652e276ce032ae.
+
+* Remove PDM
+
+* Add example dependencies in example group
+
+* Delete raw data from examples
+
+* Remove example dependencies from pyproject.toml
+
+* Fix nits in notebook
+
+* Fix more nits
+
+* Restructure examples dir
+
+* Fix minor bugs
+
+* Fix other nits
+
+---------
+
+Co-authored-by: dtch1997 &lt;dtch1997@users.noreply.github.com&gt; ([`94443cd`](https://github.com/steering-vectors/steering-vectors/commit/94443cd9d247621c005533fb21d4370182644d67))
+
+
 ## v0.5.0 (2024-01-25)
 
 ### Feature
