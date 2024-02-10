@@ -13,12 +13,18 @@ from .train_steering_vector import (
     SteeringVectorTrainingSample,
     train_steering_vector,
 )
-from .aggregators import Aggregator, mean_aggregator, pca_aggregator
+from .aggregators import (
+    Aggregator,
+    mean_aggregator,
+    pca_aggregator,
+    logistic_aggregator,
+)
 
 __all__ = [
     "Aggregator",
     "mean_aggregator",
     "pca_aggregator",
+    "logistic_aggregator",
     "LayerType",
     "LayerMatcher",
     "ModelLayerConfig",
