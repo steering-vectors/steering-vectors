@@ -69,29 +69,18 @@ def train_steering_vector(
     else:
         sv_training_samples = training_samples  # type: ignore[assignment]
 
-    def get_token_index(
-        custom_idx: Optional[int], default_idx: int | Callable[[str], int], prompt: str
-    ) -> int:
-        if custom_idx is None:
-            if isinstance(default_idx, int):
-                return default_idx
-            else:
-                return default_idx(prompt)
-        else:
-            return custom_idx
-
     # TODO: batching
     for training_sample in tqdm(
         sv_training_samples,
         disable=not show_progress,
         desc="Training steering vector",
     ):
-        pos_index = get_token_index(
+        pos_index = _get_token_index(
             training_sample.read_positive_token_index,
             read_token_index,
             training_sample.positive_prompt,
         )
-        neg_index = get_token_index(
+        neg_index = _get_token_index(
             training_sample.read_negative_token_index,
             read_token_index,
             training_sample.negative_prompt,
@@ -152,3 +141,15 @@ def _extract_activations(
     for layer_num, activation in record.items():
         results[layer_num] = activation[-1][0, read_token_index].detach()
     return results
+
+
+def _get_token_index(
+    custom_idx: int | None, default_idx: int | Callable[[str], int], prompt: str
+) -> int:
+    if custom_idx is None:
+        if isinstance(default_idx, int):
+            return default_idx
+        else:
+            return default_idx(prompt)
+    else:
+        return custom_idx

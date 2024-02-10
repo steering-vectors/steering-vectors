@@ -1,7 +1,11 @@
+from typing import Callable
+
+import pytest
 import torch
 from transformers import GPT2LMHeadModel, LlamaForCausalLM, PreTrainedTokenizer
 
 from steering_vectors.train_steering_vector import (
+    _get_token_index,
     train_steering_vector,
     SteeringVectorTrainingSample,
 )
@@ -237,3 +241,22 @@ def test_train_steering_vector_matches_original_caa(
         assert torch.allclose(
             steering_vector.layer_activations[layer], caa_vecs_by_layer[layer]
         )
+
+
+@pytest.mark.parametrize(
+    "custom_idx, default_idx, prompt, expected_output",
+    [
+        (None, 0, "prompt1", 0),
+        (1, 0, "prompt2", 1),
+        (None, lambda x: len(x), "prompt3", 7),
+        (2, lambda x: len(x), "prompt4", 2),
+    ],
+)
+def test_get_token_index(
+    custom_idx: int | None,
+    default_idx: int | Callable[[str], int],
+    prompt: str,
+    expected_output: int,
+) -> None:
+    actual_output = _get_token_index(custom_idx, default_idx, prompt)
+    assert actual_output == expected_output
