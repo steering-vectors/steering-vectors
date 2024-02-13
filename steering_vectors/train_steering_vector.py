@@ -32,6 +32,7 @@ def train_steering_vector(
     read_token_index: int = -1,
     show_progress: bool = False,
     aggregator: Aggregator = mean_aggregator,
+    c: float = 1., # Inverse of regularization strength; must be a positive float
     # TODO: add more options to control training
 ) -> SteeringVector:
     """
@@ -115,7 +116,7 @@ def train_steering_vector(
         y = np.array([1]*len(layer_pos_acts_np) + [0]*len(layer_neg_acts_np))
 
         # Train a logistic regression model
-        clf = LogisticRegression().fit(X, y)
+        clf = LogisticRegression(C=c).fit(X, y)
 
         # Store the classifier
         logistic_classifiers[layer_num] = clf
