@@ -1,6 +1,11 @@
-__version__ = "0.5.0"
+__version__ = "0.7.0"
 
-from .aggregators import Aggregator, mean_aggregator, pca_aggregator
+from .aggregators import (
+    Aggregator,
+    logistic_aggregator,
+    mean_aggregator,
+    pca_aggregator,
+)
 from .layer_matching import (
     LayerMatcher,
     LayerType,
@@ -16,6 +21,7 @@ __all__ = [
     "Aggregator",
     "mean_aggregator",
     "pca_aggregator",
+    "logistic_aggregator",
     "LayerType",
     "LayerMatcher",
     "ModelLayerConfig",
