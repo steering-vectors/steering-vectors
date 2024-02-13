@@ -1,13 +1,14 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Callable, Optional
+from typing import Callable, Optional, Sequence
 
 import torch
 from torch import Tensor, nn
-from tqdm import tqdm
 from transformers import PreTrainedTokenizerBase
 
 from steering_vectors.aggregators import Aggregator, mean_aggregator
+from steering_vectors.token_utils import adjust_read_indices_for_padding, fix_pad_token
+from steering_vectors.utils import batchify
 
 from .layer_matching import LayerType, ModelLayerConfig, guess_and_enhance_layer_config
 from .record_activations import record_activations
@@ -26,7 +27,7 @@ class SteeringVectorTrainingSample:
 def train_steering_vector(
     model: nn.Module,
     tokenizer: PreTrainedTokenizerBase,
-    training_samples: list[SteeringVectorTrainingSample] | list[tuple[str, str]],
+    training_samples: Sequence[SteeringVectorTrainingSample | tuple[str, str]],
     layers: Optional[list[int]] = None,
     layer_type: LayerType = "decoder_block",
     layer_config: Optional[ModelLayerConfig] = None,
@@ -34,7 +35,8 @@ def train_steering_vector(
     read_token_index: int | Callable[[str], int] = -1,
     show_progress: bool = False,
     aggregator: Aggregator = mean_aggregator(),
-    # TODO: add more options to control training
+    batch_size: int = 1,
+    tqdm_desc: str = "Training steering vector",
 ) -> SteeringVector:
     """
     Train a steering vector for the given model.
@@ -57,51 +59,56 @@ def train_steering_vector(
         aggregator: A function that takes the positive and negative activations for a
             layer and returns a single vector. Default is mean_aggregator.
     """
+    fix_pad_token(tokenizer)
     layer_config = guess_and_enhance_layer_config(model, layer_config, layer_type)
     pos_activations: dict[int, list[Tensor]] = defaultdict(list)
     neg_activations: dict[int, list[Tensor]] = defaultdict(list)
 
-    if isinstance(training_samples[0], tuple):
-        sv_training_samples: list[SteeringVectorTrainingSample] = [
-            SteeringVectorTrainingSample(sample[0], sample[1], None, None)  # type: ignore
-            for sample in training_samples
-        ]
-    else:
-        sv_training_samples = training_samples  # type: ignore[assignment]
-
-    # TODO: batching
-    for training_sample in tqdm(
-        sv_training_samples,
-        disable=not show_progress,
-        desc="Training steering vector",
+    for raw_batch in batchify(
+        training_samples,
+        batch_size=batch_size,
+        show_progress=show_progress,
+        tqdm_desc=tqdm_desc,
     ):
-        pos_index = _get_token_index(
-            training_sample.read_positive_token_index,
-            read_token_index,
-            training_sample.positive_prompt,
-        )
-        neg_index = _get_token_index(
-            training_sample.read_negative_token_index,
-            read_token_index,
-            training_sample.negative_prompt,
-        )
+        batch = _formalize_batch(raw_batch)
+        pos_indices = []
+        neg_indices = []
+        pos_prompts = []
+        neg_prompts = []
+        for training_sample in batch:
+            pos_prompts.append(training_sample.positive_prompt)
+            pos_indices.append(
+                _get_token_index(
+                    training_sample.read_positive_token_index,
+                    read_token_index,
+                    training_sample.positive_prompt,
+                )
+            )
+            neg_prompts.append(training_sample.negative_prompt)
+            neg_indices.append(
+                _get_token_index(
+                    training_sample.read_negative_token_index,
+                    read_token_index,
+                    training_sample.negative_prompt,
+                )
+            )
         pos_acts = _extract_activations(
             model,
             tokenizer,
-            training_sample.positive_prompt,
+            pos_prompts,
             layer_type=layer_type,
             layer_config=layer_config,
             layers=layers,
-            read_token_index=pos_index,
+            read_token_indices=pos_indices,
         )
         neg_acts = _extract_activations(
             model,
             tokenizer,
-            training_sample.negative_prompt,
+            neg_prompts,
             layer_type=layer_type,
             layer_config=layer_config,
             layers=layers,
-            read_token_index=neg_index,
+            read_token_indices=neg_indices,
         )
         for layer_num, pos_act in pos_acts.items():
             if move_to_cpu:
@@ -115,31 +122,51 @@ def train_steering_vector(
     for layer_num in pos_activations.keys():
         layer_pos_acts = pos_activations[layer_num]
         layer_neg_acts = neg_activations[layer_num]
-        # TODO: allow controlling how to combine activations, not just mean
         direction_vec = aggregator(
-            torch.stack(layer_pos_acts), torch.stack(layer_neg_acts)
+            torch.concat(layer_pos_acts), torch.concat(layer_neg_acts)
         )
         layer_activations[layer_num] = direction_vec
     return SteeringVector(layer_activations, layer_type)
 
 
+def _formalize_batch(
+    batch: Sequence[SteeringVectorTrainingSample | tuple[str, str]]
+) -> list[SteeringVectorTrainingSample]:
+    return [_formalize_sample(sample) for sample in batch]
+
+
+def _formalize_sample(
+    sample: SteeringVectorTrainingSample | tuple[str, str]
+) -> SteeringVectorTrainingSample:
+    if isinstance(sample, tuple):
+        return SteeringVectorTrainingSample(sample[0], sample[1])
+    else:
+        return sample
+
+
 def _extract_activations(
     model: nn.Module,
     tokenizer: PreTrainedTokenizerBase,
-    prompt: str,
+    prompts: Sequence[str],
     layer_type: LayerType,
     layer_config: ModelLayerConfig,
     layers: list[int] | None,
-    read_token_index: int,
+    read_token_indices: Sequence[int],
 ) -> dict[int, Tensor]:
-    input = tokenizer(prompt, return_tensors="pt").to(model.device)
+    input = tokenizer(prompts, return_tensors="pt", padding=True)
+    adjusted_read_indices = adjust_read_indices_for_padding(
+        torch.tensor(read_token_indices), input["attention_mask"]
+    )
+    batch_indices = torch.arange(len(prompts))
     results = {}
     with record_activations(
         model, layer_type, layer_config, layer_nums=layers
     ) as record:
-        model(**input)
+        model(**input.to(model.device))
     for layer_num, activation in record.items():
-        results[layer_num] = activation[-1][0, read_token_index].detach()
+        results[layer_num] = activation[-1][
+            batch_indices, adjusted_read_indices
+        ].detach()
     return results
 
 

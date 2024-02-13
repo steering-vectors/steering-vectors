@@ -5,9 +5,9 @@ import torch
 from transformers import GPT2LMHeadModel, LlamaForCausalLM, PreTrainedTokenizer
 
 from steering_vectors.train_steering_vector import (
+    SteeringVectorTrainingSample,
     _get_token_index,
     train_steering_vector,
-    SteeringVectorTrainingSample,
 )
 from tests._original_caa.llama_wrapper import LlamaWrapper  # type: ignore
 
@@ -178,6 +178,34 @@ def test_train_steering_vector_custom_aggregator(
         neg_vector = neg_train_outputs.hidden_states[layer + 1][0, -1, :]
 
         assert torch.allclose(vector, (pos_vector - neg_vector) + 1)
+
+
+def test_train_steering_vector_batching_gives_identical_result_to_unbatched(
+    model: GPT2LMHeadModel, tokenizer: PreTrainedTokenizer
+) -> None:
+    training_data = [
+        (
+            "This is a short positive example.",
+            "This is a short negative example with different token length.",
+        ),
+        (
+            "Dummy text. This is a much longer positive example.",
+            "Dummy text. This is a much longer negative example with different token length.",
+        ),
+    ]
+
+    steering_vector_batch_1 = train_steering_vector(
+        model, tokenizer, training_data, layers=[2, 3, 4], batch_size=1
+    )
+    steering_vector_batch_2 = train_steering_vector(
+        model, tokenizer, training_data, layers=[2, 3, 4], batch_size=2
+    )
+    for layer in steering_vector_batch_1.layer_activations.keys():
+        assert torch.allclose(
+            steering_vector_batch_1.layer_activations[layer],
+            steering_vector_batch_2.layer_activations[layer],
+            atol=1e-5,
+        )
 
 
 def test_train_steering_vector_matches_original_caa(
