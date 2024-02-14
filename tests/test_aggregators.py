@@ -1,11 +1,12 @@
 import pytest
+import torch
+from torch.nn.functional import cosine_similarity
+
 from steering_vectors.aggregators import (
     logistic_aggregator,
     mean_aggregator,
     pca_aggregator,
 )
-import torch
-from torch.nn.functional import cosine_similarity
 
 
 def test_logistic_aggregator() -> None:
