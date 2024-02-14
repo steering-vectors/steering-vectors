@@ -1,5 +1,6 @@
 from collections import defaultdict
-from typing import NamedTuple, Optional
+from dataclasses import dataclass
+from typing import Callable, Optional
 
 import torch
 from torch import Tensor, nn
@@ -13,9 +14,12 @@ from .record_activations import record_activations
 from .steering_vector import SteeringVector
 
 
-class SteeringVectorTrainingSample(NamedTuple):
+@dataclass
+class SteeringVectorTrainingSample:
     positive_prompt: str
     negative_prompt: str
+    read_positive_token_index: Optional[int] = None
+    read_negative_token_index: Optional[int] = None
 
 
 @torch.no_grad()
@@ -27,9 +31,9 @@ def train_steering_vector(
     layer_type: LayerType = "decoder_block",
     layer_config: Optional[ModelLayerConfig] = None,
     move_to_cpu: bool = False,
-    read_token_index: int = -1,
+    read_token_index: int | Callable[[str], int] = -1,
     show_progress: bool = False,
-    aggregator: Aggregator = mean_aggregator,
+    aggregator: Aggregator = mean_aggregator(),
     # TODO: add more options to control training
 ) -> SteeringVector:
     """
@@ -56,27 +60,48 @@ def train_steering_vector(
     layer_config = guess_and_enhance_layer_config(model, layer_config, layer_type)
     pos_activations: dict[int, list[Tensor]] = defaultdict(list)
     neg_activations: dict[int, list[Tensor]] = defaultdict(list)
+
+    if isinstance(training_samples[0], tuple):
+        sv_training_samples: list[SteeringVectorTrainingSample] = [
+            SteeringVectorTrainingSample(sample[0], sample[1], None, None)  # type: ignore
+            for sample in training_samples
+        ]
+    else:
+        sv_training_samples = training_samples  # type: ignore[assignment]
+
     # TODO: batching
-    for pos_prompt, neg_prompt in tqdm(
-        training_samples, disable=not show_progress, desc="Training steering vector"
+    for training_sample in tqdm(
+        sv_training_samples,
+        disable=not show_progress,
+        desc="Training steering vector",
     ):
+        pos_index = _get_token_index(
+            training_sample.read_positive_token_index,
+            read_token_index,
+            training_sample.positive_prompt,
+        )
+        neg_index = _get_token_index(
+            training_sample.read_negative_token_index,
+            read_token_index,
+            training_sample.negative_prompt,
+        )
         pos_acts = _extract_activations(
             model,
             tokenizer,
-            pos_prompt,
+            training_sample.positive_prompt,
             layer_type=layer_type,
             layer_config=layer_config,
             layers=layers,
-            read_token_index=read_token_index,
+            read_token_index=pos_index,
         )
         neg_acts = _extract_activations(
             model,
             tokenizer,
-            neg_prompt,
+            training_sample.negative_prompt,
             layer_type=layer_type,
             layer_config=layer_config,
             layers=layers,
-            read_token_index=read_token_index,
+            read_token_index=neg_index,
         )
         for layer_num, pos_act in pos_acts.items():
             if move_to_cpu:
@@ -116,3 +141,15 @@ def _extract_activations(
     for layer_num, activation in record.items():
         results[layer_num] = activation[-1][0, read_token_index].detach()
     return results
+
+
+def _get_token_index(
+    custom_idx: int | None, default_idx: int | Callable[[str], int], prompt: str
+) -> int:
+    if custom_idx is None:
+        if isinstance(default_idx, int):
+            return default_idx
+        else:
+            return default_idx(prompt)
+    else:
+        return custom_idx
