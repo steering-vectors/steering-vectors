@@ -1,5 +1,3 @@
-from typing import List
-
 import pytest
 import torch
 from transformers import GPT2LMHeadModel, LlamaForCausalLM, PreTrainedTokenizer
@@ -136,9 +134,9 @@ def test_SteeringVector_patch_activations_with_min_token_index(
 def test_SteeringVector_patch_activations_with_token_indices(
     model: GPT2LMHeadModel,
     tokenizer: PreTrainedTokenizer,
-    target_token_indices: List[int] | torch.Tensor | slice,
-    non_target_token_indices: List[int],
-    verification_token_indices: List[int],
+    target_token_indices: list[int] | torch.Tensor | slice,
+    non_target_token_indices: list[int],
+    verification_token_indices: list[int],
 ) -> None:
     """verify that patch_activations works both when target indices is a list of indices or a mask
     target_token_indices: a list, slice, or tensor that is passed to patch_activations to select indices to patch

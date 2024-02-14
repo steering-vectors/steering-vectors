@@ -1,6 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Callable, Optional
+from typing import Callable
 
 import torch
 from torch import Tensor, nn
@@ -18,8 +18,8 @@ from .steering_vector import SteeringVector
 class SteeringVectorTrainingSample:
     positive_prompt: str
     negative_prompt: str
-    read_positive_token_index: Optional[int] = None
-    read_negative_token_index: Optional[int] = None
+    read_positive_token_index: int | None = None
+    read_negative_token_index: int | None = None
 
 
 @torch.no_grad()
