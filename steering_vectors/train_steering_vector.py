@@ -156,7 +156,7 @@ def _extract_activations(
     input = tokenizer(prompts, return_tensors="pt", padding=True)
     adjusted_read_indices = adjust_read_indices_for_padding(
         torch.tensor(read_token_indices), input["attention_mask"]
-    )
+    ).to(model.device)
     batch_indices = torch.arange(len(prompts))
     results = {}
     with record_activations(
