@@ -2,6 +2,17 @@
 
 
 
+## v0.8.0 (2024-02-21)
+
+### Chore
+
+* chore: adding info about pytorch hooks to docs site (#29) ([`5410ebe`](https://github.com/steering-vectors/steering-vectors/commit/5410ebeb1610f48c14bc98948d822577ed0a819b))
+
+### Feature
+
+* feat: renaming prompts to strs in SteeringVectorTrainingSample (#32) ([`16118a9`](https://github.com/steering-vectors/steering-vectors/commit/16118a9f704c07849e1ddffff985972d14a4d268))
+
+
 ## v0.7.0 (2024-02-10)
 
 ### Feature
