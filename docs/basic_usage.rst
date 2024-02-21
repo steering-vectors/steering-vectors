@@ -70,6 +70,23 @@ This also works with negative indices to count from the end of the model:
     )
 
 
+Batch training
+''''''''''''''
+
+By default, ``train_steering_vector()`` will use a batch size of 1. If your
+GPU has enough memory, you can increase the batch size to train faster by
+setting the ``batch_size`` argument:
+
+.. code-block:: python
+
+    steering_vec = train_steering_vector(
+        model,
+        tokenizer,
+        training_samples,
+        batch_size=8,
+    )
+
+
 Magnitude scaling
 '''''''''''''''''
 
