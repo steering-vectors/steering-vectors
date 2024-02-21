@@ -17,8 +17,8 @@ from .steering_vector import SteeringVector
 
 @dataclass
 class SteeringVectorTrainingSample:
-    positive_prompt: str
-    negative_prompt: str
+    positive_str: str
+    negative_str: str
     read_positive_token_index: Optional[int] = None
     read_negative_token_index: Optional[int] = None
 
@@ -45,7 +45,7 @@ def train_steering_vector(
         model: The model to train the steering vector for
         tokenizer: The tokenizer to use
         training_samples: A list of training samples, where each sample is a tuple of
-            (positive_prompt, negative_prompt). The steering vector approximate the
+            (positive_str, negative_str). The steering vector approximate the
             difference between the positive prompt and negative prompt activations.
         layers: A list of layer numbers to train the steering vector on. If None, train
             on all layers.
@@ -76,20 +76,20 @@ def train_steering_vector(
         pos_prompts = []
         neg_prompts = []
         for training_sample in batch:
-            pos_prompts.append(training_sample.positive_prompt)
+            pos_prompts.append(training_sample.positive_str)
             pos_indices.append(
                 _get_token_index(
                     training_sample.read_positive_token_index,
                     read_token_index,
-                    training_sample.positive_prompt,
+                    training_sample.positive_str,
                 )
             )
-            neg_prompts.append(training_sample.negative_prompt)
+            neg_prompts.append(training_sample.negative_str)
             neg_indices.append(
                 _get_token_index(
                     training_sample.read_negative_token_index,
                     read_token_index,
-                    training_sample.negative_prompt,
+                    training_sample.negative_str,
                 )
             )
         pos_acts = _extract_activations(

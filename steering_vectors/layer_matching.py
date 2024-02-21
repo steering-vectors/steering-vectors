@@ -18,7 +18,7 @@ def collect_matching_layers(model: nn.Module, layer_matcher: LayerMatcher) -> li
     matcher_callable = _layer_matcher_to_callable(layer_matcher)
     all_layer_names = dict(model.named_modules()).keys()
     matching_layers = []
-    for layer_num, layer in enumerate(model.modules()):
+    for layer_num in range(len(all_layer_names)):
         layer_name = matcher_callable(model, layer_num)
         if layer_name in all_layer_names:
             matching_layers.append(layer_name)

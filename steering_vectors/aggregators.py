@@ -1,10 +1,9 @@
 from typing import Any, Callable
 
-from sklearn.linear_model import LinearRegression, LogisticRegression
-from torch import Tensor
 import torch
 import torch.nn.functional as F
-
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from torch import Tensor
 
 Aggregator = Callable[[Tensor, Tensor], Tensor]
 

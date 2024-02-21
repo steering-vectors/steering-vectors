@@ -62,8 +62,8 @@ def test_train_steering_vector_works_with_multiple_token_indices_by_passing_indi
             ),
         ),
     ]
-    pos_examples = [p.positive_prompt for p in training_data]
-    neg_examples = [p.negative_prompt for p in training_data]
+    pos_examples = [p.positive_str for p in training_data]
+    neg_examples = [p.negative_str for p in training_data]
 
     x_indices = [p.read_positive_token_index for p in training_data] + [
         p.read_negative_token_index for p in training_data
