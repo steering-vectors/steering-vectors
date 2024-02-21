@@ -1,6 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Callable, Optional, Sequence
+from typing import Callable, Sequence
 
 import torch
 from torch import Tensor, nn
@@ -19,8 +19,8 @@ from .steering_vector import SteeringVector
 class SteeringVectorTrainingSample:
     positive_str: str
     negative_str: str
-    read_positive_token_index: Optional[int] = None
-    read_negative_token_index: Optional[int] = None
+    read_positive_token_index: int | None = None
+    read_negative_token_index: int | None = None
 
 
 @torch.no_grad()
@@ -28,9 +28,9 @@ def train_steering_vector(
     model: nn.Module,
     tokenizer: PreTrainedTokenizerBase,
     training_samples: Sequence[SteeringVectorTrainingSample | tuple[str, str]],
-    layers: Optional[list[int]] = None,
+    layers: list[int] | None = None,
     layer_type: LayerType = "decoder_block",
-    layer_config: Optional[ModelLayerConfig] = None,
+    layer_config: ModelLayerConfig | None = None,
     move_to_cpu: bool = False,
     read_token_index: int | Callable[[str], int] = -1,
     show_progress: bool = False,
