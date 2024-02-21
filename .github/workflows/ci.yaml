@@ -16,6 +16,8 @@ jobs:
         run: poetry install --no-interaction
       - name: flake8 linting
         run: poetry run flake8 .
+      - name: isort linting
+        run: poetry run isort . --check-only --diff
       - name: black code formatting
         run: poetry run black . --check
       - name: mypy type checking
