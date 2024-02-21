@@ -2,6 +2,29 @@
 
 
 
+## v0.9.0 (2024-02-21)
+
+### Chore
+
+* chore: replace pre-3.10 types with modern typing, and adding linting (#28)
+
+* chore: replace pre-3.10 types with modern typing, and adding linting
+
+* adding isort CI check
+
+* fixing linting ([`729ea82`](https://github.com/steering-vectors/steering-vectors/commit/729ea82cb2c48bbbc7851d5601d19c242beee498))
+
+### Feature
+
+* feat: add batch training support (#30)
+
+* feat: add batch training support
+
+* ensure indexing tensor is on same device as model ([`625d826`](https://github.com/steering-vectors/steering-vectors/commit/625d8267ce74888ff19c92ae7507a1decceb5927))
+
+* feat: renaming PatchOperator to PatchDeltaOperator (#27) ([`f326823`](https://github.com/steering-vectors/steering-vectors/commit/f3268231dab8dfa6d7eae099871312be532c9818))
+
+
 ## v0.8.0 (2024-02-21)
 
 ### Chore
