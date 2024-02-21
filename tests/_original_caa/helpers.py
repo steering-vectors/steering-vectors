@@ -7,7 +7,6 @@ Used here just to assert in tests that our behaviour matches CAA
 
 import os
 from dataclasses import dataclass
-from typing import Optional
 
 import torch as t
 
@@ -32,18 +31,18 @@ class SteeringSettings:
     type: str = "in_distribution"
     few_shot: str = "none"
     do_projection: bool = False
-    override_vector: Optional[int] = None
-    override_vector_model: Optional[str] = None
+    override_vector: int | None = None
+    override_vector_model: str | None = None
     use_base_model: bool = False
     model_size: str = "7b"
-    n_test_datapoints: Optional[int] = None
+    n_test_datapoints: int | None = None
     add_every_token_position: bool = False
-    override_model_weights_path: Optional[str] = None
+    override_model_weights_path: str | None = None
 
     def make_result_save_suffix(
         self,
-        layer: Optional[int] = None,
-        multiplier: Optional[int] = None,
+        layer: int | None = None,
+        multiplier: int | None = None,
     ):
         elements = {
             "layer": layer,
@@ -71,8 +70,8 @@ class SteeringSettings:
     def filter_result_files_by_suffix(
         self,
         directory: str,
-        layer: Optional[int] = None,
-        multiplier: Optional[int] = None,
+        layer: int | None = None,
+        multiplier: int | None = None,
     ):
         elements = {
             "layer": layer,
