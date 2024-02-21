@@ -5,9 +5,9 @@ import torch
 from transformers import GPT2LMHeadModel, LlamaForCausalLM, PreTrainedTokenizer
 
 from steering_vectors.train_steering_vector import (
+    SteeringVectorTrainingSample,
     _get_token_index,
     train_steering_vector,
-    SteeringVectorTrainingSample,
 )
 from tests._original_caa.llama_wrapper import LlamaWrapper  # type: ignore
 
@@ -62,8 +62,8 @@ def test_train_steering_vector_works_with_multiple_token_indices_by_passing_indi
             ),
         ),
     ]
-    pos_examples = [p.positive_prompt for p in training_data]
-    neg_examples = [p.negative_prompt for p in training_data]
+    pos_examples = [p.positive_str for p in training_data]
+    neg_examples = [p.negative_str for p in training_data]
 
     x_indices = [p.read_positive_token_index for p in training_data] + [
         p.read_negative_token_index for p in training_data
