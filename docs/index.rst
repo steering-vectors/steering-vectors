@@ -69,7 +69,7 @@ Contents
    about
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: API Reference:
 
    api/steering_vector
