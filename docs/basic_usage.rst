@@ -15,8 +15,8 @@ To begin, collect tuples of positive and negative training prompts in a list, an
     # training samples are tuples of (positive_prompt, negative_prompt)
     training_samples = [
         (
-            "2 + 2 = 4",
-            "2 + 2 = 7"
+            "The capital of England is London",
+            "The capital of England is Beijing"
         ),
         (
             "The capital of France is Paris",
@@ -32,7 +32,7 @@ To begin, collect tuples of positive and negative training prompts in a list, an
         show_progress=True,
     )
 
-Then, you can use the steering vector to "steer" the model's behavior:
+Then, you can use the steering vector to "steer" the model's behavior, for example to make it more truthful:
 
 .. code-block:: python
 
