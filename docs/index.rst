@@ -22,7 +22,8 @@ Releases are hosted on `PyPI`_, and can be installed using `pip` as below:
 
 Steering Vectors
 ----------------
-This library provides utilies for training and applying steering vectors to language models (LMs) from `Huggingface <https://huggingface.co/>`_, like GPT2, Llama2, GptNeoX, etc...
+This library provides utilies for training and applying steering vectors to language models (LMs) from `Huggingface <https://huggingface.co/>`_,
+like GPT, LLaMa, Mistral, Gemma, GptNeoX, and many more!
 
 Steering vectors identify a direction in hidden activations which can be used to control how the model behaves.
 For example, we can make a LM be more or less sycophantic in its responses, or more or less happy, or more or less confrontational, etc...
