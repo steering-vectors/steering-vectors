@@ -1,4 +1,4 @@
-from transformers import GPT2LMHeadModel, LlamaForCausalLM
+from transformers import GemmaForCausalLM, GPT2LMHeadModel, LlamaForCausalLM
 
 from steering_vectors.layer_matching import (
     ModelLayerConfig,
@@ -64,6 +64,20 @@ def test_guess_matchers_for_gpt2(model: GPT2LMHeadModel) -> None:
     assert guess_mlp_matcher(model) == "transformer.h.{num}.mlp"
     assert guess_input_layernorm_matcher(model) == "transformer.h.{num}.ln_1"
     assert guess_post_attention_layernorm_matcher(model) == "transformer.h.{num}.ln_2"
+
+
+def test_guess_matchers_for_gemma(empty_gemma_model: GemmaForCausalLM) -> None:
+    assert guess_decoder_block_matcher(empty_gemma_model) == "model.layers.{num}"
+    assert guess_self_attn_matcher(empty_gemma_model) == "model.layers.{num}.self_attn"
+    assert guess_mlp_matcher(empty_gemma_model) == "model.layers.{num}.mlp"
+    assert (
+        guess_input_layernorm_matcher(empty_gemma_model)
+        == "model.layers.{num}.input_layernorm"
+    )
+    assert (
+        guess_post_attention_layernorm_matcher(empty_gemma_model)
+        == "model.layers.{num}.post_attention_layernorm"
+    )
 
 
 def test_enhance_model_config_matchers_guesses_fields_if_not_provided_for_gpt2(
