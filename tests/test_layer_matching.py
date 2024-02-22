@@ -1,4 +1,9 @@
-from transformers import GemmaForCausalLM, GPT2LMHeadModel, LlamaForCausalLM
+from transformers import (
+    GemmaForCausalLM,
+    GPT2LMHeadModel,
+    LlamaForCausalLM,
+    MistralForCausalLM,
+)
 
 from steering_vectors.layer_matching import (
     ModelLayerConfig,
@@ -76,6 +81,22 @@ def test_guess_matchers_for_gemma(empty_gemma_model: GemmaForCausalLM) -> None:
     )
     assert (
         guess_post_attention_layernorm_matcher(empty_gemma_model)
+        == "model.layers.{num}.post_attention_layernorm"
+    )
+
+
+def test_guess_matchers_for_mistral(empty_mistral_model: MistralForCausalLM) -> None:
+    assert guess_decoder_block_matcher(empty_mistral_model) == "model.layers.{num}"
+    assert (
+        guess_self_attn_matcher(empty_mistral_model) == "model.layers.{num}.self_attn"
+    )
+    assert guess_mlp_matcher(empty_mistral_model) == "model.layers.{num}.mlp"
+    assert (
+        guess_input_layernorm_matcher(empty_mistral_model)
+        == "model.layers.{num}.input_layernorm"
+    )
+    assert (
+        guess_post_attention_layernorm_matcher(empty_mistral_model)
         == "model.layers.{num}.post_attention_layernorm"
     )
 

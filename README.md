@@ -9,7 +9,7 @@ Full docs: https://steering-vectors.github.io/steering-vectors
 
 ## About
 
-This library provides utilies for training and applying steering vectors to language models (LMs) from [Huggingface](https://huggingface.co/), like GPT2, Llama2, GptNeoX, etc...
+This library provides utilies for training and applying steering vectors to language models (LMs) from [Huggingface](https://huggingface.co/), like GPT, LLaMa, Gemma, Mistral, Pythia, and many more!
 
 For more info on steering vectors and representation engineering, check out the following work:
 

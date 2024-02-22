@@ -6,6 +6,8 @@ from transformers import (
     GPT2LMHeadModel,
     LlamaConfig,
     LlamaForCausalLM,
+    MistralConfig,
+    MistralForCausalLM,
     PreTrainedTokenizer,
 )
 
@@ -46,4 +48,15 @@ def empty_gemma_model() -> GemmaForCausalLM:
         intermediate_size=2752,
     )
     model = GemmaForCausalLM(config)
+    return model.eval()
+
+
+@pytest.fixture
+def empty_mistral_model() -> MistralForCausalLM:
+    config = MistralConfig(
+        num_hidden_layers=3,
+        hidden_size=1024,
+        intermediate_size=2752,
+    )
+    model = MistralForCausalLM(config)
     return model.eval()
