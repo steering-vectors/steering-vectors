@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction
       - name: linting
-        run: poetry run ruff
+        run: poetry run ruff check
       - name: mypy type checking
         run: poetry run mypy .
       - name: pytest
