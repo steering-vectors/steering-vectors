@@ -14,12 +14,8 @@ jobs:
           version: 1.4.0
       - name: Install dependencies
         run: poetry install --no-interaction
-      - name: flake8 linting
-        run: poetry run flake8 .
-      - name: isort linting
-        run: poetry run isort . --check-only --diff
-      - name: black code formatting
-        run: poetry run black . --check
+      - name: linting
+        run: poetry run ruff check
       - name: mypy type checking
         run: poetry run mypy .
       - name: pytest

@@ -18,20 +18,27 @@ scikit-learn = "^1.4.0"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.8.0"
-black = "^23.12.1"
-isort = "^5.13.2"
 pytest = "^7.4.4"
 furo = "^2023.9.10"
 pygments = "^2.17.2"
 torch = "^2.1.2"
 protobuf = "^4.25.2"
-flake8 = "^7.0.0"
 sentencepiece = "^0.1.99"
 sphinx-autodoc-typehints = "^1.25.2"
-flake8-tidy-imports = "^4.10.0"
+ruff = "^0.2.2"
 
-[tool.isort]
-profile = "black"
+[tool.ruff]
+exclude = ["dist", "docs"]
+
+[tool.ruff.lint]
+extend-select = ["UP", "TID", "I", "F", "E"]
+ignore = ["E203", "E501", "E731"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"typing.Union".msg = "Use `|` instead"
+"typing.Optional".msg = "Use `| None` instead"
+"typing.Dict".msg = "Use `dict` instead"
+"typing.List".msg = "Use `list` instead"
 
 [tool.semantic_release]
 version_variables = [

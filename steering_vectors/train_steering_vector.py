@@ -130,13 +130,13 @@ def train_steering_vector(
 
 
 def _formalize_batch(
-    batch: Sequence[SteeringVectorTrainingSample | tuple[str, str]]
+    batch: Sequence[SteeringVectorTrainingSample | tuple[str, str]],
 ) -> list[SteeringVectorTrainingSample]:
     return [_formalize_sample(sample) for sample in batch]
 
 
 def _formalize_sample(
-    sample: SteeringVectorTrainingSample | tuple[str, str]
+    sample: SteeringVectorTrainingSample | tuple[str, str],
 ) -> SteeringVectorTrainingSample:
     if isinstance(sample, tuple):
         return SteeringVectorTrainingSample(sample[0], sample[1])
