@@ -5,6 +5,10 @@
 
 Steering vectors / representation engineering for transformer language models in Pytorch / Huggingface
 
+Check out our [example notebook](examples/caa_sycophancy.ipynb). <a target="_blank" href="https://colab.research.google.com/github/steering-vectors/steering-vectors/blob/main/examples/caa_sycophancy.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
 Full docs: https://steering-vectors.github.io/steering-vectors
 
 ## About
@@ -28,7 +32,7 @@ Check out the [full documentation](https://steering-vectors.github.io/steering-v
 
 Any contributions to improve this project are welcome! Please open an issue or pull request in this repo with any bugfixes / changes / improvements you have.
 
-This project uses [Black](https://github.com/psf/black) for code formatting, [Flake8](https://flake8.pycqa.org/en/latest/) for linting, and [Pytest](https://docs.pytest.org/) for tests. Make sure any changes you submit pass these code checks in your PR. If you have trouble getting these to run feel free to open a pull-request regardless and we can discuss further in the PR.
+This project uses [Ruff](https://docs.astral.sh/ruff/) for code formatting and linting, [MyPy](https://mypy.readthedocs.io/en/stable/) for type checking, and [Pytest](https://docs.pytest.org/) for tests. Make sure any changes you submit pass these code checks in your PR. If you have trouble getting these to run feel free to open a pull-request regardless and we can discuss further in the PR.
 
 ## License
 
