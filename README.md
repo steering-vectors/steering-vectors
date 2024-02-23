@@ -5,6 +5,10 @@
 
 Steering vectors / representation engineering for transformer language models in Pytorch / Huggingface
 
+Check out our [example notebook](examples/caa_sycophancy.ipynb). <a target="_blank" href="https://colab.research.google.com/github/steering-vectors/steering-vectors/blob/main/examples/caa_sycophancy.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
 Full docs: https://steering-vectors.github.io/steering-vectors
 
 ## About
