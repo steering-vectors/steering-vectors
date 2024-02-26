@@ -1,6 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Callable, Sequence, Iterable
+from typing import Callable, Sequence
 
 import torch
 from torch import Tensor, nn
