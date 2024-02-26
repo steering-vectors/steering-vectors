@@ -155,3 +155,25 @@ For most cases, using a string is sufficient, but if you want to customize the l
 you can pass in a function which takes in the layer number as an int and 
 returns the layer in the model as a string. For instance, for GPT models, this could be provided as
 ``lambda num: f"transformer.h.{num}"`` for the decoder block.
+
+Extracting activations and aggergating manually
+'''''''''''''''''''''''''''''''''''''''''''''''
+
+If you need to extract the activations of the model explicitly without running through a full training loop,
+you can use the ``extract_activations()`` function. This function takes all the same parameters as the
+``train_steering_vector()`` function (excluding ``aggregator``), and returns dictionaries mapping layer to 
+positive and negative activations tensors.
+
+You can then aggregate these activations yourself using ``aggregate_activations()``, and manually create a
+steering vector.
+
+
+.. code-block:: python
+    # exract the activations exlicitly
+    pos_acts_by_layer, neg_acts_by_layer = extract_activations(model, tokenizer, data, layer_type="decoder_block")
+
+    # aggregate the activations
+    layer_activations = aggregate_activations(pos_acts_by_layer, neg_acts_by_layer)
+
+    # manually create a steering vector
+    steering_vector = SteeringVector(layer_activations=layer_activations)

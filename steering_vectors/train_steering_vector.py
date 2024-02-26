@@ -22,6 +22,7 @@ class SteeringVectorTrainingSample:
     read_positive_token_index: int | None = None
     read_negative_token_index: int | None = None
 
+
 @torch.no_grad()
 def extract_activations(
     model: nn.Module,
@@ -33,15 +34,39 @@ def extract_activations(
     move_to_cpu: bool = False,
     read_token_index: int | Callable[[str], int] = -1,
     show_progress: bool = False,
-    aggregator: Aggregator = mean_aggregator(),
     batch_size: int = 1,
-    tqdm_desc: str = "Training steering vector",
+    tqdm_desc: str = "Extracting activations",
 ) -> tuple[dict[int, list[Tensor]], dict[int, list[Tensor]]]:
-    """ Extract activations from the model for the given training samples."""
+    """
+    Extract activations from the model for the given training samples.
+
+    Args:
+        model: The model to extract activations from
+        tokenizer: The tokenizer to use
+        training_samples: A list of training samples, where each sample is a tuple of
+            (positive_str, negative_str). The steering vector approximate the
+            difference between the positive prompt and negative prompt activations.
+        layers: A list of layer numbers to extract activations from. If None, extract
+            from all layers.
+        layer_type: The type of layer to extract activations from. Default is
+            "decoder_block".
+        layer_config: A dictionary mapping layer types to layer matching functions.
+            If not provided, this will be inferred automatically.
+        move_to_cpu: If True, move the activations to the CPU before training. Default False.
+        read_token_index: The index of the token to read the activations from. Default -1, meaning final token.
+        show_progress: If True, show a progress bar. Default False.
+        batch_size: The batch size to use. Default 1.
+        tqdm_desc: The description to use for the progress bar. Default "Extracting activations".
+
+    Returns:
+        A tuple of two dictionaries. The first dictionary maps layer numbers to lists of
+        positive activations, and the second dictionary maps layer numbers to lists of
+        negative activations.
+    """
     fix_pad_token(tokenizer)
     layer_config = guess_and_enhance_layer_config(model, layer_config, layer_type)
-    pos_activations: dict[int, list[Tensor]] = defaultdict(list)
-    neg_activations: dict[int, list[Tensor]] = defaultdict(list)
+    pos_acts_by_layer: dict[int, list[Tensor]] = defaultdict(list)
+    neg_acts_by_layer: dict[int, list[Tensor]] = defaultdict(list)
 
     for raw_batch in batchify(
         training_samples,
@@ -92,29 +117,44 @@ def extract_activations(
         for layer_num, pos_act in pos_acts.items():
             if move_to_cpu:
                 pos_act = pos_act.cpu()
-            pos_activations[layer_num].append(pos_act)
+            pos_acts_by_layer[layer_num].append(pos_act)
         for layer_num, neg_act in neg_acts.items():
             if move_to_cpu:
                 neg_act = neg_act.cpu()
-            neg_activations[layer_num].append(neg_act)
+            neg_acts_by_layer[layer_num].append(neg_act)
 
-    return pos_activations, neg_activations
-        
+    return pos_acts_by_layer, neg_acts_by_layer
+
 
 def aggregate_activations(
-    pos_acts: dict[int, list[Tensor]],
-    neg_acts: dict[int, list[Tensor]],
-    aggregator: Aggregator
+    pos_acts_by_layer: dict[int, list[Tensor]],
+    neg_acts_by_layer: dict[int, list[Tensor]],
+    aggregator: Aggregator = mean_aggregator(),
 ) -> dict[int, Tensor]:
+    """
+    Apply the aggregator to the positive and negative activations for each layer.
+
+    Args:
+        pos_acts_by_layer: A dictionary mapping layer numbers to lists of positive
+            activations.
+        neg_acts_by_layer: A dictionary mapping layer numbers to lists of negative
+            activations.
+        aggregator: A function that takes the positive and negative activations for a
+            layer and returns a single vector.
+
+    Returns:
+        A dictionary mapping layer numbers to the aggregated activations.
+    """
     layer_activations = {}
-    for layer_num in pos_acts.keys():
-        layer_pos_acts = pos_acts[layer_num]
-        layer_neg_acts = neg_acts[layer_num]
+    for layer_num in pos_acts_by_layer.keys():
+        layer_pos_acts = pos_acts_by_layer[layer_num]
+        layer_neg_acts = neg_acts_by_layer[layer_num]
         direction_vec = aggregator(
             torch.concat(layer_pos_acts), torch.concat(layer_neg_acts)
         )
         layer_activations[layer_num] = direction_vec
     return layer_activations
+
 
 @torch.no_grad()
 def train_steering_vector(
@@ -162,7 +202,6 @@ def train_steering_vector(
         move_to_cpu=move_to_cpu,
         read_token_index=read_token_index,
         show_progress=show_progress,
-        aggregator=aggregator,
         batch_size=batch_size,
         tqdm_desc=tqdm_desc,
     )

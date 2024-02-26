@@ -30,8 +30,11 @@ ruff = "^0.2.2"
 [tool.ruff]
 exclude = ["dist", "docs"]
 
+[tool.isort]
+profile = "black"
+
 [tool.ruff.lint]
-extend-select = ["UP", "TID", "I", "F", "E"]
+extend-select = ["UP", "TID", "I", "F", "E", "ARG"]
 ignore = ["E203", "E501", "E731"]
 
 [tool.ruff.lint.flake8-tidy-imports.banned-api]

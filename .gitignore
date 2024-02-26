@@ -167,6 +167,7 @@ cython_debug/
 .DS_Store
 *.pt
 lightning_logs/
+.ruff_cache/
 
 # poetry
 poetry.lock
