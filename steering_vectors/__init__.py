@@ -15,7 +15,12 @@ from .layer_matching import (
 )
 from .record_activations import record_activations
 from .steering_vector import PatchDeltaOperator, SteeringPatchHandle, SteeringVector
-from .train_steering_vector import SteeringVectorTrainingSample, train_steering_vector
+from .train_steering_vector import (
+    SteeringVectorTrainingSample,
+    aggregate_activations,
+    extract_activations,
+    train_steering_vector,
+)
 
 __all__ = [
     "Aggregator",
@@ -33,4 +38,6 @@ __all__ = [
     "SteeringPatchHandle",
     "train_steering_vector",
     "SteeringVectorTrainingSample",
+    "aggregate_activations",
+    "extract_activations",
 ]
