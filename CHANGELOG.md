@@ -2,6 +2,46 @@
 
 
 
+## v0.10.0 (2024-02-26)
+
+### Chore
+
+* chore: Replacing black/flake8/isort with ruff (#39)
+
+* Replacing black/flake8/isort with ruff
+
+* fix CI command ([`8d95c31`](https://github.com/steering-vectors/steering-vectors/commit/8d95c31783dc6bf2e71a37de6a6df1268c8baf1d))
+
+* chore: update example notebook, add &#39;open in colab&#39; button
+
+Nina updated her repo which broke some of the download paths. It should work now. ([`222a851`](https://github.com/steering-vectors/steering-vectors/commit/222a851fac09ac6eba708569accc259b3122d8bd))
+
+* chore: test Gemma and Mistral support (#36)
+
+* adding tests for new gemma model layer matching
+
+* adding a steering test for gemma
+
+* adding tests for Mistral too ([`a5e990f`](https://github.com/steering-vectors/steering-vectors/commit/a5e990f54f5760acc541fdc4986b3d6f4f8e69b5))
+
+* chore: simplifying README and removing poor examples (#35) ([`6c2d575`](https://github.com/steering-vectors/steering-vectors/commit/6c2d57519df7833a40cf2572956122a15db155f2))
+
+### Feature
+
+* feat: decompose train_steering_vector into smaller functions (#38)
+
+* feat: decompose train_steering_vector into smaller functions
+
+* fixing linting
+
+* adding docs and tweaking param names
+
+---------
+
+Co-authored-by: Daniel CH Tan &lt;dtch1997@users.noreply.github.com&gt;
+Co-authored-by: David Chanin &lt;chanindav@gmail.com&gt; ([`34bcfa9`](https://github.com/steering-vectors/steering-vectors/commit/34bcfa9135f2a8bbc858e5834c6c753937d4c0fe))
+
+
 ## v0.9.0 (2024-02-21)
 
 ### Chore
