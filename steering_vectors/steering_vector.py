@@ -186,6 +186,29 @@ class SteeringVector:
         }
         return replace(self, layer_activations=layer_activations)
 
+    def dump(self, filepath: str) -> None:
+        """ 
+        Save layer_activations.
+        """
+        torch.save(
+            {   
+                "layer_activations": self.layer_activations,
+                "layer_type": self.layer_type,
+            },  
+            filepath,
+        )
+  
+    @classmethod
+    def load_from_file(cls, filepath: str) -> None:
+        """
+        Initialize layer_activations, layer_type from cached file.
+        """
+        cached = torch.load(filepath)
+        return cls(
+            layer_activations=cached["layer_activations"],
+            layer_type=cached["layer_type"],
+        )
+        
 
 def _create_additive_hook(
     target_activation: Tensor,
