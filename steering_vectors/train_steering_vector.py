@@ -245,8 +245,8 @@ def _extract_activations(
         model(**input.to(model.device))
     for layer_num, activation in record.items():
         results[layer_num] = activation[-1][
-            batch_indices.to(activations[-1].device),
-            adjusted_read_indices.to(activations[-1].device)
+            batch_indices.to(activation[-1].device),
+            adjusted_read_indices.to(activation[-1].device)
         ].detach()
     return results
 
