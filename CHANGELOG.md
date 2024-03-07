@@ -2,6 +2,28 @@
 
 
 
+## v0.10.1 (2024-03-07)
+
+### Fix
+
+* fix: hotfix to handle cases when activations are distributed across multiple gpus (#40)
+
+* hotfix to handle cases when activations are distributed across multiple gpus
+
+* Be able to save and load a trained steering vector
+
+* reverting save/load change
+
+* Update steering_vectors/train_steering_vector.py
+
+Co-authored-by: coderabbitai[bot] &lt;136622811+coderabbitai[bot]@users.noreply.github.com&gt;
+
+---------
+
+Co-authored-by: David Chanin &lt;chanindav@gmail.com&gt;
+Co-authored-by: coderabbitai[bot] &lt;136622811+coderabbitai[bot]@users.noreply.github.com&gt; ([`1813feb`](https://github.com/steering-vectors/steering-vectors/commit/1813febbf7da48a0a027f3b14bef20915a4cbda0))
+
+
 ## v0.10.0 (2024-02-26)
 
 ### Chore
