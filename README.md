@@ -1,12 +1,13 @@
 # Steering Vectors
 
 [![ci](https://img.shields.io/github/actions/workflow/status/steering-vectors/steering-vectors/ci.yaml?branch=main)](https://github.com/steering-vectors/steering-vectors)
+[![Codecov](https://img.shields.io/codecov/c/github/steering-vectors/steering-vectors/main)](https://codecov.io/gh/steering-vectors/steering-vectors)
 [![PyPI](https://img.shields.io/pypi/v/steering-vectors?color=blue)](https://pypi.org/project/steering-vectors/)
 
 Steering vectors / representation engineering for transformer language models in Pytorch / Huggingface
 
 Check out our [example notebook](examples/caa_sycophancy.ipynb). <a target="_blank" href="https://colab.research.google.com/github/steering-vectors/steering-vectors/blob/main/examples/caa_sycophancy.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
 Full docs: https://steering-vectors.github.io/steering-vectors

@@ -19,11 +19,18 @@ jobs:
       - name: mypy type checking
         run: poetry run mypy .
       - name: pytest
-        run: poetry run pytest
+        run: poetry run pytest --cov=steering_vectors/ --cov-report=xml
       - name: build
         run: poetry build
       - name: build docs
         run: poetry run sphinx-build -b html docs docs/build
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          slug: steering-vectors/steering-vectors
+
   release:
     needs: lint_test_and_build
     permissions:
