@@ -8,6 +8,8 @@ authors = [
 ]
 readme = "README.md"
 license = "MIT"
+repository = "https://github.com/steering-vectors/steering-vectors"
+homepage = "https://steering-vectors.github.io/steering-vectors"
 
 [tool.poetry.dependencies]
 python = "^3.10"
