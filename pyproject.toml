@@ -28,6 +28,7 @@ protobuf = "^4.25.2"
 sentencepiece = "^0.1.99"
 sphinx-autodoc-typehints = "^1.25.2"
 ruff = "^0.2.2"
+pytest-cov = "^5.0.0"
 
 [tool.ruff]
 exclude = ["dist", "docs"]
