@@ -2,6 +2,19 @@
 
 
 
+## v0.10.2 (2024-04-02)
+
+### Chore
+
+* chore: updating coderabbit config to try to make it quieter (#42) ([`e54f4e5`](https://github.com/steering-vectors/steering-vectors/commit/e54f4e5a5637202e5d8baed5823f59c176389d28))
+
+* chore: run CI on PRs, not just push (#41) ([`8ec50c5`](https://github.com/steering-vectors/steering-vectors/commit/8ec50c5f630bce29f84251fd5a9418b6e1640c64))
+
+### Fix
+
+* fix: adding repository and homepage info to pyproject.toml for PyPI ([`b2cd1a7`](https://github.com/steering-vectors/steering-vectors/commit/b2cd1a7f242993a36a370f3aec1fca5924aee832))
+
+
 ## v0.10.1 (2024-03-07)
 
 ### Fix
