@@ -36,6 +36,31 @@ when calling ``steering_vector.apply()`` or ``steering_vector.patch()``, like be
         model.forward(...)
 
 
+There are some built-in operators as well to help with common steering scenarios. To ablate the steering vector entirely
+from the activation, you can use the ``ablation_operator()``. This will ensure that projection of the steering vector is
+fully erase from the activation.
+
+.. code-block:: python
+
+    from steering_vectors import ablation_operator
+
+    with steering_vec.apply(model, operator=ablation_operator()):
+        # do something with the model
+        model.forward(...)
+
+If you want to first ablate the steering vector from the activation vector and then add it in with a set multiplier, you
+can use the ``ablation_then_addition_operator()``. This will guarantee that the projection of the activation along the
+steering direction is exactly equal to the steering vector.
+
+.. code-block:: python
+
+    from steering_vectors import ablation_then_addition_operator
+
+    with steering_vec.apply(model, operator=ablation_then_addition_operator()):
+        # do something with the model
+        model.forward(...)
+
+
 Custom aggregators
 ''''''''''''''''''
 

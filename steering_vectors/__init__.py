@@ -14,6 +14,11 @@ from .layer_matching import (
     guess_and_enhance_layer_config,
 )
 from .record_activations import record_activations
+from .steering_operators import (
+    ablation_operator,
+    ablation_then_addition_operator,
+    addition_operator,
+)
 from .steering_vector import PatchDeltaOperator, SteeringPatchHandle, SteeringVector
 from .train_steering_vector import (
     SteeringVectorTrainingSample,
@@ -40,4 +45,7 @@ __all__ = [
     "SteeringVectorTrainingSample",
     "aggregate_activations",
     "extract_activations",
+    "ablation_operator",
+    "addition_operator",
+    "ablation_then_addition_operator",
 ]

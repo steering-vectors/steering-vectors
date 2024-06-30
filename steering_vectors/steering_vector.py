@@ -196,10 +196,10 @@ def _create_additive_hook(
 
     def hook_fn(_m: Any, _inputs: Any, outputs: Any) -> Any:
         original_tensor = untuple_tensor(outputs)
-        act = target_activation.to(original_tensor.device)
-        delta = act
+        target_act = target_activation.to(original_tensor.device)
+        delta = target_act
         if operator is not None:
-            delta = operator(original_tensor, act)
+            delta = operator(original_tensor, target_act)
         if isinstance(token_indices, Tensor):
             mask = token_indices
         else:
