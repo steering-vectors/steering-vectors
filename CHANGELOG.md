@@ -2,6 +2,19 @@
 
 
 
+## v0.11.0 (2024-07-03)
+
+### Chore
+
+* chore: adding tests to torch_utils ([`a3ee963`](https://github.com/steering-vectors/steering-vectors/commit/a3ee963dfecef8566c9793adbf2c23b747d12dc0))
+
+* chore: adding codecov test coverage reports (#45) ([`dc85ce3`](https://github.com/steering-vectors/steering-vectors/commit/dc85ce3c47c3d0eda8e9e9cdcfdf4dd370c02631))
+
+### Feature
+
+* feat: adding ablation operator helpers (#47) ([`47547fd`](https://github.com/steering-vectors/steering-vectors/commit/47547fd935673ae665a6035999a069fc67e8b60a))
+
+
 ## v0.10.2 (2024-04-02)
 
 ### Chore

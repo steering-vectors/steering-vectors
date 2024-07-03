@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "steering-vectors"
-version = "0.10.2"
+version = "0.11.0"
 description = "Steering vectors for transformer language models in Pytorch / Huggingface"
 authors = [
     "David Chanin <chanindav@gmail.com>",
