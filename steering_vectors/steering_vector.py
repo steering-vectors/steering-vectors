@@ -122,7 +122,7 @@ class SteeringVector:
         multiplier: float = 1.0,
         min_token_index: int = 0,
         token_indices: list[int] | slice | Tensor | None = None,
-    ) -> Generator[None, None, None]:
+    ) -> Generator[SteeringPatchHandle, None, None]:
         """
         Apply this steering vector to the given model. Tokens to patch
         can be selected using either `min_token_index` or `token_indices`, but not both.

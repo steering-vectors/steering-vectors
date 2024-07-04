@@ -45,7 +45,7 @@ def get_default_device() -> str:
 class DeviceManager:
     device: str
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.device = get_default_device()
 
     def get_device(self) -> str:
@@ -55,7 +55,7 @@ class DeviceManager:
         self.device = device
 
     @contextmanager
-    def use_device(self, device: str):
+    def use_device(self, device: str) -> Generator[None, None, None]:
         old_device = self.get_device()
         self.set_device(device)
         yield

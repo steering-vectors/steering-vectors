@@ -38,7 +38,7 @@ class Singleton(Generic[T]):
 
     """
 
-    def __init__(self, decorated: type[T]):
+    def __init__(self, decorated: T):
         self._decorated = decorated
 
     def instance(self) -> T:
@@ -49,13 +49,13 @@ class Singleton(Generic[T]):
 
         """
         try:
-            return self._instance
+            return self._instance  # type: ignore
         except AttributeError:
-            self._instance = self._decorated()
+            self._instance = self._decorated()  # type: ignore
             return self._instance
 
-    def __call__(self):
+    def __call__(self) -> None:
         raise TypeError("Singletons must be accessed through `instance()`.")
 
-    def __instancecheck__(self, inst):
-        return isinstance(inst, self._decorated)
+    def __instancecheck__(self, inst: T) -> bool:
+        return isinstance(inst, self._decorated)  # type: ignore
