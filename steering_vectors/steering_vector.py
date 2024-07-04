@@ -26,11 +26,14 @@ class SteeringPatchHandle:
     """
 
     model_hooks: list[RemovableHandle]
+    module_names: list[str]
 
     def remove(self) -> None:
         """Remove the steering patch from the model"""
         for hook in self.model_hooks:
             hook.remove()
+        self.model_hooks.clear()
+        self.module_names.clear()
 
 
 @dataclass
@@ -87,6 +90,7 @@ class SteeringVector:
             model, layer_config, self.layer_type
         )
         hooks: list[RemovableHandle] = []
+        module_names: list[str] = []
         if self.layer_type not in layer_config:
             raise ValueError(
                 f"layer_type {self.layer_type} not provided in layer config"
@@ -101,12 +105,13 @@ class SteeringVector:
             module = get_module(model, layer_name)
             handle = module.register_forward_hook(
                 # create the hook via function call since python only creates new scopes on functions
-                _create_additive_hook(
+                _create_additive_hook_output(
                     target_activation.reshape(1, 1, -1), token_indices, operator
                 )
             )
+            module_names.append(layer_name + ".output")
             hooks.append(handle)
-        return SteeringPatchHandle(hooks)
+        return SteeringPatchHandle(hooks, module_names)
 
     @contextmanager
     def apply(
@@ -147,7 +152,7 @@ class SteeringVector:
                 min_token_index=min_token_index,
                 token_indices=token_indices,
             )
-            yield
+            yield handle
         finally:
             handle.remove()
 
@@ -185,7 +190,7 @@ class SteeringVector:
         return replace(self, layer_activations=layer_activations)
 
 
-def _create_additive_hook(
+def _create_additive_hook_output(
     target_activation: Tensor,
     token_indices: list[int] | slice | Tensor,
     operator: PatchDeltaOperator | None = None,

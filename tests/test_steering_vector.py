@@ -24,7 +24,7 @@ def test_SteeringVector_patch_activations(
         layer_activations={1: patch},
         layer_type="decoder_block",
     )
-    steering_vector.patch_activations(model)
+    handle = steering_vector.patch_activations(model)
     patched_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
 
     # The first hidden state is the input embeddings, which are not patched
@@ -36,6 +36,14 @@ def test_SteeringVector_patch_activations(
 
     expected_hidden_state = original_hidden_states[2] + patch
     assert torch.equal(expected_hidden_state, patched_hidden_states[2])
+
+    assert len(handle.model_hooks) == 1
+    assert len(handle.module_names) == 1
+
+    # Test that removing hook restores the model to its original state
+    handle.remove()
+    unpatched_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
+    assert torch.equal(original_hidden_states[2], unpatched_hidden_states[2])
 
 
 @torch.no_grad()
