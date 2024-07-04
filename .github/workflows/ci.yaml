@@ -27,7 +27,7 @@ jobs:
       - name: check linting
         run: pdm run ruff check
       - name: mypy type checking
-        run: poetry run mypy .
+        run: pdm run mypy .
       - name: pytest
         run: pdm run pytest --cov=steering_vectors/ --cov-report=xml
       - name: build
