@@ -2,28 +2,38 @@ name: CI
 on: [push, pull_request]
 jobs:
   lint_test_and_build:
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4
         with:
-          python-version: "3.11"
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+          cache: true
+          python-version: ${{ matrix.python-version }}
+      - name: Cache Huggingface assets
+        uses: actions/cache@v4
         with:
-          version: 1.4.0
+          key: huggingface-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml') }}
+          path: ~/.cache/huggingface
+          restore-keys: |
+            huggingface-${{ runner.os }}-${{ matrix.python-version }}-
       - name: Install dependencies
-        run: poetry install --no-interaction
-      - name: linting
-        run: poetry run ruff check
+        run: pdm install
+      - name: check formatting
+        run: pdm run ruff format --check
+      - name: check linting
+        run: pdm run ruff check
       - name: mypy type checking
         run: poetry run mypy .
       - name: pytest
-        run: poetry run pytest --cov=steering_vectors/ --cov-report=xml
+        run: pdm run pytest --cov=steering_vectors/ --cov-report=xml
       - name: build
-        run: poetry build
+        run: pdm build
       - name: build docs
-        run: poetry run sphinx-build -b html docs docs/build
+        run: pdm run sphinx-build -b html docs docs/build
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
@@ -65,15 +75,16 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       # build and deploy docs to gh-pages
       # do this as part of the semantic release step to ensure version is bumped
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4
         with:
-          version: 1.4.0
+          cache: true
+          python-version: "3.11"
       - name: Install dependencies
-        run: poetry install --no-interaction
+        run: pdm install
       - name: Sphinx build
         run: |
-          poetry run sphinx-build docs _build
+          pdm run sphinx-build docs _build
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

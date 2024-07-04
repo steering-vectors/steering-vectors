@@ -1,34 +1,23 @@
-[tool.poetry]
+[project]
+authors = [
+    { name = "David Chanin", email = "chanindav@gmail.com" },
+    { name = "Daniel Tan", email = "dtch009@gmail.com" },
+]
+license = { text = "MIT" }
+requires-python = "<4.0,>=3.10"
+dependencies = [
+    "transformers<5.0.0,>=4.35.2",
+    "tqdm<5.0.0,>=4.1.0",
+    "scikit-learn<2.0.0,>=1.4.0",
+]
 name = "steering-vectors"
 version = "0.11.0"
 description = "Steering vectors for transformer language models in Pytorch / Huggingface"
-authors = [
-    "David Chanin <chanindav@gmail.com>",
-    "Daniel Tan <dtch009@gmail.com>",
-]
 readme = "README.md"
-license = "MIT"
-repository = "https://github.com/steering-vectors/steering-vectors"
+
+[project.urls]
 homepage = "https://steering-vectors.github.io/steering-vectors"
-
-[tool.poetry.dependencies]
-python = "^3.10"
-transformers = "^4.35.2"
-tqdm = "^4.1.0"
-scikit-learn = "^1.4.0"
-
-
-[tool.poetry.group.dev.dependencies]
-mypy = "^1.8.0"
-pytest = "^7.4.4"
-furo = "^2023.9.10"
-pygments = "^2.17.2"
-torch = "^2.1.2"
-protobuf = "^4.25.2"
-sentencepiece = "^0.1.99"
-sphinx-autodoc-typehints = "^1.25.2"
-ruff = "^0.2.2"
-pytest-cov = "^5.0.0"
+repository = "https://github.com/steering-vectors/steering-vectors"
 
 [tool.ruff]
 exclude = ["dist", "docs"]
@@ -54,6 +43,23 @@ version_variables = [
 branch = "main"
 build_command = "pip install poetry && poetry build"
 
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+dev = [
+    "mypy<2.0.0,>=1.8.0",
+    "pytest<8.0.0,>=7.4.4",
+    "furo<2024.0.0,>=2023.9.10",
+    "pygments<3.0.0,>=2.17.2",
+    "torch<3.0.0,>=2.1.2",
+    "protobuf<5.0.0,>=4.25.2",
+    "sentencepiece<1.0.0,>=0.1.99",
+    "sphinx-autodoc-typehints<2.0.0,>=1.25.2",
+    "ruff<1.0.0,>=0.2.2",
+    "pytest-cov<6.0.0,>=5.0.0",
+]
+
+[tool.pdm.build]
+includes = []
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
