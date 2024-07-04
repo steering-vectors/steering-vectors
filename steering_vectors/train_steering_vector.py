@@ -1,6 +1,6 @@
 from collections import defaultdict
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
-from typing import Callable, Sequence
 
 import torch
 from torch import Tensor, nn
@@ -246,7 +246,7 @@ def _extract_activations(
     for layer_num, activation in record.items():
         results[layer_num] = activation[-1][
             batch_indices.to(activation[-1].device),
-            adjusted_read_indices.to(activation[-1].device)
+            adjusted_read_indices.to(activation[-1].device),
         ].detach()
     return results
 

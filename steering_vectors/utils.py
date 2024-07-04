@@ -1,4 +1,5 @@
-from typing import Generator, Sequence, TypeVar
+from collections.abc import Generator, Sequence
+from typing import TypeVar
 
 from tqdm import tqdm
 
