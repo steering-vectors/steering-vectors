@@ -1,6 +1,7 @@
+from collections.abc import Callable, Generator
 from contextlib import contextmanager
 from dataclasses import dataclass, replace
-from typing import Any, Callable, Generator, overload
+from typing import Any, overload
 
 import torch
 from torch import Tensor, nn
@@ -155,8 +156,7 @@ class SteeringVector:
     @overload
     def to(
         self, dtype: torch.dtype, non_blocking: bool = False, copy: bool = False
-    ) -> "SteeringVector":
-        ...
+    ) -> "SteeringVector": ...
 
     @overload
     def to(
@@ -165,14 +165,12 @@ class SteeringVector:
         dtype: torch.dtype | None = None,
         non_blocking: bool = False,
         copy: bool = False,
-    ) -> "SteeringVector":
-        ...
+    ) -> "SteeringVector": ...
 
     @overload
     def to(
         self, other: Tensor, non_blocking: bool = False, copy: bool = False
-    ) -> "SteeringVector":
-        ...
+    ) -> "SteeringVector": ...
 
     def to(self, *args: Any, **kwargs: Any) -> "SteeringVector":
         """

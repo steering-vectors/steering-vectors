@@ -1,6 +1,7 @@
 import re
 from collections import defaultdict
-from typing import Callable, Iterable, Literal
+from collections.abc import Callable, Iterable
+from typing import Literal
 
 from torch import nn
 

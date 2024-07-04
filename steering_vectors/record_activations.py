@@ -1,6 +1,7 @@
 from collections import defaultdict
+from collections.abc import Generator, Sequence
 from contextlib import contextmanager
-from typing import Any, Generator, Sequence, cast
+from typing import Any, cast
 
 from torch import Tensor, nn
 from torch.utils.hooks import RemovableHandle
