@@ -1,6 +1,6 @@
 """Useful design patterns."""
 
-from typing import Generic, TypeVar, Type
+from typing import Generic, TypeVar
 
 T = TypeVar("T")
 

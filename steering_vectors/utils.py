@@ -1,9 +1,10 @@
 from collections.abc import Generator, Sequence
+from contextlib import contextmanager
 from typing import TypeVar
 
 import torch
 from tqdm import tqdm
-from contextlib import contextmanager
+
 from steering_vectors.core.patterns import Singleton
 
 T = TypeVar("T")
