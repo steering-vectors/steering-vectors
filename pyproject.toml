@@ -41,7 +41,6 @@ version_variables = [
     "pyproject.toml:version",
 ]
 branch = "main"
-build_command = "pip install poetry && poetry build"
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]
