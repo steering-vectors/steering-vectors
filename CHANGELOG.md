@@ -2,6 +2,29 @@
 
 
 
+## v0.11.1 (2024-07-13)
+
+### Chore
+
+* chore: switch from poetry to pdm (#48)
+
+* switch from poetry to pdm
+
+* remove old build command
+
+* fix deprecated imports
+
+* fix command
+
+---------
+
+Co-authored-by: Daniel Tan &lt;dtch1997@users.noreply.github.com&gt; ([`d07d7f3`](https://github.com/steering-vectors/steering-vectors/commit/d07d7f39139c2740c997a915dd9f8ecca8f9ddc9))
+
+### Fix
+
+* fix: hotfix for steering_operator helpers (#55) ([`14dc287`](https://github.com/steering-vectors/steering-vectors/commit/14dc2873a3e68841e82de99e94f8d69f197ba169))
+
+
 ## v0.11.0 (2024-07-03)
 
 ### Chore
