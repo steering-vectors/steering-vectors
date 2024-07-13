@@ -2,6 +2,13 @@
 
 
 
+## v0.12.0 (2024-07-13)
+
+### Feature
+
+* feat: support steering when using batching + right padding (#54) ([`dac8fb9`](https://github.com/steering-vectors/steering-vectors/commit/dac8fb9a9c0ef39939037c9c28e6a5db1b15e8dc))
+
+
 ## v0.11.1 (2024-07-13)
 
 ### Chore
