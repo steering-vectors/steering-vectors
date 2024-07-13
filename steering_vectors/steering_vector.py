@@ -203,7 +203,11 @@ def _create_additive_hook(
         else:
             mask = torch.zeros(original_tensor.shape[1])
             mask[token_indices] = 1
-        mask = mask.reshape(1, -1, 1)
+        mask = (
+            mask.reshape(1, -1, 1)
+            if len(mask.shape) == 1
+            else mask.reshape(mask.shape[0], -1, 1)
+        )
         mask = mask.to(original_tensor.device)
         original_tensor[None] = original_tensor + (mask * delta)
         return outputs

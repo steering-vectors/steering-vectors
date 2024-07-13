@@ -271,3 +271,59 @@ def test_SteeringVector_to_dtype() -> None:
     assert vec2.layer_type == vec.layer_type
     assert vec.layer_activations[1].dtype == torch.float32
     assert vec.layer_activations[-1].dtype == torch.float32
+
+
+@torch.no_grad()
+def test_SteeringVector_mask_batched_activations(
+    model: GPT2LMHeadModel,
+    tokenizer: PreTrainedTokenizer,
+) -> None:
+    tokenizer.add_special_tokens({"pad_token": "<PAD>"})
+    model.config.pad_token_id = tokenizer.pad_token_id
+    model.resize_token_embeddings(len(tokenizer))
+    prompts = [
+        "Hello world!",
+        "This is a prompt.",
+        "This is also a prompt.",
+        "This is the last pompt.",
+    ]
+    inputs = tokenizer(prompts, return_tensors="pt", padding=True)
+    original_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
+    patch = torch.randn(768)
+    steering_vector = SteeringVector(
+        layer_activations={1: patch},
+        layer_type="decoder_block",
+    )
+
+    # mask the last token in each prompt of the batch
+    last_token_idxs = [2, 4, 5, 7]
+    token_mask = torch.zeros_like(inputs["input_ids"])
+    token_mask[range(4), last_token_idxs] = 1
+
+    steering_vector.patch_activations(model, token_indices=token_mask)
+    patched_hidden_states = model(**inputs, output_hidden_states=True).hidden_states
+
+    # The first hidden state is the input embeddings, which are not patched
+    assert torch.equal(original_hidden_states[0], patched_hidden_states[0])
+    # next is the first decoder block, which is not patched
+    assert torch.equal(original_hidden_states[1], patched_hidden_states[1])
+
+    # At layer 1, only the activations of the last token in each prompt should be patched
+
+    # Create boolean mask for all tokens except the last token in each prompt
+    non_last_token_mask = torch.ones_like(token_mask).bool()
+    non_last_token_mask[range(4), last_token_idxs] = False
+
+    # Verify non-last token activations are unchanged
+    assert torch.equal(
+        original_hidden_states[2][non_last_token_mask],
+        patched_hidden_states[2][non_last_token_mask],
+    )
+
+    # Verify the last token activations are patched correctly
+    expected_hidden_states = (
+        original_hidden_states[2][range(4), last_token_idxs] + patch
+    )
+    assert torch.equal(
+        expected_hidden_states, patched_hidden_states[2][range(4), last_token_idxs]
+    )
