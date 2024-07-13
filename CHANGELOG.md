@@ -2,6 +2,13 @@
 
 
 
+## v0.12.1 (2024-07-13)
+
+### Fix
+
+* fix: fixing pypi release with pdm (#56) ([`da41ee8`](https://github.com/steering-vectors/steering-vectors/commit/da41ee8728a1d5683006853ee6c7f00785b30ed1))
+
+
 ## v0.12.0 (2024-07-13)
 
 ### Feature
