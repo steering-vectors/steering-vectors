@@ -41,6 +41,7 @@ version_variables = [
     "pyproject.toml:version",
 ]
 branch = "main"
+build_command = "pip install pdm && pdm build"
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]
@@ -57,8 +58,6 @@ dev = [
     "pytest-cov<6.0.0,>=5.0.0",
 ]
 
-[tool.pdm.build]
-includes = []
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
