@@ -27,7 +27,7 @@ def ablation_operator() -> PatchDeltaOperator:
         original_activation: torch.Tensor, steering_vector: torch.Tensor
     ) -> torch.Tensor:
         norm_vec = steering_vector / torch.norm(steering_vector)
-        return -1 * norm_vec * (norm_vec.T @ original_activation)
+        return -1 * norm_vec * (original_activation @ norm_vec.squeeze()).unsqueeze(-1)
 
     return _ablation_operator
 
