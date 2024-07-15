@@ -18,6 +18,7 @@ This library provides utilies for training and applying steering vectors to lang
 
 For more info on steering vectors and representation engineering, check out the following work:
 
+- [Inference-Time Intervention: Eliciting Truthful Answers from a Language Model](https://arxiv.org/abs/2306.03341) Li et al. 2023
 - [Steering Llama 2 via Contrastive Activation Addition](https://arxiv.org/abs/2312.06681) Rimsky et al., 2023
 - [Representation Engineering: A Top-Down Approach to AI Transparency](https://arxiv.org/abs/2310.01405) Zou et al., 2023
 
