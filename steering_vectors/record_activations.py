@@ -1,6 +1,7 @@
 from collections import defaultdict
 from collections.abc import Generator, Sequence
 from contextlib import contextmanager
+from dataclasses import dataclass
 from typing import Any, cast
 
 from torch import Tensor, nn
@@ -15,6 +16,20 @@ from .layer_matching import (
 from .torch_utils import get_module, untuple_tensor
 
 
+@dataclass
+class RecordHandle:
+    recorded_activations: dict[int, list[Tensor]]
+    model_hooks: list[RemovableHandle]
+    module_names: list[str]
+
+    def remove(self) -> None:
+        """Remove the record hooks from the model"""
+        for hook in self.model_hooks:
+            hook.remove()
+        self.model_hooks.clear()
+        self.module_names.clear()
+
+
 @contextmanager
 def record_activations(
     model: nn.Module,
@@ -22,7 +37,7 @@ def record_activations(
     layer_config: ModelLayerConfig | None = None,
     clone_activations: bool = True,
     layer_nums: Sequence[int] | None = None,
-) -> Generator[dict[int, list[Tensor]], None, None]:
+) -> Generator[RecordHandle, None, None]:
     """
     Record the model activations at each layer of type `layer_type`.
     This function will record every forward pass through the model
@@ -49,22 +64,24 @@ def record_activations(
     matcher = layer_config[layer_type]
     matching_layers = collect_matching_layers(model, matcher)
     hooks: list[RemovableHandle] = []
+    module_names = []
     for layer_num, layer_name in enumerate(matching_layers):
         if layer_nums is not None and layer_num not in layer_nums:
             continue
         module = get_module(model, layer_name)
-        hook_fn = _create_read_hook(
+        hook_fn = _create_read_hook_output(
             layer_num, recorded_activations, clone_activations=clone_activations
         )
         hooks.append(module.register_forward_hook(hook_fn))
+        module_names.append(layer_name + ".output")
     try:
-        yield recorded_activations
+        handle = RecordHandle(recorded_activations, hooks, module_names)
+        yield handle
     finally:
-        for hook in hooks:
-            hook.remove()
+        handle.remove()
 
 
-def _create_read_hook(
+def _create_read_hook_output(
     layer_num: int, records: dict[int, list[Tensor]], clone_activations: bool
 ) -> Any:
     """Create a hook function that records the model activation at layer_num"""

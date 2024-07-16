@@ -19,6 +19,14 @@ readme = "README.md"
 homepage = "https://steering-vectors.github.io/steering-vectors"
 repository = "https://github.com/steering-vectors/steering-vectors"
 
+[project.optional-dependencies]
+examples = [
+    "ipykernel>=6.29.5",
+    "ipywidgets>=8.1.3",
+    "accelerate>=0.32.1",
+    "bitsandbytes>=0.43.1",
+    "setuptools>=70.2.0",
+]
 [tool.ruff]
 exclude = ["dist", "docs"]
 
