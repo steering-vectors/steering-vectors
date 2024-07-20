@@ -171,5 +171,6 @@ cython_debug/
 lightning_logs/
 .ruff_cache/
 
-# poetry
+# dependency management
 poetry.lock
+pdm.lock
