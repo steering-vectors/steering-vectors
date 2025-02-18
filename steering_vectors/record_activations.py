@@ -50,7 +50,7 @@ def record_activations(
     matching_layers = collect_matching_layers(model, matcher)
     hooks: list[RemovableHandle] = []
     for layer_num, layer_name in enumerate(matching_layers):
-        if layer_nums is not None and layer_num not in layer_nums:
+        if layer_nums is not None and layer_num not in layer_nums and (layer_num - len(matching_layers)) not in layer_nums:
             continue
         module = get_module(model, layer_name)
         hook_fn = _create_read_hook(
