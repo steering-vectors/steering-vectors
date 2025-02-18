@@ -165,4 +165,4 @@ def get_a_b_probs(logits, a_token_id, b_token_id):
 
 
 def make_tensor_save_suffix(layer, model_name_path):
-    return f'{layer}_{model_name_path.split("/")[-1]}'
+    return f"{layer}_{model_name_path.split('/')[-1]}"
