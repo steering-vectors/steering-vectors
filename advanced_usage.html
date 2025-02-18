@@ -1,0 +1,447 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="author" title="About these documents" href="about.html" /><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="About" href="about.html" /><link rel="prev" title="Basic usage" href="basic_usage.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2023.09.10 -->
+        <title>Advanced usage - steering-vectors 0.12.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">steering-vectors 0.12.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">steering-vectors 0.12.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic usage</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Advanced usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/steering_vector.html">SteeringVector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/train_steering_vector.html">train_steering_vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/record_activations.html">record_activations</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/steering-vectors/steering-vectors">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/steering-vectors">PyPI</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="advanced-usage">
+<h1>Advanced usage<a class="headerlink" href="#advanced-usage" title="Link to this heading">¶</a></h1>
+<section id="only-apply-steering-to-later-tokens">
+<h2>Only apply steering to later tokens<a class="headerlink" href="#only-apply-steering-to-later-tokens" title="Link to this heading">¶</a></h2>
+<p>By default, the steering vector will be applied to all tokens in the input. However, sometimes
+it’s useful to only apply the steering vector to later tokens and ignore the beginning tokens,
+for instance to only apply the steering vector when the model is responding to a prompt. This
+can be done by passing a <code class="docutils literal notranslate"><span class="pre">min_token_index</span></code> argument to <code class="docutils literal notranslate"><span class="pre">steering_vector.apply()</span></code> or <code class="docutils literal notranslate"><span class="pre">steering_vector.patch()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">steering_vec</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">min_token_index</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="c1"># only tokens 10 and later will be affected by the steering vector</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-operators">
+<h2>Custom operators<a class="headerlink" href="#custom-operators" title="Link to this heading">¶</a></h2>
+<p>By default, the steering vector will be applied by adding it to model activations at runtime.
+However, if you prefer something fancier, you can pass a custom function to the <code class="docutils literal notranslate"><span class="pre">operator</span></code> argument
+when calling <code class="docutils literal notranslate"><span class="pre">steering_vector.apply()</span></code> or <code class="docutils literal notranslate"><span class="pre">steering_vector.patch()</span></code>, like below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># the result of this function will be added to the activation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_operator</span><span class="p">(</span><span class="n">activation</span><span class="p">,</span> <span class="n">steering_vec</span><span class="p">):</span>
+    <span class="c1"># remove the component of the activation that is aligned with the steering vector</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">steering_vec</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">activations</span><span class="p">,</span> <span class="n">steering_vec</span><span class="p">)</span> <span class="o">*</span> <span class="n">steering_vec</span> <span class="o">/</span> <span class="n">denom</span>
+
+<span class="k">with</span> <span class="n">steering_vec</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">my_operator</span><span class="p">):</span>
+    <span class="c1"># do something with the model</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are some built-in operators as well to help with common steering scenarios. To ablate the steering vector entirely
+from the activation, you can use the <code class="docutils literal notranslate"><span class="pre">ablation_operator()</span></code>. This will ensure that projection of the steering vector is
+fully erase from the activation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">steering_vectors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ablation_operator</span>
+
+<span class="k">with</span> <span class="n">steering_vec</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">ablation_operator</span><span class="p">()):</span>
+    <span class="c1"># do something with the model</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want to first ablate the steering vector from the activation vector and then add it in with a set multiplier, you
+can use the <code class="docutils literal notranslate"><span class="pre">ablation_then_addition_operator()</span></code>. This will guarantee that the projection of the activation along the
+steering direction is exactly equal to the steering vector.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">steering_vectors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ablation_then_addition_operator</span>
+
+<span class="k">with</span> <span class="n">steering_vec</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">ablation_then_addition_operator</span><span class="p">()):</span>
+    <span class="c1"># do something with the model</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-aggregators">
+<h2>Custom aggregators<a class="headerlink" href="#custom-aggregators" title="Link to this heading">¶</a></h2>
+<p>By default, the steering vector is trained by taking the mean of the differences between positive and negative activations.
+If you need different behavior, for example PCA, you can pass a custom function to the <code class="docutils literal notranslate"><span class="pre">aggregator</span></code> argument
+when calling <code class="docutils literal notranslate"><span class="pre">train_steering_vector()</span></code>. This function takes 2 arguments, <code class="docutils literal notranslate"><span class="pre">pos_activations</span></code> and <code class="docutils literal notranslate"><span class="pre">neg_activations</span></code>,
+each of shape <code class="docutils literal notranslate"><span class="pre">(num_samples,</span> <span class="pre">hidden_dim)</span></code>, and returns a 1-d tensor of shape <code class="docutils literal notranslate"><span class="pre">(hidden_dim,)</span></code>. This is demonstrated below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">norm_mean_aggregator</span><span class="p">(</span><span class="n">pos_activations</span><span class="p">,</span> <span class="n">neg_activations</span><span class="p">):</span>
+    <span class="n">mean_act</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pos_activations</span> <span class="o">-</span> <span class="n">neg_activations</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mean_act</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">mean_act</span><span class="p">)</span>
+
+<span class="n">vec</span> <span class="o">=</span> <span class="n">train_steering_vector</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">aggregator</span><span class="o">=</span><span class="n">norm_mean_aggregator</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For the common use-case of PCA, you can use the built-in <code class="docutils literal notranslate"><span class="pre">pca_aggregator</span></code> function. This will find a steering vector
+by taking the first principal component of the delta between positive and negative activations. Unlike the default mean
+aggregator, the steering vector from PCA will always have norm of 1.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">steering_vectors</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_steering_vector</span><span class="p">,</span> <span class="n">pca_aggregator</span>
+
+<span class="n">vec</span> <span class="o">=</span> <span class="n">train_steering_vector</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">aggregator</span><span class="o">=</span><span class="n">pca_aggregator</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>There is also a built-in logistic linear regression aggregator, which will find a steering vector by using scikit-learn’s logistic
+regression model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">steering_vectors</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_steering_vector</span><span class="p">,</span> <span class="n">logistic_aggregator</span>
+
+<span class="n">vec</span> <span class="o">=</span> <span class="n">train_steering_vector</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">aggregator</span><span class="o">=</span><span class="n">logistic_aggregator</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="manually-patching-and-unpatching">
+<h2>Manually patching and unpatching<a class="headerlink" href="#manually-patching-and-unpatching" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">steering_vector.apply()</span></code> context manager is a convenient way to apply the steering vector
+while ensuring that the model is returned to its original state after the context manager exits.
+However, if you need to manually patch and unpatch the model, you can do so by calling
+<code class="docutils literal notranslate"><span class="pre">steering_vector.patch()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># patch the model</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">steering_vec</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="c1"># do something with the model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># unpatch the model</span>
+<span class="n">handle</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="using-mlp-attention-or-other-layers">
+<h2>Using MLP, attention, or other layers<a class="headerlink" href="#using-mlp-attention-or-other-layers" title="Link to this heading">¶</a></h2>
+<p>By default, the steering vector will be trained on the output of each transformer block. However,
+it’s also possible to train on other parts of the transformer block, for instance the attention
+or MLP layers, or even layernorms inside the transformer block. This can be configured by passing
+a <code class="docutils literal notranslate"><span class="pre">layer_type</span></code> argument to <code class="docutils literal notranslate"><span class="pre">train_steering_vector()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># train on decoder block output (default behavior)</span>
+<span class="n">vec</span> <span class="o">=</span> <span class="n">train_steering_vector</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;decoder_block&quot;</span><span class="p">)</span>
+
+<span class="c1"># train on the attention layers</span>
+<span class="n">vec</span> <span class="o">=</span> <span class="n">train_steering_vector</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;self_attn&quot;</span><span class="p">)</span>
+
+<span class="c1"># train on the MLP layers</span>
+<span class="n">vec</span> <span class="o">=</span> <span class="n">train_steering_vector</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;mlp&quot;</span><span class="p">)</span>
+
+<span class="c1"># train on the input layernorm</span>
+<span class="n">vec</span> <span class="o">=</span> <span class="n">train_steering_vector</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;input_layernorm&quot;</span><span class="p">)</span>
+
+<span class="c1"># train on the post attention layernorm</span>
+<span class="n">vec</span> <span class="o">=</span> <span class="n">train_steering_vector</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">layer_type</span><span class="o">=</span><span class="s2">&quot;post_attention_layernorm&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Whichever layer type you choose during training, the same layer type will be used by the steering vector
+at runtime. For instance, if you train on the attention layers, the steering vector will be applied to
+the attention layers at runtime.</p>
+</section>
+<section id="custom-layer-mapping">
+<h2>Custom layer mapping<a class="headerlink" href="#custom-layer-mapping" title="Link to this heading">¶</a></h2>
+<p>The library will automatically guess the layer selectors for most language models in Huggingface
+as long as the layers are named in a normal way (e.g. MLP layers called <code class="docutils literal notranslate"><span class="pre">mlp</span></code>). However, if you
+need to customize how layer matching works, or if the library is not able to guess the correct
+layer, you can pass in a custom <code class="docutils literal notranslate"><span class="pre">layer_config</span></code> parameter to all functions in this library.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">layer_config</span></code> is a dictionary which maps layer types to layer selectors. A layer selector is
+a template string with the special string <code class="docutils literal notranslate"><span class="pre">{num}</span></code> in it, which gets replaced by the layer number during
+runtime, and maps to how the layer is named within the Pytorch module. You can find a list of all layers in a model by calling
+<code class="docutils literal notranslate"><span class="pre">model.named_modules()</span></code>.</p>
+<p>For instance, the layer config for GPT2 looks like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gpt_layer_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;decoder_block&quot;</span><span class="p">:</span> <span class="s2">&quot;transformer.h.</span><span class="si">{num}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;self_attn&quot;</span><span class="p">:</span> <span class="s2">&quot;transformer.h.</span><span class="si">{num}</span><span class="s2">.attn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mlp&quot;</span><span class="p">:</span> <span class="s2">&quot;transformer.h.</span><span class="si">{num}</span><span class="s2">.mlp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;input_layernorm&quot;</span><span class="p">:</span> <span class="s2">&quot;transformer.h.</span><span class="si">{num}</span><span class="s2">.ln_1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;post_attention_layernorm&quot;</span><span class="p">:</span> <span class="s2">&quot;transformer.h.</span><span class="si">{num}</span><span class="s2">.ln_2&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">vec</span> <span class="o">=</span> <span class="n">train_steering_vector</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">layer_config</span><span class="o">=</span><span class="n">gpt_layer_config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For most cases, using a string is sufficient, but if you want to customize the layer matcher further
+you can pass in a function which takes in the layer number as an int and
+returns the layer in the model as a string. For instance, for GPT models, this could be provided as
+<code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">num:</span> <span class="pre">f&quot;transformer.h.{num}&quot;</span></code> for the decoder block.</p>
+</section>
+<section id="extracting-activations-and-aggergating-manually">
+<h2>Extracting activations and aggergating manually<a class="headerlink" href="#extracting-activations-and-aggergating-manually" title="Link to this heading">¶</a></h2>
+<p>If you need to extract the activations of the model explicitly without running through a full training loop,
+you can use the <code class="docutils literal notranslate"><span class="pre">extract_activations()</span></code> function. This function takes all the same parameters as the
+<code class="docutils literal notranslate"><span class="pre">train_steering_vector()</span></code> function (excluding <code class="docutils literal notranslate"><span class="pre">aggregator</span></code>), and returns dictionaries mapping layer to
+positive and negative activations tensors.</p>
+<p>You can then aggregate these activations yourself using <code class="docutils literal notranslate"><span class="pre">aggregate_activations()</span></code>, and manually create a
+steering vector.</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="about.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">About</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="basic_usage.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Basic usage</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Advanced usage</a><ul>
+<li><a class="reference internal" href="#only-apply-steering-to-later-tokens">Only apply steering to later tokens</a></li>
+<li><a class="reference internal" href="#custom-operators">Custom operators</a></li>
+<li><a class="reference internal" href="#custom-aggregators">Custom aggregators</a></li>
+<li><a class="reference internal" href="#manually-patching-and-unpatching">Manually patching and unpatching</a></li>
+<li><a class="reference internal" href="#using-mlp-attention-or-other-layers">Using MLP, attention, or other layers</a></li>
+<li><a class="reference internal" href="#custom-layer-mapping">Custom layer mapping</a></li>
+<li><a class="reference internal" href="#extracting-activations-and-aggergating-manually">Extracting activations and aggergating manually</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=c5b435e8"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>
