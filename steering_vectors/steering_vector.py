@@ -73,9 +73,9 @@ class SteeringVector:
             >>> model.forward(...)
             >>> handle.remove()
         """
-        assert (min_token_index is None) or (
-            token_indices is None
-        ), "Can not pass both min_token_index and token_indices"
+        assert (min_token_index is None) or (token_indices is None), (
+            "Can not pass both min_token_index and token_indices"
+        )
         if isinstance(token_indices, Tensor):
             assert torch.all(
                 torch.logical_or(token_indices == 0, token_indices == 1)
