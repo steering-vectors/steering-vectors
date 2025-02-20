@@ -17,3 +17,23 @@ def test_record_activations_matches_decoder_hidden_states(
         list(recorded_activations.values())[:-1], hidden_states[1:-1]
     ):
         assert torch.equal(recorded_activation[0], hidden_state)
+
+
+def test_record_activations_positive_vs_negative_indices(
+    model: GPT2LMHeadModel, tokenizer: PreTrainedTokenizer
+) -> None:
+    positive_layer_nums = [11, 9]  # positive layer indices
+    negative_layer_nums = [-1, -3]  # corresponding negative layer indices
+
+    with record_activations(model, layer_nums=positive_layer_nums) as recorded_activations_positive:
+        inputs = tokenizer("Hello world", return_tensors="pt")
+        model(**inputs)
+
+    with record_activations(model, layer_nums=negative_layer_nums) as recorded_activations_negative:
+        inputs = tokenizer("Hello world", return_tensors="pt")
+        model(**inputs)
+
+    assert list(recorded_activations_positive.keys()) == list(recorded_activations_negative.keys())
+
+    for key in recorded_activations_positive.keys():
+        assert torch.equal(recorded_activations_positive[key][0], recorded_activations_negative[key][0])
