@@ -2,6 +2,39 @@
 
 
 
+## v0.12.2 (2025-02-21)
+
+### Chore
+
+* chore: fixing formatting for new ruff version (#64) ([`8ff009b`](https://github.com/steering-vectors/steering-vectors/commit/8ff009b285f263e4a3e0e38ef8d9e20c08ad898f))
+
+* chore: lint ([`55a6209`](https://github.com/steering-vectors/steering-vectors/commit/55a62095a90ae3f4e17caa33b02294d87a467bfe))
+
+* chore: tweak readme wording about reference papers (#59) ([`59c416a`](https://github.com/steering-vectors/steering-vectors/commit/59c416aff1ad19fcb4e790242f566efc8e8f00fb))
+
+* chore: delete pdm.lock file (#58)
+
+* chore: delete pdm.lock file
+
+* adding pdm.lock to .gitignore
+
+* removing &#39;cache: true&#39; from pdm setup ([`31e023c`](https://github.com/steering-vectors/steering-vectors/commit/31e023c55508b1eceab0ea5c4e2e7e24ac683415))
+
+### Fix
+
+* fix: fixing negative layer indices in record_activations (#63)
+
+* fix: fixing skipping negative layer indices
+
+* test: adding test for negative layer indices
+
+* fixing formatting
+
+---------
+
+Co-authored-by: David Chanin &lt;chanindav@gmail.com&gt; ([`aba59b4`](https://github.com/steering-vectors/steering-vectors/commit/aba59b43b2424b700143c7a359f027472e987376))
+
+
 ## v0.12.1 (2024-07-13)
 
 ### Fix
